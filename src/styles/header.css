@@ -1,0 +1,28 @@
+
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 4em;
+    background-color: var(--header-color);
+}
+
+.header-font{
+    font-family: var(--header-font);
+    color:white;
+    font-size: 20px;
+    font-weight: 100 !important;
+}
+
+.user-image{
+    width:4em;
+    padding: 0.5em;
+    border-radius: 10px;
+}
+
+.back-arrow{
+width: 3em;
+padding: 0.2em;
+
+}
