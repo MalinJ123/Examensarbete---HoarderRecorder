@@ -12,7 +12,9 @@ export const Header = () => {
       <h1 className="header-font">Hoarder Recorder</h1>
 
       <NavLink to="user">
-        <img className="user-image" src={userimage} alt="Detta är en bild på din avatar" />
+      <span class="material-symbols-outlined custom-icon">
+person
+</span>
       </NavLink>
    
     </div>
