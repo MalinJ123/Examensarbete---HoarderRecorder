@@ -11,8 +11,8 @@ function User() {
   };
   return (
     <>
-      <div className="background">
-        <div className="user-wrapper">
+      <div className="user-wrapper">
+        <div className="">
           <div className="title-logout">
             <NavLink to="/" className="back-button">
               <span className="material-symbols-outlined">chevron_left</span>
@@ -56,21 +56,34 @@ function User() {
               <div className="overlay">
                 {/* Innehållet för Overlayen */}
                 <div className="overlay-content">
-                  <p className="deleteuser-info">
-                    Vill du verkligen lämna Hoarder Recorder? 😢 Alla dina
-                    kontouppgifter, kategorier och objekt kommer att raderas!
-                    Det kommer inte att gå att återskapa.
-                  </p>
+                  <div className="deleteuser-info">
+                    <h3 className="title">Vill du verkligen lämna <span className="header-font">Hoarder Recorder</span>?  😢</h3>
 
-                  <p>Detta konto bli raderat: </p>
-                  <ul>
+                    <p className="deleteinfo-p">
+                     Alla dina kontouppgifter, kategorier och objekt kommer
+                      att raderas!
+                    </p>
+                    <p className="deleteinfo-p"> Det kommer inte att gå att återskapa.</p>
+                  </div>
+                  <p className="title">Detta konto bli raderat: </p>
+                  <ul className="deleteinfo-ul">
                     <li>3 kategorier</li>
                     <li>2 objekt kategorier</li>
                     <li>ditt konto och din data</li>
                   </ul>
 
-                  <button onClick={() => setShowOverlay(false)}>Avbryt</button>
-                  <button onClick={handleDeleteAccount}>Ja, ta bort</button>
+                  <div className="userbtn-container space">
+                    {" "}
+                    <button
+                      className="userbtn"
+                      onClick={() => setShowOverlay(false)}
+                    >
+                      Avbryt
+                    </button>
+                    <button className="userbtn" onClick={handleDeleteAccount}>
+                      Ja, ta bort
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

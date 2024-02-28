@@ -1,3 +1,8 @@
+.user-wrapper{
+    background-color: var(--background-color);
+    height:100vh;
+    width: 100%;
+}
 .title {
   font-family: var(--font-main);
   font-weight: 300;
@@ -50,43 +55,54 @@
 
 /* Btn */
 
-.userbtn-container{
-    display: flex;
-    justify-content: space-around;
-    margin:2em 0em 2em 0em;
+.userbtn-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 2em 0em 2em 0em;
 }
-.userbtn{
-    background-color: var(--header-color);
-    color: var(--color-white);
-    padding: 0.4em 0.6em;
-    border-radius: 5px; 
-    margin-bottom: 2em;
-
+.userbtn {
+  background-color: var(--header-color);
+  color: var(--color-white);
+  padding: 0.4em 0.6em;
+  border-radius: 5px;
+  margin-bottom: 2em;
 }
-
 
 /* Overlay - Delete account  */
 
-
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var( --background-color);
-   
-    z-index: 999; 
-    color:white; 
-    font-family: var(--font-main);
-  }
-  
-  .overlay-content{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .deleteuser-info{
-    padding: 2em; 
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+
+  z-index: 999;
+  color: white;
+  font-family: var(--font-main);
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.deleteuser-info {
+  padding: 2em;
+  font-family: var(--font-main);
+}
+.deleteinfo-p {
+  font-family: var(--font-main);
+  font-weight: 300;
+}
+.deleteinfo-ul {
+  line-height: 1.5em;
+}
+
+.space {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+}
