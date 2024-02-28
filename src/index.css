@@ -11,6 +11,7 @@
   /* Color */
   --header-color: #313131;
   --background-color: #272727;
+  --color-white: #fff;
 
   /* Fonts */
   --header-font: "Pacifico", cursive;
@@ -22,3 +23,7 @@
   font-weight: 400;
   font-style: normal;
 } */
+
+.material-symbols-outlined{
+  color: var(--color-white)
+}

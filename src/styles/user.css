@@ -1,0 +1,69 @@
+.title {
+  font-family: var(--font-main);
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--color-white);
+}
+
+.title-logout {
+  display: flex;
+  justify-content: space-around;
+  padding: 1em;
+}
+
+/* Input Fields */
+.label-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 70%;
+  color: var(--color-white);
+  background-color: var(--header-color);
+  font-family: var(--font-main);
+  margin-bottom: 1em;
+}
+.user-label {
+  padding: 0.3em 0.2em 0em 0.3em;
+  align-self: flex-start;
+  font-size: 12px;
+}
+.user-input {
+  background-color: var(--header-color);
+  font-size: 13px;
+  padding: 0.3em 0em 0.2em 0.4em;
+  color: gray;
+  align-self: flex-start;
+}
+
+/* User Image */
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.user-img {
+  width: 10em;
+  border-radius: 10px;
+}
+
+/* Btn */
+
+.userbtn-container{
+    display: flex;
+    justify-content: space-around;
+    margin:2em 0em 2em 0em;
+}
+.userbtn{
+    background-color: var(--header-color);
+    color: var(--color-white);
+    padding: 0.4em 0.6em;
+    border-radius: 5px; 
+    margin-bottom: 2em;
+
+}
+
+.userbtn:hover{
+    
+}
