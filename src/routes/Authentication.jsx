@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import '../styles/mor.css';
 
@@ -11,6 +12,7 @@ export const Authentication = () => {
 
     return (
         <section className="eggula">
+            <Link to="/start">Startsidan</Link>
             {selectView === 'register' ? <Register handleViewChange={handleViewChange} /> : <Login handleViewChange={handleViewChange} />}
         </section>
     );
