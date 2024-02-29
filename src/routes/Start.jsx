@@ -2,6 +2,7 @@ import "../styles/start.css";
 import start from "../images/start.png";
 import book from "../images/book.png";
 import vhs from "../images/vhs.png";
+import { Link } from "react-router-dom";
 
 function Start() {
   return (
@@ -60,19 +61,19 @@ function Start() {
               <p className="object-p">3 objekt</p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
-       
-        </div>
-        <div className="add-category-container">
-          <button className="add-categorybtn">
-            <span class="material-symbols-outlined">add</span>
-          </button>
-        </div>
       </div>
-
+      <div className="add-category-container">
+        <Link to="/addcategory">
+          <button className="add-categorybtn">
+            <span className="material-symbols-outlined">add</span>
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }
 export default Start;
