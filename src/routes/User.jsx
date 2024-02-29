@@ -23,22 +23,28 @@ function User() {
             <label className="user-label" htmlFor="username">
               Användarnamn
             </label>
-            <span className="user-input">Victor</span>
-
-            {/* <input className='label'
-        type="text"
-        id="username"
-        placeholder="Victor"
-      /> */}
+           
+            <input
+            type="text"
+            id="imageUrl"
+            name="imageUrl"
+            className="user-input"
+            placeholder="example-site.com/example-pokemon-cards-image.png"
+          />
           </div>
 
           <div className="label-container">
             <label className="user-label" htmlFor="username">
               Kontobild
             </label>
-            <span className="user-input">
-              example-site.com/example-avatar-image.png
-            </span>
+            <input
+            type="text"
+            id="imageUrl"
+            name="imageUrl"
+            className="user-input"
+            placeholder="example-site.com/example-pokemon-cards-image.png"
+          />
+           
           </div>
 
           <div className="image-container">
