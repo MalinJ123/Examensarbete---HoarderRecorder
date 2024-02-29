@@ -1,7 +1,133 @@
 .background {
   background-color: var(--background-color);
 }
-.start-img{
-    width: 100%;
-    
+.start-img {
+  width: 100%;
+}
+
+.p-container {
+  display: flex;
+  justify-content: center;
+}
+
+.lato {
+  color: var(--color-white);
+  font-family: var(--font-main);
+  margin: 1em;
+  font-weight: 100;
+}
+/* Sökfält */
+
+.serarchfield-container {
+  display: flex;
+  justify-content: center;
+}
+.searchfield {
+  background-color: var(--header-color);
+  display: flex;
+  align-items: center;
+  width: 90%;
+  height: 2em;
+  border-radius: 5px;
+}
+.search-p {
+  color: var(--color-white);
+  font-family: var(--font-btext);
+  font-weight: 100;
+}
+.search {
+  margin-right: 1em;
+  padding: 0.3em;
+}
+
+/* kategori */
+
+.category-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2em 0em;
+  margin-left:0.4em;
+}
+
+.first {
+  display: flex;
+  flex-direction: column;
+ 
+  margin-right: auto;
+}
+
+.category-bg {
+  position: relative;
+  background-color: var(--header-color);
+  width: 7em;
+  height: 6.4em;
+  border-radius: 7px; 
+
+}
+.category-img {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  width: 6em;
+}
+
+.category-content {
+  display: flex;
+  padding: 0em 0.2em 0.2em;
+  margin-bottom: 1em;
+  justify-content:space-around;
+  /* box-shadow: 0 4px 8px 0 rgba(43, 42, 42, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.23); */
+}
+.title.category {
+    font-size: 17px;
+}
+.category-moreicon {
+  display: flex;
+  align-self: self-end;
+}
+.object-p {
+  color: rgb(203, 199, 199);
+  font-family: var( --font-btext);
+  font-weight: 100;
+  font-size: 10px;
+}
+
+
+/* Lägg till kategori knapp */
+
+.add-category-container{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+
+}
+
+.add-category{
+    background-color: var(--header-color);
+    padding:0.3em 0.4em;
+    border-radius: 10px;
+    margin: 0em 2em 1em
+}
+
+@media screen and (max-width: 360px) {
+  .category-bg {
+    width: 6em;
+    height: 5.4em;
+  }
+
+  .category-img {
+    width: 5em;
+  }
+  .search-p {
+    font-size: 13px;
+  }
+  .search {
+    margin-right: 0.2em;
+    padding: 0.3em;
+  }
+  .searchfield {
+    width: 19em;
+  }
 }
