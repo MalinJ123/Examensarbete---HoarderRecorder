@@ -12,7 +12,7 @@
 }
 
 .header-font {
-  font-family: var(--header-font);
+  font-family: "Pacifico", cursive;
   color: white;
   font-size: 20px;
   font-weight: 100 !important;

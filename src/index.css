@@ -1,35 +1,57 @@
+/* Document */
+html, body {
+  background-color: var(--background-color);
+  color: var(--color-white)
+}
+
 * {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
 }
 
-/* Root colors */
+/* Root */
 
 :root {
-
-  /* Color */
+  /* Colors */
   --header-color: #313131;
   --background-color: #272727;
   --color-white: #fff;
-
-  /* Fonts */
-  --header-font: "Pacifico", cursive;
-  --font-main: "Lato", sans-serif;
-  --font-btext: "JetBrains Mono", monospace;
-
 }
 
-/* .pacifico-regular {
-  font-family: "Pacifico", cursive;
-  font-weight: 400;
-  font-style: normal;
-} */
+/* Fonts */
+@font-face {
+  font-family: "AbeeZee regular";
+  src: url("./fonts/AbeeZee-Regular.ttf");
+}
 
-.material-symbols-outlined{
+@font-face {
+  font-family: "Pacifico";
+  src: url("./fonts/Pacifico-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Lato regular";
+  src: url("./fonts/Lato-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Lato light";
+  src: url("./fonts/Lato-Light.ttf");
+}
+
+@font-face {
+  font-family: "Lato thin";
+  src: url("./fonts/Lato-Thin.ttf");
+}
+
+@font-face {
+  font-family: "JetBrains mono";
+  src: url("./fonts/JetBrainsMono-VariableFont_wght.ttf");
+}
+
+.material-symbols-outlined {
   color: var(--color-white);
 }
 
-html, body {
-  background-color: var(--background-color);
-}
+
