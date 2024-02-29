@@ -27,5 +27,9 @@
 } */
 
 .material-symbols-outlined{
-  color: var(--color-white)
+  color: var(--color-white);
+}
+
+html, body {
+  background-color: var(--background-color)
 }
