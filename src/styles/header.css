@@ -1,10 +1,16 @@
 .wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between; /* Placerar elementen på varsin kant av wrappern */
   align-items: center;
   height: 3em;
   background-color: var(--header-color);
+}
+
+.header-content {
+  display: flex; 
+  align-items: center;  
+  width: 70%;
 }
 
 .header-font {
@@ -12,9 +18,13 @@
   color: white;
   font-size: 20px;
   font-weight: 100 !important;
+  margin-right: 4em; 
 }
 
 .material-symbols-outlined.custom-icon {
   font-size: 2em;
   border-radius: 10px;
+}
+.material-symbols-outlined.backbtn{
+  margin-right: 3em;
 }

@@ -15,11 +15,11 @@ function User() {
         <div className="">
           <div className="title-logout">
             <NavLink to="/" className="back-button">
-              <span className="material-symbols-outlined">chevron_left</span>
+              {/* <span className="material-symbols-outlined">chevron_left</span> */}
             </NavLink>
-            <div></div>
+         
             <h1 className="title">Hej Norfe!</h1> <div></div>
-            <span className="material-symbols-outlined">logout</span>
+            {/* <span className="material-symbols-outlined">logout</span> */}
           </div>
 
           <div className="label-container">
