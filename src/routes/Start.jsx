@@ -1,10 +1,11 @@
 import '../styles/start.css'
+import start from '../images/start.png'
 
 function Start (){
 
     return (
         <div className='background'>
-            <h2>start page</h2>
+         <img className='start-img' src={start} alt="en bild från unsplash" />
         </div>
     )
 }

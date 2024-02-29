@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/header.css";
-import userimage from "../images/image.png";
 
 export const Header = () => {
   const [isUserView, setIsUserView] = useState(false);
@@ -11,29 +10,34 @@ export const Header = () => {
   };
 
   const handleBackButtonClick = () => {
-    setIsUserView(false); 
+    setIsUserView(false);
   };
 
   return (
     <div className="wrapper">
       <div></div>
       {isUserView ? (
-        <NavLink to="/" className="back-button" onClick={handleBackButtonClick}>
-          <span class="material-symbols-outlined backbtn">reply</span>
+        <NavLink
+          to="/"
+          className="back-button"
+          onClick={handleBackButtonClick}
+        >
+          <span className="material-symbols-outlined backbtn">reply</span>
         </NavLink>
-      ) : null}
-      <div className="header-content">
-        <h1 className="header-font">Hoarder Recorder</h1>
-        {isUserView ? (
-          <span className="material-symbols-outlined">logout</span>
-        ) : (
-          <NavLink to="user" onClick={handleNavLinkClick}>
-            <span className="material-symbols-outlined custom-icon">
-              person
-            </span>
-          </NavLink>
-        )}
-      </div>
+      ) : (
+        <span className="back-button"></span>
+      )}
+      <h1 className="header-font">Hoarder Recorder</h1>
+      <div></div>
+      {isUserView ? (
+        <div>
+          <span className="material-symbols-outlined logout">logout</span>{" "}
+        </div>
+      ) : (
+        <NavLink to="user" onClick={handleNavLinkClick}>
+          <span className="material-symbols-outlined custom-icon">person</span>
+        </NavLink>
+      )}
     </div>
   );
 };
