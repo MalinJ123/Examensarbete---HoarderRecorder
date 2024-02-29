@@ -5,7 +5,7 @@ import {Header} from "../components/Header.jsx"
 const Root = () => {
   return (
     <>
-  <Header/> 
+      <Header/> 
       <Outlet /> 
     </>
   );

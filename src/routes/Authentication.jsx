@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-const Authentication = () => {
+import '../styles/mor.css';
+
+export const Authentication = () => {
     const [selectView, setSelectView] = useState('register');
 
     const handleViewChange = (view) => {
@@ -8,16 +10,16 @@ const Authentication = () => {
     };
 
     return (
-        <section className="splashscreen">
+        <section className="eggula">
             {selectView === 'register' ? <Register handleViewChange={handleViewChange} /> : <Login handleViewChange={handleViewChange} />}
         </section>
     );
 };
 
 const Register = ({ handleViewChange }) => (
-    <>
+    <section className="eggula">
         <h1>Registera nytt konto</h1>
-        <div className="information__box">
+        <div className="vatten">
             <p>
                 <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
                 hålla reda på allt du håller kärt! ❤️
@@ -35,7 +37,7 @@ const Register = ({ handleViewChange }) => (
             <button type="submit" className="gray__button">Registrera</button>
             <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
         </form>
-    </>
+    </section>
 );
 
 const Login = ({ handleViewChange }) => (

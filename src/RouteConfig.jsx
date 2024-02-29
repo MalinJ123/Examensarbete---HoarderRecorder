@@ -3,19 +3,24 @@ import { createHashRouter } from 'react-router-dom';
 import Root from './routes/Root.jsx';
 import Start from './routes/Start';
 import User from './routes/User.jsx';
+import { Authentication } from './routes/Authentication.jsx';
+
 
 export const Router = createHashRouter([
   {
     path: '/',
     element: <Root />,
     children: [
-      // Ska inte '' vara tillför registera och logga in?
       {
-        path: '', 
+        path: '/',
+        element: <Authentication />,
+      },
+      {
+        path: '/start', 
         element: <Start />,
       },
       {
-        path: 'user',
+        path: '/user',
         element: <User/>,
       },
     ],
