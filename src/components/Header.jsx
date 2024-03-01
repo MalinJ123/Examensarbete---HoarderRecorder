@@ -18,7 +18,7 @@ export const Header = () => {
       <div></div>
       {isUserView ? (
         <NavLink
-          to="/"
+          to="/start"
           className="back-button"
           onClick={handleBackButtonClick}
         >

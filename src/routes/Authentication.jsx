@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { AppContext } from '../ContextRoot';
+
 import '../styles/authentication.css';
 
 export const Authentication = () => {
+    const { username, userPassword, isUserLoggedIn, setIsUserLoggedIn } = useContext(AppContext);
+
     const navigate = useNavigate()
 
     const [selectView, setSelectView] = useState('register');
 
-    const registerOrLoginUserGoToStart = (choice) => {
-        if (choice === 'register') {
-            navigate('/start')
-        } else {
+    const registerOrLoginUserGoToStart = (chosen) => {
+        if (username !== "" && userPassword !== "") {
+            /* 
+                if (chosen === 'register') {
+
+                } else {
+
+                }
+            */
+
+            setIsUserLoggedIn(true);
+
             navigate('/start')
         }
     }
@@ -19,100 +32,128 @@ export const Authentication = () => {
         setSelectView(view);
     };
 
+
+    // If the user is already logged in, redirect to start instead of going to the login & register views
+    useEffect(() => {
+        if (isUserLoggedIn) {
+            navigate('/start')
+        }
+    })
+
     return (
+
         <section className="auth__splashscreen">
 
-            {selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} /> : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} />}
+            {
+                selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} /> : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} />
+            }
+
         </section>
+
     );
 };
 
-const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => (
-    <section className="auth__section">
+const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
 
-        <h1 className="auth__title">Registera nytt konto</h1>
+    const { setUsername, setUserPassword } = useContext(AppContext);
 
-        <div className="information__box">
+    return (
 
-            <p>
-                <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
-                hålla reda på allt du håller kärt! ❤️
-            </p>
+        <section className="auth__section">
 
-        </div>
+            <h1 className="auth__title">Registera nytt konto</h1>
 
-        <form className="form__container">
+            <div className="information__box">
 
-            <div className="form-input-with-label__box">
-
-                <label htmlFor="username__input">Användarnamn</label>
-
-                <input type="text" id="username__input" placeholder="JohannaDoe" />
+                <p>
+                    <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
+                    hålla reda på allt du håller kärt! ❤️
+                </p>
 
             </div>
 
-            <div className="form-input-with-label__box">
+            <form className="form__container">
 
-                <label htmlFor="password__input">Lösenord</label>
+                <div className="form-input-with-label__box">
 
-                <input type="password" id="password__input" placeholder="********" />
+                    <label htmlFor="username__input">Användarnamn</label>
 
-            </div>
-            <div className="form-button__group">
+                    <input type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
 
-                <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")}>Registrera</button>
+                </div>
 
-                <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
+                <div className="form-input-with-label__box">
 
-            </div>
+                    <label htmlFor="password__input">Lösenord</label>
 
-        </form>
+                    <input type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
 
-    </section>
-);
+                </div>
+                
+                <div className="form-button__group">
 
-const Login = ({ handleViewChange, registerOrLoginUserGoToStart }) => (
-    <section className="auth__section">
+                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")}>Registrera</button>
 
-        <h1 className="auth__title">Logga in</h1>
+                    <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
 
-        <div className="information__box">
+                </div>
 
-            <p>
-                <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
-                hålla reda på allt du håller kärt! ❤️
-            </p>
+            </form>
 
-        </div>
+        </section>
+        
+    )
+};
 
-        <form className="form__container">
+const Login = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
 
-            <div className="form-input-with-label__box">
+    const { setUsername, setUserPassword } = useContext(AppContext);
 
-                <label htmlFor="username__input">Användarnamn</label>
+    return (
 
-                <input type="text" id="username__input" placeholder="JohannaDoe" />
+        <section className="auth__section">
 
-            </div>
+            <h1 className="auth__title">Logga in</h1>
 
-            <div className="form-input-with-label__box">
+            <div className="information__box">
 
-                <label htmlFor="password__input">Lösenord</label>
-
-                <input type="password" id="password__input" placeholder="********" />
-
-            </div>
-
-            <div className="form-button__group">
-
-                <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
-
-                <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")}>Logga in</button>
+                <p>
+                    <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
+                    hålla reda på allt du håller kärt! ❤️
+                </p>
 
             </div>
 
+            <form className="form__container">
 
-        </form>
+                <div className="form-input-with-label__box">
 
-    </section>
-);
+                    <label htmlFor="username__input">Användarnamn</label>
+
+                    <input type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
+
+                </div>
+
+                <div className="form-input-with-label__box">
+
+                    <label htmlFor="password__input">Lösenord</label>
+
+                    <input type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
+
+                </div>
+
+                <div className="form-button__group">
+
+                    <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
+
+                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")}>Logga in</button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+    )
+};

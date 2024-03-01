@@ -6,16 +6,14 @@ import { Link } from "react-router-dom";
 
 function Start() {
   return (
-    <div className="background">
+    <>
       <img className="start-img" src={start} alt="en bild från unsplash" />
 
-      <div className="p-container">
-        <p className="lato">Du har 3 kategorier</p>
-      </div>
+        <p className="quantity-categories__text">Du har 3 kategorier</p>
 
       <div className="serarchfield-container">
         <div className="searchfield">
-          <span class="material-symbols-outlined search">search</span>
+          <span className="material-symbols-outlined search">search</span>
           <p className="search-p">Sök efter katergori</p>
         </div>
       </div>
@@ -33,7 +31,7 @@ function Start() {
               <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
@@ -56,7 +54,7 @@ function Start() {
               <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
@@ -73,7 +71,7 @@ function Start() {
               <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
@@ -89,7 +87,7 @@ function Start() {
               <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
@@ -105,7 +103,7 @@ function Start() {
               <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span class="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
@@ -122,7 +120,7 @@ function Start() {
           </button>
         </Link>
       </div>
-    </div>
+    </>
   );
 }
 export default Start;
