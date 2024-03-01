@@ -46,5 +46,31 @@
 
 .hr-bold__span {
     font-family: "Pacifico", cursive;
-
 }
+
+/* Forms */
+
+.form__container {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 21px;
+    margin: 36px 0px;
+}
+
+.form-button__group {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.gray__button {
+    background-color: var(--color-form-control);
+    color: var(--color-white);
+    border: none;
+    padding: 12px 24px;
+    font-size: var(--font-size-standard);
+    font-family: "Lato light", sans-serif;
+    font-weight: 90;
+    cursor: pointer;
+}
+

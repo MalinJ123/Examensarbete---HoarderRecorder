@@ -18,6 +18,8 @@ html, body {
   --header-color: #313131;
   --background-color: #272727;
   --color-white: #fff;
+  --color-form-control: #313131;
+  --color-overlay-background: rgba(0, 0, 0, 0.25);
   
   /* Font sizes */
   --font-size-standard: 16px;
