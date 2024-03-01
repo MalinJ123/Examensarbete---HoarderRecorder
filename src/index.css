@@ -1,6 +1,6 @@
 /* Document */
 html, body {
-  background-color: var(--background-color);
+  background-color: var(--color-background);
   color: var(--color-white);
   font-size: var(--font-size-standard);
   letter-spacing: 0.05em;
@@ -16,8 +16,8 @@ html, body {
 
 :root {
   /* Colors */
-  --header-color: #313131;
-  --background-color: #272727;
+  --color-header: #313131;
+  --color-background: #272727;
   --color-white: #fff;
   --color-form-control: #313131;
   --color-input-placeholder-text: #A4A4A4;

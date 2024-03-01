@@ -110,7 +110,7 @@
 }
 
 .add-categorybtn{
-    background-color: var(--header-color);
+    background-color: var(--color-form-control);
     padding:0.3em 0.4em;
     border-radius: 10px;
     margin: 0em 2em 1em;

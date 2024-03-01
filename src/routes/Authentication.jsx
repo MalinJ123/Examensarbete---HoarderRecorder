@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/authentication.css';
 
 export const Authentication = () => {
+    const navigate = useNavigate()
+
     const [selectView, setSelectView] = useState('register');
+
+    const registerOrLoginUserGoToStart = (choice) => {
+        if (choice === 'register') {
+            navigate('/start')
+        } else {
+            navigate('/start')
+        }
+    }
 
     const handleViewChange = (view) => {
         setSelectView(view);
@@ -12,15 +22,13 @@ export const Authentication = () => {
     return (
         <section className="auth__splashscreen">
 
-            {selectView === 'register' ? <Register handleViewChange={handleViewChange} /> : <Login handleViewChange={handleViewChange} />}
+            {selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} /> : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} />}
         </section>
     );
 };
 
-const Register = ({ handleViewChange }) => (
+const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => (
     <section className="auth__section">
-
-    <Link to="/start">Startsidan</Link>
 
         <h1 className="auth__title">Registera nytt konto</h1>
 
@@ -52,7 +60,7 @@ const Register = ({ handleViewChange }) => (
             </div>
             <div className="form-button__group">
 
-                <button type="submit" className="gray__button">Registrera</button>
+                <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")}>Registrera</button>
 
                 <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
 
@@ -63,7 +71,7 @@ const Register = ({ handleViewChange }) => (
     </section>
 );
 
-const Login = ({ handleViewChange }) => (
+const Login = ({ handleViewChange, registerOrLoginUserGoToStart }) => (
     <section className="auth__section">
 
         <h1 className="auth__title">Logga in</h1>
@@ -99,7 +107,7 @@ const Login = ({ handleViewChange }) => (
 
                 <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
 
-                <button type="submit" className="gray__button">Logga in</button>
+                <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")}>Logga in</button>
 
             </div>
 

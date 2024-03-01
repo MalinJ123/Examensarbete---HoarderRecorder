@@ -3,7 +3,7 @@
   justify-content: space-around;
   align-items: center;
   height: 3em;
-  background-color: var(--header-color);
+  background-color: var(--color-header);
 }
 
 .header-content {
