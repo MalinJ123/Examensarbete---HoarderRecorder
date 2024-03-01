@@ -25,7 +25,7 @@ export const Authentication = () => {
             setIsUserLoggedIn(true);
 
             navigate('/start')
-        }
+        } /* Lägg till så att man inte kan trycka på registera knappen om man inte har fyllt i fälten! */
     }
 
     const handleViewChange = (view) => {
