@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import '../styles/mor.css';
+import '../styles/authentication.css';
 
 export const Authentication = () => {
     const [selectView, setSelectView] = useState('register');
@@ -11,7 +10,7 @@ export const Authentication = () => {
     };
 
     return (
-        <section className="eggula">
+        <section className="auth__splashscreen">
             <Link to="/start">Startsidan</Link>
             {selectView === 'register' ? <Register handleViewChange={handleViewChange} /> : <Login handleViewChange={handleViewChange} />}
         </section>
@@ -19,9 +18,9 @@ export const Authentication = () => {
 };
 
 const Register = ({ handleViewChange }) => (
-    <section className="eggula">
-        <h1>Registera nytt konto</h1>
-        <div className="vatten">
+    <section className="auth__section">
+        <h1 className="auth__title">Registera nytt konto</h1>
+        <div className="information__box">
             <p>
                 <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
                 hålla reda på allt du håller kärt! ❤️
@@ -43,8 +42,8 @@ const Register = ({ handleViewChange }) => (
 );
 
 const Login = ({ handleViewChange }) => (
-    <>
-        <h1>Logga in</h1>
+    <section className="auth__section">
+        <h1 className="auth__title">Logga in</h1>
         <div className="information__box">
             <p>
                 <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
@@ -63,7 +62,5 @@ const Login = ({ handleViewChange }) => (
             <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
             <button type="submit" className="gray__button">Logga in</button>
         </form>
-    </>
+    </section>
 );
-
-export default Authentication;

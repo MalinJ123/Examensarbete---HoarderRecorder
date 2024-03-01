@@ -4,7 +4,7 @@
     width: 100%;
 }
 .title {
-  font-family: var(--font-main);
+  font-family: "Lato regular", sans-serif;
   font-weight: 300;
   font-size: 20px;
   color: var(--color-white);
@@ -26,7 +26,7 @@
   width: 70%;
   color: var(--color-white);
   background-color: var(--header-color);
-  font-family: var(--font-main);
+  font-family: "Lato regular", sans-serif;
   margin-bottom: 1em;
 }
 .user-label {
@@ -86,7 +86,7 @@
 
   z-index: 999;
   color: white;
-  font-family: var(--font-main);
+  font-family: "Lato regular", sans-serif;
 }
 
 .overlay-content {
@@ -97,10 +97,10 @@
 }
 .deleteuser-info {
   padding: 2em;
-  font-family: var(--font-main);
+  font-family: "Lato regular", sans-serif;
 }
 .deleteinfo-p {
-  font-family: var(--font-main);
+  font-family: "Lato regular", sans-serif;
   font-weight: 300;
 }
 .deleteinfo-ul {
