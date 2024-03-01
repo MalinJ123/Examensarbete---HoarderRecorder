@@ -29,6 +29,7 @@ html, body {
   --font-size-hero-image-text: 32px;
   --font-size-object-text: 13px;
 }
+/* font-size: var(--font-size-standard) */
 
 /* Fonts */
 @font-face {
