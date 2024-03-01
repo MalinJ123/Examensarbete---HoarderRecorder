@@ -25,7 +25,7 @@ export const Router = createHashRouter([
         element: <User/>,
       },
       {
-        path: 'addcategory',
+        path: '/addcategory',
         element: <AddCategory/>,
       },
     ],

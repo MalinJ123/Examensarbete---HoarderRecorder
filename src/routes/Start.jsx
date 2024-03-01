@@ -21,7 +21,9 @@ function Start() {
       </div>
 
       <div className="category-wrapper">
-        <div className="first">
+        
+      <div className="c-container">
+      <div className="first">
           <div className="category-bg">
             <img className="category-img" src={book} alt="kategori bild" />
           </div>
@@ -36,35 +38,82 @@ function Start() {
           </div>
         </div>
 
-        <div className="first">
+      </div>
+
+
+       
+       
+
+  
+      <div className="c-container">
+      <div className="first">
           <div className="category-bg">
             <img className="category-img" src={book} alt="kategori bild" />
           </div>
           <div className="category-content">
             <div className="title-object">
               <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt</p>
+              <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
               <span class="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
+        </div>
 
-        <div className="first">
+        <div className="c-container">
+      <div className="first">
           <div className="category-bg">
             <img className="category-img" src={book} alt="kategori bild" />
           </div>
           <div className="category-content">
             <div className="title-object">
               <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt</p>
+              <p className="object-p">3 objekt </p>
             </div>
             <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
+              <span class="material-symbols-outlined">more_vert</span>
             </div>
           </div>
         </div>
+        </div>
+        <div className="c-container">
+      <div className="first">
+          <div className="category-bg">
+            <img className="category-img" src={book} alt="kategori bild" />
+          </div>
+          <div className="category-content">
+            <div className="title-object">
+              <h4 className="title category">Böcker</h4>
+              <p className="object-p">3 objekt </p>
+            </div>
+            <div className="category-moreicon">
+              <span class="material-symbols-outlined">more_vert</span>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div className="c-container">
+      <div className="first">
+          <div className="category-bg">
+            <img className="category-img" src={book} alt="kategori bild" />
+          </div>
+          <div className="category-content">
+            <div className="title-object">
+              <h4 className="title category">Böcker</h4>
+              <p className="object-p">3 objekt </p>
+            </div>
+            <div className="category-moreicon">
+              <span class="material-symbols-outlined">more_vert</span>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+        
+     
       </div>
       <div className="add-category-container">
         <Link to="/addcategory">
