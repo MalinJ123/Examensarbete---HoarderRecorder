@@ -36,7 +36,8 @@
 
 .information__box {
     padding: 15px;
-    background-color: #313131;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius-corner);
 }
 
 .information__box p {
@@ -63,6 +64,34 @@
     justify-content: space-between;
 }
 
+.form-input-with-label__box {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 6px;
+    background-color: var(--color-form-control);
+    border-radius: var(--border-radius-corner);
+    padding: 6px;
+}
+
+.form-input-with-label__box label {
+    font-family: "AbeeZee regular", cursive;
+    font-weight: 200;
+    font-size: var(--font-size-label);
+    margin-bottom: 0px;
+}
+
+.form-input-with-label__box input {
+    padding: 12px 24px;
+    font-size: var(--font-size-input-text);
+    font-family: "Lato regular", sans-serif;
+    font-weight: 100;
+    border: none;
+    background-color: var(--color-form-control);
+    color: var(--color-input-placeholder-text);
+    outline: none;
+    padding: 0px;
+}
+
 .gray__button {
     background-color: var(--color-form-control);
     color: var(--color-white);
@@ -72,5 +101,9 @@
     font-family: "Lato light", sans-serif;
     font-weight: 90;
     cursor: pointer;
+    border-radius: var(--border-radius-corner);
 }
 
+.gray__button:hover {
+    background-color: var(--color-form-control-hover);
+}

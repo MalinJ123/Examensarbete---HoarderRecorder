@@ -19,17 +19,22 @@ html, body {
   --background-color: #272727;
   --color-white: #fff;
   --color-form-control: #313131;
+  --color-input-placeholder-text: #A4A4A4;
+  --color-form-control-hover: #373737;
   --color-overlay-background: rgba(0, 0, 0, 0.25);
   
   /* Font sizes */
   --font-size-standard: 16px;
   --font-size-logotype: 24px;
   --font-size-title: 26px;
-  --font-size-label: 13px;
+  --font-size-label: 15px;
   --font-size-input-text: 16px;
   --font-size-object-text: 12px;
   --font-size-hero-image-text: 32px;
   --font-size-object-text: 13px;
+
+  /* Other */
+  --border-radius-corner: 5px;
 }
 /* font-size: var(--font-size-standard) */
 

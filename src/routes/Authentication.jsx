@@ -35,19 +35,19 @@ const Register = ({ handleViewChange }) => (
 
         <form className="form__container">
 
-            <div className="form-input__group">
+            <div className="form-input-with-label__box">
 
                 <label htmlFor="username__input">Användarnamn</label>
 
-                <input type="text" id="username__input" placeholder="Användarnamn" />
+                <input type="text" id="username__input" placeholder="JohannaDoe" />
 
             </div>
 
-            <div className="form-input__group">
+            <div className="form-input-with-label__box">
 
                 <label htmlFor="password__input">Lösenord</label>
 
-                <input type="password" id="password__input" placeholder="Lösenord" />
+                <input type="password" id="password__input" placeholder="********" />
 
             </div>
             <div className="form-button__group">
@@ -79,19 +79,19 @@ const Login = ({ handleViewChange }) => (
 
         <form className="form__container">
 
-            <div className="form-input__group">
+            <div className="form-input-with-label__box">
 
                 <label htmlFor="username__input">Användarnamn</label>
 
-                <input type="text" id="username__input" placeholder="Användarnamn" />
+                <input type="text" id="username__input" placeholder="JohannaDoe" />
 
             </div>
 
-            <div className="form-input__group">
+            <div className="form-input-with-label__box">
 
                 <label htmlFor="password__input">Lösenord</label>
 
-                <input type="password" id="password__input" placeholder="Lösenord" />
+                <input type="password" id="password__input" placeholder="********" />
 
             </div>
 
