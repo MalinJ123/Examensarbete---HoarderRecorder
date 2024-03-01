@@ -3,6 +3,7 @@ html, body {
   background-color: var(--background-color);
   color: var(--color-white);
   font-size: var(--font-size-standard);
+  letter-spacing: 0.05em;
 }
 
 * {
@@ -29,7 +30,6 @@ html, body {
   --font-size-title: 26px;
   --font-size-label: 15px;
   --font-size-input-text: 16px;
-  --font-size-object-text: 12px;
   --font-size-hero-image-text: 32px;
   --font-size-object-text: 13px;
 
