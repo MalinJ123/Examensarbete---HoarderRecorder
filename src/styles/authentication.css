@@ -1,7 +1,50 @@
 .auth__splashscreen {
-    background-image: url("../images/dots_background.png");
+    position: relative;
 }
 
+.auth__splashscreen::before {
+    content: "";
+    opacity: 0.15;
+    background-image: url("../images/dots_background.png");
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+}
+
+.auth__splashscreen {
+    height: 100dvh;
+}
+
+.auth__section {
+    position: relative;
+    z-index: 2;
+    padding: 0px 36px;
+}
+
+.auth__title {
+    margin-top: 36px;
+    margin-bottom: 36px;
+    text-align: center;
+    font-family: "Lato light", sans-serif;
+    font-size: 26px;
+    font-weight: 70;
+}
+
+/* Info box */
+
 .information__box {
+    padding: 15px;
     background-color: #313131;
+}
+
+.information__box p {
+    font-family: "Lato light", sans-serif;
+    font-weight: 100;
+}
+
+.hr-bold__span {
+    font-family: "Pacifico", cursive;
+
 }

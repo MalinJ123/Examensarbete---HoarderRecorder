@@ -18,8 +18,8 @@ export const Authentication = () => {
 };
 
 const Register = ({ handleViewChange }) => (
-    <section className="auth__splashscreen">
-        <h1>Registera nytt konto</h1>
+    <section className="auth__section">
+        <h1 className="auth__title">Registera nytt konto</h1>
         <div className="information__box">
             <p>
                 <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
@@ -42,8 +42,8 @@ const Register = ({ handleViewChange }) => (
 );
 
 const Login = ({ handleViewChange }) => (
-    <section className="eggula">
-        <h1>Logga in</h1>
+    <section className="auth__section">
+        <h1 className="auth__title">Logga in</h1>
         <div className="information__box">
             <p>
                 <span className="hr-bold__span">Hoarder Recorder</span> är en plattform där du kan sortera det du tycker är viktigt i ditt liv och
