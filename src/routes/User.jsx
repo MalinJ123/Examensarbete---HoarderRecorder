@@ -1,10 +1,18 @@
-import "../styles/user.css";
+import { useState, useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+
+import { AppContext } from '../ContextRoot';
+
 import image from "../images/image.png";
-import { useState } from "react";
+import "../styles/user.css";
 
 function User() {
+  const { setChangeButtonsOnView } = useContext(AppContext);
   const [showOverlay, setShowOverlay] = useState(false);
+
+  useEffect(() => {
+    setChangeButtonsOnView('user');
+  })
 
   const handleDeleteAccount = () => {
     console.log("Konto är raderat! DIN LOSER");

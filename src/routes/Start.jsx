@@ -1,13 +1,26 @@
-import "../styles/start.css";
-import start from "../images/start.png";
-import book from "../images/book.png";
-import vhs from "../images/vhs.png";
+import { useState, useContext, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 
+import { AppContext } from '../ContextRoot';
+
+import "../styles/start.css";
+
+import start from "../images/start.png";
+import book from "../images/book.png";
+
+
 function Start() {
+
+  const { setChangeButtonsOnView } = useContext(AppContext);
+
+  useEffect(() => {
+    setChangeButtonsOnView('start');
+  })
+
   return (
     <>
-      <img className="start-img" src={start} alt="en bild från unsplash" />
+      <img className="hero__image" src={start} alt="en bild från unsplash" />
 
         <p className="quantity-categories__text">Du har 3 kategorier</p>
 
@@ -38,11 +51,6 @@ function Start() {
 
       </div>
 
-
-       
-       
-
-  
       <div className="c-container">
       <div className="first">
           <div className="category-bg">
@@ -109,9 +117,6 @@ function Start() {
         </div>
         </div>
 
-
-        
-     
       </div>
       <div className="add-category-container">
         <Link to="/addcategory">

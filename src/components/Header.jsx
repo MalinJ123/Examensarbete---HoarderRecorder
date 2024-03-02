@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
+
+import { AppContext } from '../ContextRoot';
+
 import "../styles/header.css";
 
 export const Header = () => {
+  const { changeButtonsOnView } = useContext(AppContext);
+
   const [isUserView, setIsUserView] = useState(false);
 
   const handleNavLinkClick = () => {
@@ -14,31 +19,26 @@ export const Header = () => {
   };
 
   return (
-    <div className="wrapper">
-      <div></div>
-      {isUserView ? (
+    <header className="header">
+      {changeButtonsOnView === "user" ? (
         <NavLink
           to="/start"
-          className="back-button"
           onClick={handleBackButtonClick}
         >
-          <span className="material-symbols-outlined backbtn">reply</span>
+          <span className="material-symbols-outlined header__icon">reply</span>
         </NavLink>
       ) : (
-        <span className="back-button"></span>
+        <div className="filler__box"></div>
       )}
-      <h1 className="header-font">Hoarder Recorder</h1>
-      <div></div>
+      <h1 className="logotype__title">Hoarder Recorder</h1>
       {isUserView ? (
-        <div>
-          <span className="material-symbols-outlined logout">logout</span>{" "}
-        </div>
+          <span className="material-symbols-outlined header__icon">logout</span>
       ) : (
         <NavLink to="user" onClick={handleNavLinkClick}>
-          <span className="material-symbols-outlined custom-icon">person</span>
+          <span className="material-symbols-outlined header__icon">person</span>
         </NavLink>
       )}
-    </div>
+    </header>
   );
 };
 

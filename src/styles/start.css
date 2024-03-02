@@ -1,8 +1,4 @@
-.background {
-  background-color: var(--color-background);
-}
-
-.start-img {
+.hero__image {
   width: 100%;
 }
 
