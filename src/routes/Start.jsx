@@ -2,27 +2,25 @@ import { useState, useContext, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
-import { AppContext } from '../ContextRoot';
+import { AppContext } from "../ContextRoot";
 
 import "../styles/start.css";
 
 import start from "../images/start.png";
 import book from "../images/book.png";
 
-
 function Start() {
-
   const { setChangeButtonsOnView } = useContext(AppContext);
 
   useEffect(() => {
-    setChangeButtonsOnView('start');
-  })
+    setChangeButtonsOnView("start");
+  });
 
   return (
     <>
       <img className="hero__image" src={start} alt="en bild från unsplash" />
 
-        <p className="quantity-categories__text">Du har 3 kategorier</p>
+      <p className="quantity-categories__text">Du har 3 kategorier</p>
 
       <div className="serarchfield-container">
         <div className="searchfield">
@@ -32,92 +30,88 @@ function Start() {
       </div>
 
       <div className="category-wrapper">
-        
-      <div className="c-container">
-      <div className="first">
-          <div className="category-bg">
-            <img className="category-img" src={book} alt="kategori bild" />
-          </div>
-          <div className="category-content">
-            <div className="title-object">
-              <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt </p>
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
             </div>
-            <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
+            <div className="category-content">
+              <div className="title-object">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+              <div className="title-object">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+              <div className="title-object">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+              <div className="title-object">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="c-container">
-      <div className="first">
-          <div className="category-bg">
-            <img className="category-img" src={book} alt="kategori bild" />
-          </div>
-          <div className="category-content">
-            <div className="title-object">
-              <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt </p>
-            </div>
-            <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
-            </div>
-          </div>
-        </div>
-        </div>
-
-        <div className="c-container">
-      <div className="first">
-          <div className="category-bg">
-            <img className="category-img" src={book} alt="kategori bild" />
-          </div>
-          <div className="category-content">
-            <div className="title-object">
-              <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt </p>
-            </div>
-            <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="c-container">
-      <div className="first">
-          <div className="category-bg">
-            <img className="category-img" src={book} alt="kategori bild" />
-          </div>
-          <div className="category-content">
-            <div className="title-object">
-              <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt </p>
-            </div>
-            <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="c-container">
-      <div className="first">
-          <div className="category-bg">
-            <img className="category-img" src={book} alt="kategori bild" />
-          </div>
-          <div className="category-content">
-            <div className="title-object">
-              <h4 className="title category">Böcker</h4>
-              <p className="object-p">3 objekt </p>
-            </div>
-            <div className="category-moreicon">
-              <span className="material-symbols-outlined">more_vert</span>
-            </div>
-          </div>
-        </div>
-        </div>
-
-      </div>
       <div className="add-category-container">
         <Link to="/addcategory">
           <button className="add-categorybtn">

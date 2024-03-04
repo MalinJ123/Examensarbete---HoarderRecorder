@@ -54,15 +54,19 @@
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: left;
   flex-wrap: wrap;
-  margin-top: 21px;
-  gap:0.5em;
-  padding: 0px 36px
+  margin: 2em 2em;
+  
+}
+ .c-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .first {
   display: flex;
   flex-direction: column;
-  margin-right: auto;
 }
 
 .category-bg {
@@ -70,7 +74,7 @@
   background-color: var(--color-box);
   width: 7em;
   height: 6.4em;
-  border-radius: 7px; 
+  border-radius: 7px;
 }
 
 .category-bg:last-child {
@@ -88,20 +92,27 @@
   display: flex;
   padding: 0em 0.2em 0.2em;
   margin-bottom: 1em;
-  justify-content:space-around;
- 
+  justify-content: space-around;
+
   /* box-shadow: 0 4px 8px 0 rgba(43, 42, 42, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.23); */
 }
 
 .title.category {
-    font-size: 17px;
+  font-size: 15px;
+  font-family: "Lato light", sans-serif;
 }
 
-.category-moreicon {
+.category-more {
   display: flex;
-  align-self: self-end;
-}
+  
+  justify-content: space-between;
+  width: 7em;
 
+}
+.material-symbols-outlined.more{
+  align-self: flex-start;
+  /* border: 2px solid green;  */
+}
 .object-p {
   color: rgb(203, 199, 199);
   font-family: "JetBrains mono", monospace;
@@ -109,22 +120,20 @@
   font-size: 12px;
 }
 
-
 /* Lägg till kategori knapp */
 
-.add-category-container{
-    display: flex;
-    justify-content: end;
-    align-items: end;
-
+.add-category-container {
+  display: flex;
+  justify-content: end;
+  align-items: end;
 }
 
-.add-categorybtn{
-    background-color: var(--color-form-control);
-    padding:0.3em 0.4em;
-    border-radius: 10px;
-    margin: 0em 2em 1em;
-    border-color: transparent;
+.add-categorybtn {
+  background-color: var(--color-form-control);
+  padding: 0.3em 0.4em;
+  border-radius: 10px;
+  margin: 0em 2em 1em;
+  border-color: transparent;
 }
 
 @media screen and (max-width: 360px) {
@@ -147,6 +156,20 @@
     width: 19em;
   }
   .category-wrapper {
-  margin: 2em 0em;
+    margin: 2em 2em;
+    grid-template-columns: 1fr 1fr;
+
+  }
+  .title.category {
+    font-size: 13px;
+    font-family: "Lato light", sans-serif;
+  }
+  /* .c-container{
+    display: flex;
+    flex-wrap: wrap;
+  } */
+  .category-more{
+    width:5.5em;
   }
 }
+
