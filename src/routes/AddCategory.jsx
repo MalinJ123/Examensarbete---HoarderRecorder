@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+
 import "../styles/addcategory.css";
 
+import { AppContext } from '../ContextRoot';
+
 function AddCategory() {
+
+  const { setChangeButtonsOnView } = useContext(AppContext);
+
+  useEffect(() => {
+    setChangeButtonsOnView('add-category');
+  })
+
   return (
     <>
       <div className="addcategory-container">

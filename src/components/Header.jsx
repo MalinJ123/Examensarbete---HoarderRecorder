@@ -20,7 +20,8 @@ export const Header = () => {
 
   return (
     <header className="header">
-      {changeButtonsOnView === "user" ? (
+
+      {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" ? (
         <NavLink
           to="/start"
           onClick={handleBackButtonClick}
