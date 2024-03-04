@@ -1,0 +1,62 @@
+.hero__img-object {
+  width: 100%;
+  height: 10em;
+
+  image-rendering: crisp-edges;
+}
+.object-category {
+  font-size: 15px;
+  font-family: "Lato light", sans-serif;
+}
+
+/* Objekten / cards */
+.object-container {
+  /* border: 2px solid green; */
+}
+
+.title-object{
+    width:15em;
+    border: 2px solid hotpink;
+}
+.first-object {
+  display: flex;
+  flex-direction: column;
+}
+.object-bg {
+  position: relative;
+  background-color: var(--color-box);
+  width: 11em;
+  height: 12em;
+  border-radius: 7px;
+}
+.object-img {
+  position: absolute;
+  top: 9px;
+  left: 8px;
+  width: 10em;
+}
+.object-info {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  align-items: flex-end;
+}
+
+.object-author,
+.object-price {
+  color: rgb(203, 199, 199);
+  font-family: "JetBrains mono", monospace;
+  font-weight: 100;
+  font-size: 12px;
+}
+.object-bold {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 360px) {
+  .hero__img-object {
+    height: 10em;
+
+    image-rendering: crisp-edges;
+  }
+}

@@ -78,7 +78,7 @@
 }
 
 .category-bg:last-child {
-  margin-left: auto; /* Placerar det sista barnet till vänster */
+  margin-left: auto; 
 }
 
 .category-img {
@@ -94,7 +94,7 @@
   margin-bottom: 1em;
   justify-content: space-around;
 
-  /* box-shadow: 0 4px 8px 0 rgba(43, 42, 42, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.23); */
+
 }
 
 .title.category {
@@ -104,16 +104,15 @@
 
 .category-more {
   display: flex;
-  
   justify-content: space-between;
   width: 7em;
 
 }
 .material-symbols-outlined.more{
   align-self: flex-start;
-  /* border: 2px solid green;  */
+
 }
-.object-p {
+.object-price {
   color: rgb(203, 199, 199);
   font-family: "JetBrains mono", monospace;
   font-weight: 100;

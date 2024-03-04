@@ -5,6 +5,7 @@ import Start from './routes/Start';
 import User from './routes/User.jsx';
 import { Authentication } from './routes/Authentication.jsx';
 import AddCategory from './routes/AddCategory.jsx';
+import Object from './routes/Object.jsx';
 
 
 export const Router = createHashRouter([
@@ -27,6 +28,10 @@ export const Router = createHashRouter([
       {
         path: '/addcategory',
         element: <AddCategory/>,
+      },
+       {
+        path: '/object',
+        element: <Object/>,
       },
     ],
   },

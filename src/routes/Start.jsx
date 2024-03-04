@@ -33,7 +33,9 @@ function Start() {
         <div className="c-container">
           <div className="first">
             <div className="category-bg">
-              <img className="category-img" src={book} alt="kategori bild" />
+              <Link to="/object">
+                <img className="category-img" src={book} alt="kategori bild" />
+              </Link>
             </div>
             <div className="category-content">
               <div className="title-object">
@@ -41,7 +43,7 @@ function Start() {
               </div>
 
               <div className="category-more">
-                <p className="object-p">3 objekt </p>{" "}
+                <p className="object-p">3 objekt </p>
                 <span className="material-symbols-outlined more">
                   more_vert
                 </span>
@@ -49,7 +51,6 @@ function Start() {
             </div>
           </div>
         </div>
-
 
         <div className="c-container">
           <div className="first">
