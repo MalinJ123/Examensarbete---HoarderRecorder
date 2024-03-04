@@ -37,6 +37,24 @@
   background-color: var(--color-form-control-hover);
 }
 
+/* Ghost button */
+.ghost__button {
+  background-color: transparent;
+  color: var(--color-white);
+  border: none;
+  font-size: var(--font-size-standard);
+  font-family: "Lato regular", sans-serif;
+  font-weight: 100;
+  border-radius: var(--border-radius-corner);
+  padding: 12px;
+  cursor: pointer;
+}
+
+.ghost__button:hover {
+  font-weight: bold;
+  background-color: var(--color-form-control-hover);
+}
+
 /* Dialog & overlay  */
 .clickable__overlay {
   position: fixed;
@@ -55,9 +73,12 @@
   color: var(--color-white);
   height: auto;
   padding: 21px;
-  padding-top: 0px;
   display: grid;
   border-radius: var(--border-radius-corner);
+}
+
+.dialog__title {
+  margin-top: 42px !important;
 }
 
 .dialog-info__text {
@@ -83,15 +104,14 @@
   font-size: var(--font-size-standard);
 }
 
-.bold__span {
-  font-weight: bold;
+.dialog__action-bar {
+  display: grid;
+  justify-content: flex-end;
+  height: 0px;
 }
 
-.deleteuser-info {
-  padding: 2em;
-  font-family: "Lato regular", sans-serif;
-}
-.deleteinfo-p {
-  font-family: "Lato regular", sans-serif;
-  font-weight: 300;
+/* Bold span */
+
+.bold__span {
+  font-weight: bold;
 }

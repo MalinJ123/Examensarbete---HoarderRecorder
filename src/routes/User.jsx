@@ -91,6 +91,17 @@ function User() {
             }>
 
             <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
+              <div className="dialog__action-bar">
+
+                <button className="ghost__button" onClick={() => stateDeleteAccountDialog(false)} title="Stäng dialog">
+                  
+                  <span className="material-symbols-outlined">
+                  close
+                </span>
+
+                </button>
+
+              </div>
 
               <h1 className="dialog__title">Vill du verkligen lämna <span className="hr-bold__span">Hoarder Recorder</span>? 😢</h1>
 
