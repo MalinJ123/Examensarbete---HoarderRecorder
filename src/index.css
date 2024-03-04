@@ -4,6 +4,7 @@ html, body, #root {
   color: var(--color-white);
   font-size: var(--font-size-standard);
   letter-spacing: 0.05em;
+  font-family: "Lato regular", sans-serif;
 }
 
 * {
@@ -26,6 +27,7 @@ html, body, #root {
   --color-form-control-hover: #373737;
   --color-form-control-disabled: #212121;
   --color-overlay-background: rgba(0, 0, 0, 0.25);
+  --color-details: #CBC7C7;
   
   /* Font sizes */
   --font-size-standard: 18px;
@@ -35,9 +37,13 @@ html, body, #root {
   --font-size-input-text: 16px;
   --font-size-hero-image-text: 32px;
   --font-size-object-text: 13px;
+  --font-size-category-title: 14px;
+  --font-size-category-details: 13px;
+  --font-size-rounded-button-icon: 26px;
 
   /* Other */
   --border-radius-corner: 5px;
+  --border-radius-rounded-button: 15px;
 }
 /* font-size: var(--font-size-standard) */
 

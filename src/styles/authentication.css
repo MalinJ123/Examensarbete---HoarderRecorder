@@ -10,7 +10,7 @@
 }
 
 .auth__section {
-    padding: 0px 36px;
+    padding: 0px 21px;
 }
 
 .auth__title, .user__title, .dialog__title {
@@ -63,14 +63,15 @@
     padding: 6px;
 }
 
-.form-input-with-label__box label {
+.form-input-with-label__box .form__label {
     font-family: "ABeeZee regular", cursive;
     font-weight: 200;
     font-size: var(--font-size-label);
     margin-bottom: 0px;
+    cursor: pointer;
 }
 
-.form-input-with-label__box input {
+.form-input-with-label__box .form__input-text {
     padding: 12px 24px;
     font-size: var(--font-size-input-text);
     font-family: "Lato regular", sans-serif;
@@ -82,7 +83,7 @@
     padding: 0px;
 }
 
-.form-input-with-label__box input::placeholder {
+.form-input-with-label__box .form__input-text::placeholder {
     color: var(--color-input-placeholder-text);
 }
 

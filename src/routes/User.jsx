@@ -48,9 +48,9 @@ function User() {
 
         <div className="form-input-with-label__box">
 
-          <label htmlFor="profile-picture__input">Kontobild</label>
+          <label className="form__label" htmlFor="profile-picture__input">Kontobild</label>
 
-          <input type="text" id="profile-picture__input" placeholder="example-site.com/example-avatar-image.png" onChange={(e) => setUserProfilePicture(e.target.value)} />
+          <input type="text" id="profile-picture__input" className="form__input-text" placeholder="example-site.com/example-avatar-image.png" onChange={(e) => setUserProfilePicture(e.target.value)} />
 
         </div>
 

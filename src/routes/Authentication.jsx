@@ -59,7 +59,7 @@ export const Authentication = () => {
     );
 };
 
-const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
+const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
     const { setUsername, setUserPassword, setAuthenticationView } = useContext(AppContext);
 
@@ -82,17 +82,17 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmp
 
                 <div className="form-input-with-label__box">
 
-                    <label htmlFor="username__input">Användarnamn</label>
+                    <label className="form__label" htmlFor="username__input">Användarnamn</label>
 
-                    <input type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
 
                 </div>
 
                 <div className="form-input-with-label__box">
 
-                    <label htmlFor="password__input">Lösenord</label>
+                    <label className="form__label" htmlFor="password__input">Lösenord</label>
 
-                    <input type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
 
                 </div>
                 
@@ -111,7 +111,7 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmp
     )
 };
 
-const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
+const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
     const { setUsername, setUserPassword, setAuthenticationView} = useContext(AppContext);
 
@@ -134,17 +134,17 @@ const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty 
 
                 <div className="form-input-with-label__box">
 
-                    <label htmlFor="username__input">Användarnamn</label>
+                    <label className="form__label" htmlFor="username__input">Användarnamn</label>
 
-                    <input type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
 
                 </div>
 
                 <div className="form-input-with-label__box">
 
-                    <label htmlFor="password__input">Lösenord</label>
+                    <label className="form__label" htmlFor="password__input">Lösenord</label>
 
-                    <input type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
 
                 </div>
 
