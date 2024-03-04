@@ -7,7 +7,7 @@ import image from "../images/image.png";
 import "../styles/user.css";
 
 function User() {
-  const { setChangeButtonsOnView } = useContext(AppContext);
+  const { setChangeButtonsOnView, userProfilePicture, setUserProfilePicture } = useContext(AppContext);
   const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
@@ -18,50 +18,28 @@ function User() {
     console.log("Konto är raderat! DIN LOSER");
   };
   return (
-    <>
-      <div className="user-wrapper">
-        <div className="">
-          <div className="title-logout">
-           <div></div>
-            <h1 className="title">Hej Norfe!</h1> <div></div>
-         
-          </div>
+    <section className="user__section">
+      <h1 className="user__title">Hej Norfe!</h1>
+      <form className="form__container">
+        <div className="form-input-with-label__box">
 
-          <div className="label-container">
-            <label className="user-label" htmlFor="username">
-              Användarnamn
-            </label>
-           
-            <input
-            type="text"
-            id="imageUrl"
-            name="imageUrl"
-            className="user-input"
-            placeholder="example-site.com/example-pokemon-cards-image.png"
-          />
-          </div>
+          <label htmlFor="profile-picture__input">Kontobild</label>
 
-          <div className="label-container">
-            <label className="user-label" htmlFor="username">
-              Kontobild
-            </label>
-            <input
-            type="text"
-            id="imageUrl"
-            name="imageUrl"
-            className="user-input"
-            placeholder="example-site.com/example-pokemon-cards-image.png"
-          />
-           
-          </div>
+          <input type="text" id="profile-picture__input" placeholder="example-site.com/example-avatar-image.png" onChange={(e) => setUserProfilePicture(e.target.value)} />
 
-          <div className="image-container">
-            <img className="user-img" src={image} alt="" />
-          </div>
-          <div className="userbtn-container">
-            <button className="userbtn" onClick={() => setShowOverlay(true)}>
-              Ta bort konto
-            </button>
+        </div>
+
+        {
+          userProfilePicture === "" ? (
+            null
+          )
+          : (
+              <img className="user-profile-picture__image" src={userProfilePicture} alt="" />
+          )
+        }
+
+
+      </form>
 
             {showOverlay && (
               <div className="overlay">
@@ -98,11 +76,7 @@ function User() {
                 </div>
               </div>
             )}
-            <button className="userbtn">Slutför</button>
-          </div>
-        </div>
-      </div>
-    </>
+    </section>
   );
 }
 export default User;

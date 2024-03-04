@@ -12,6 +12,8 @@ export const Authentication = () => {
 
     const [selectView, setSelectView] = useState('register');
 
+    const areFieldsEmpty = !username || !userPassword;
+
     const registerOrLoginUserGoToStart = (chosen) => {
         if (username !== "" && userPassword !== "") {
             /* 
@@ -25,7 +27,7 @@ export const Authentication = () => {
             setIsUserLoggedIn(true);
 
             navigate('/start')
-        } /* Lägg till så att man inte kan trycka på registera knappen om man inte har fyllt i fälten! */
+        }
     }
 
     const handleViewChange = (view) => {
@@ -45,7 +47,7 @@ export const Authentication = () => {
         <section className="auth__splashscreen">
 
             {
-                selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} /> : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} />
+                selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} />  : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} />
             }
 
         </section>
@@ -53,7 +55,7 @@ export const Authentication = () => {
     );
 };
 
-const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
+const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
     const { setUsername, setUserPassword } = useContext(AppContext);
 
@@ -92,7 +94,7 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
                 
                 <div className="form-button__group">
 
-                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")}>Registrera</button>
+                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
 
                     <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
 
@@ -105,7 +107,7 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
     )
 };
 
-const Login = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
+const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
     const { setUsername, setUserPassword } = useContext(AppContext);
 
@@ -146,7 +148,7 @@ const Login = ({ handleViewChange, registerOrLoginUserGoToStart }) => {
 
                     <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
 
-                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")}>Logga in</button>
+                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
 
                 </div>
 
