@@ -2,35 +2,55 @@
     display: flex;
     justify-content: center;
     margin: 2em;
+    
+}
+.category-title{
+    font-family: "Lato light", sans-serif;
+    font-size: 26px;
+    font-weight: 70;
 }
 
 .categorylabel-container{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    width: 80%;
-    color: var(--color-white);
+    flex-flow: column wrap;
+    gap: 6px;
     background-color: var(--color-form-control);
-    font-family: var(--font-main);
-    margin-bottom: 1em;
+    border-radius: var(--border-radius-corner);
+    padding: 6px;
+    
+}
+.categorylabel-container.first,
+.categorylabel-container.second{
+    margin: 1em
 }
 .category-label{
-    padding: 0.3em 0.2em 0em 0.3em;
-    align-self: flex-start;
-    font-size: 12px;
+    font-family: "ABeeZee regular", cursive;
+    font-weight: 200;
+    font-size: var(--font-size-label);
+    margin-bottom: 0px;
 }
 .category-input{
+    /* font-size: var(--font-size-input-text); */
+    font-family: "Lato regular", sans-serif;
+    font-weight: 100;
+    border: none;
     background-color: var(--color-form-control);
-    font-size: 13px;
-    padding: 0.3em 0em 0.2em 0.4em;
     color: var(--color-white);
-    align-self: flex-start;
-    border: none; 
-    border-color: transparent;
+    outline: none;
+    padding: 0px;
 }
 
-.category-input::placeholder{
-    color: var(--color-input-placeholder-text);
+/* Förhandsgranskning av Kategori bild */
+
+.image-preview{
+    width: 15em;
+}
+
+.category-image-container{
+    display: flex;
+    justify-content: center;
+}
+.category-content{
+    display: flex;
+    flex-direction: column;
 }
