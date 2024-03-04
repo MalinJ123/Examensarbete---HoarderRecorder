@@ -46,6 +46,7 @@
   height: 100%;
   display: grid;
   align-items: center;
+  padding: 0px 36px;
 }
 
 .dialog__container {
@@ -53,14 +54,37 @@
   width: 100%;
   color: var(--color-white);
   height: auto;
-  padding: 21px 58px;
+  padding: 21px;
   padding-top: 0px;
   display: grid;
+  border-radius: var(--border-radius-corner);
 }
 
 .dialog-info__text {
   font-family: "Lato light", sans-serif;
   font-size: var(--font-size-standard);
+}
+
+.dialog-info__title {
+  font-family: "Lato regular", sans-serif;
+  font-size: var(--font-size-standard);
+  font-weight: 100;
+}
+
+.dialog-center__box {
+  padding: 17px 0px;
+  display: grid;
+  justify-content: center;
+  gap: 17px;
+}
+
+.dialog__list > .dialog__list-element {
+  font-family: "Lato regular", sans-serif;
+  font-size: var(--font-size-standard);
+}
+
+.bold__span {
+  font-weight: bold;
 }
 
 .deleteuser-info {
@@ -70,7 +94,4 @@
 .deleteinfo-p {
   font-family: "Lato regular", sans-serif;
   font-weight: 300;
-}
-.deleteinfo-ul {
-  line-height: 1.5em;
 }

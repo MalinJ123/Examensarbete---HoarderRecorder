@@ -103,3 +103,8 @@
 .primary__button:hover {
     background-color: var(--color-form-control-hover);
 }
+
+.primary__button:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-form-control-disabled);
+}
