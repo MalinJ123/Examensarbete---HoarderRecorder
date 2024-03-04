@@ -1,12 +1,14 @@
+/* User */
 .user__section {
   height: calc(100dvh - 96px);
   width: 100%;
   padding: 0px 36px;
 }
 
-/* User Image */
-.image-container {
-  display: flex;
+/* Profile picture */
+.profile-picture__spacer {
+  display: grid;
+  align-items: center;
   justify-content: center;
 }
 
@@ -14,29 +16,53 @@
   height: 170px;
   width: 170px;
   border-radius: var(--border-radius-corner);
+  border: 1px solid var(--color-white);
 }
 
-/* Overlay - Delete account  */
+/* Secondary button */
 
-.overlay {
+.secondary__button {
+  color: var(--color-white);
+  background-color: transparent;
+  padding: 12px 24px;
+  font-size: var(--font-size-standard);
+  font-family: "Lato light", sans-serif;
+  font-weight: 90;
+  cursor: pointer;
+  border-radius: var(--border-radius-corner);
+  border: 1px solid var(--color-white); 
+}
+
+.secondary__button:hover {
+  background-color: var(--color-form-control-hover);
+}
+
+/* Dialog & overlay  */
+.clickable__overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-background);
-
-  z-index: 999;
-  color: white;
-  font-family: "Lato regular", sans-serif;
-}
-
-.overlay-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
   align-items: center;
 }
+
+.dialog__container {
+  background-color: var(--color-dialog);
+  width: 100%;
+  color: var(--color-white);
+  height: auto;
+  padding: 21px 58px;
+  padding-top: 0px;
+  display: grid;
+}
+
+.dialog-info__text {
+  font-family: "Lato light", sans-serif;
+  font-size: var(--font-size-standard);
+}
+
 .deleteuser-info {
   padding: 2em;
   font-family: "Lato regular", sans-serif;
@@ -47,10 +73,4 @@
 }
 .deleteinfo-ul {
   line-height: 1.5em;
-}
-
-.space {
-  display: flex;
-  justify-content: space-around;
-  width: 90%;
 }

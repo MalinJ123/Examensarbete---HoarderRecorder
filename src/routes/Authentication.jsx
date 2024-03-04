@@ -6,7 +6,11 @@ import { AppContext } from '../ContextRoot';
 import '../styles/authentication.css';
 
 export const Authentication = () => {
-    const { username, userPassword, isUserLoggedIn, setIsUserLoggedIn } = useContext(AppContext);
+    const { username, userPassword, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
+
+    useEffect(() => {
+        setChangeButtonsOnView('authentication');
+      })
 
     const navigate = useNavigate()
 
@@ -94,9 +98,9 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmp
                 
                 <div className="form-button__group">
 
-                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
+                    <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
 
-                    <button type="button" className="gray__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
+                    <button type="button" className="primary__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
 
                 </div>
 
@@ -146,9 +150,9 @@ const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty 
 
                 <div className="form-button__group">
 
-                    <button type="button" className="gray__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
+                    <button type="button" className="primary__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
 
-                    <button type="submit" className="gray__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
+                    <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
 
                 </div>
 
