@@ -8,23 +8,12 @@ import "../styles/header.css";
 export const Header = () => {
   const { changeButtonsOnView } = useContext(AppContext);
 
-  const [isUserView, setIsUserView] = useState(false);
-
-  const handleNavLinkClick = () => {
-    setIsUserView(!isUserView);
-  };
-
-  const handleBackButtonClick = () => {
-    setIsUserView(false);
-  };
-
   return (
     <header className="header">
 
       {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" ? (
         <NavLink
           to="/start"
-          onClick={handleBackButtonClick}
         >
           <span className="material-symbols-outlined header__icon">reply</span>
         </NavLink>
@@ -32,10 +21,12 @@ export const Header = () => {
         <div className="filler__box"></div>
       )}
       <h1 className="logotype__title">Hoarder Recorder</h1>
-      {isUserView ? (
+      {changeButtonsOnView === "user" ? (
           <span className="material-symbols-outlined header__icon">logout</span>
+      ) : changeButtonsOnView === "authentication" ? (
+        <div className="filler__box"></div>
       ) : (
-        <NavLink to="user" onClick={handleNavLinkClick}>
+        <NavLink to="/user">
           <span className="material-symbols-outlined header__icon">person</span>
         </NavLink>
       )}

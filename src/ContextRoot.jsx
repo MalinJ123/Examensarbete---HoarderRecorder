@@ -11,13 +11,15 @@ export const ContextRoot = ({ children }) => {
 
     const [userPassword, setUserPassword] = useState('');
 
+    const [userProfilePicture, setUserProfilePicture] = useState('');
+
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     // Change the behavior the header's buttons depending on which view the user is currently on
     const [changeButtonsOnView, setChangeButtonsOnView] = useState('');
 
   return (
-    <AppContext.Provider value={{username, setUsername, userPassword, setUserPassword, isUserLoggedIn, setIsUserLoggedIn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser}}>
+    <AppContext.Provider value={{username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser}}>
       {children}
     </AppContext.Provider>
   );
