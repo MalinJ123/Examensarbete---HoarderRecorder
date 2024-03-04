@@ -1,12 +1,16 @@
 import { useState, useContext, useEffect, useRef } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { AppContext } from '../ContextRoot';
 
 import "../styles/user.css";
 
 function User() {
-  const { setChangeButtonsOnView, userProfilePicture, setUserProfilePicture } = useContext(AppContext);
 
+  const navigate = useNavigate();
+
+  const { setChangeButtonsOnView, userProfilePicture, setUserProfilePicture, setAuthenticationView, setIsUserLoggedIn, username, setUsername, setUserPassword } = useContext(AppContext);
 
   // Dialog
   const deleteAccountDialogRef = useRef();
@@ -19,18 +23,26 @@ function User() {
     }
   }
 
+  // Change the behavior the header's buttons depending on which view the user is currently on
   useEffect(() => {
     setChangeButtonsOnView('user');
   })
 
-  const handleDeleteAccount = () => {
-    console.log("Konto är raderat! DIN LOSER");
+
+  // If user actually deletes their account
+  const confirmedDeletionOfAccount = () => {
+    setUsername('');
+    setUserPassword('');
+    setIsUserLoggedIn(false)
+    stateDeleteAccountDialog(false)
+    setAuthenticationView('register')
+    navigate('/')
   };
 
   return (
     <section className="user__section">
 
-      <h1 className="user__title">Hej Norfe!</h1>
+      <h1 className="user__title">Hej {username}!</h1>
 
       <form className="form__container">
 
@@ -80,29 +92,33 @@ function User() {
 
             <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
 
-              <h1 className="dialog__title">Vill du verkligen lämna <span className="hr-bold__span">Hoarder Recorder</span>?  😢</h1>
+              <h1 className="dialog__title">Vill du verkligen lämna <span className="hr-bold__span">Hoarder Recorder</span>? 😢</h1>
 
               <p className="dialog-info__text">
                 Alla dina kontouppgifter, kategorier och objekt kommer att raderas!
               </p>
 
-            <p className="title">Detta konto bli raderat: </p>
+              <div className="dialog-center__box">
 
-            <ul className="deleteinfo-ul">
+                <p className="dialog-info__title">Detta konto bli raderat:</p>
 
-              <li>ditt konto och din data</li>
+                <ul className="dialog__list">
 
-              <li>3 kategorier</li>
+                  <li className="dialog__list-element"><span className="bold__span">ditt konto</span> och <span className="bold__span">din data</span>,</li>
 
-              <li>3 objekt kategorier</li>
-          </ul>
+                  <li className="dialog__list-element"><span className="bold__span">3</span> objekt inom <span className="bold__span">3</span> kategorier.</li>
 
-          <button className="secondary__button" onClick={handleDeleteAccount}>
-            Bekräfta
-          </button>
+                </ul>
+
+                <button className="secondary__button" onClick={() => confirmedDeletionOfAccount()}>Bekräfta
+                </button>
+
+              </div>
+
           </div>
 
         </section>
+
       </dialog>
 
     </section>

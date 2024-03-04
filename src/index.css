@@ -24,10 +24,11 @@ html, body, #root {
   --color-form-control: #313131;
   --color-input-placeholder-text: #A4A4A4;
   --color-form-control-hover: #373737;
+  --color-form-control-disabled: #212121;
   --color-overlay-background: rgba(0, 0, 0, 0.25);
   
   /* Font sizes */
-  --font-size-standard: 16px;
+  --font-size-standard: 18px;
   --font-size-logotype: 24px;
   --font-size-title: 26px;
   --font-size-label: 15px;

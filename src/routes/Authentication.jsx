@@ -6,7 +6,7 @@ import { AppContext } from '../ContextRoot';
 import '../styles/authentication.css';
 
 export const Authentication = () => {
-    const { username, userPassword, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
+    const { username, userPassword, authenticationView, setAuthenticationView, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
 
     useEffect(() => {
         setChangeButtonsOnView('authentication');
@@ -50,9 +50,9 @@ export const Authentication = () => {
 
         <section className="auth__splashscreen">
 
-            {
-                selectView === 'register' ? <Register handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} />  : <Login handleViewChange={handleViewChange} registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} />
-            }
+          {
+            authenticationView === 'register' ? <Register registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} /> : <Login registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} /> 
+          }
 
         </section>
 
@@ -61,7 +61,7 @@ export const Authentication = () => {
 
 const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
-    const { setUsername, setUserPassword } = useContext(AppContext);
+    const { setUsername, setUserPassword, setAuthenticationView } = useContext(AppContext);
 
     return (
 
@@ -100,7 +100,7 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmp
 
                     <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
 
-                    <button type="button" className="primary__button" onClick={() => handleViewChange("login")}>Gå till logga in</button>
+                    <button type="button" className="primary__button" onClick={() => setAuthenticationView("login")}>Gå till logga in</button>
 
                 </div>
 
@@ -113,7 +113,7 @@ const Register = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmp
 
 const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
-    const { setUsername, setUserPassword } = useContext(AppContext);
+    const { setUsername, setUserPassword, setAuthenticationView} = useContext(AppContext);
 
     return (
 
@@ -150,7 +150,7 @@ const Login = ({ handleViewChange, registerOrLoginUserGoToStart, areFieldsEmpty 
 
                 <div className="form-button__group">
 
-                    <button type="button" className="primary__button" onClick={() => handleViewChange("register")}>Gå tillbaka till registrering</button>
+                    <button type="button" className="primary__button" onClick={() => setAuthenticationView("register")}>Gå tillbaka till registrering</button>
 
                     <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
 

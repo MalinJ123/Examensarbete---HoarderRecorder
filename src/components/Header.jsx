@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { NavLink } from "react-router-dom";
 
 import { AppContext } from '../ContextRoot';
@@ -6,7 +8,19 @@ import { AppContext } from '../ContextRoot';
 import "../styles/header.css";
 
 export const Header = () => {
-  const { changeButtonsOnView } = useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  const { changeButtonsOnView, setIsUserLoggedIn, setAuthenticationView, setUsername, setUserPassword } = useContext(AppContext);
+
+  // If the is logging out, redirect to the start page
+  const userIsLoggingOut = () => {
+    setUsername('');
+    setUserPassword('');
+    setIsUserLoggedIn(false);
+    setAuthenticationView('login');
+    navigate('/');
+  }
 
   return (
     <header className="header">
@@ -22,7 +36,7 @@ export const Header = () => {
       )}
       <h1 className="logotype__title">Hoarder Recorder</h1>
       {changeButtonsOnView === "user" ? (
-          <span className="material-symbols-outlined header__icon">logout</span>
+          <span className="material-symbols-outlined header__icon" onClick={() => userIsLoggingOut()}>logout</span>
       ) : changeButtonsOnView === "authentication" ? (
         <div className="filler__box"></div>
       ) : (
