@@ -110,11 +110,12 @@
 .category-more {
   display: flex;
   justify-content: space-between;
-  width: 7em;
+  width: 6.6em;
 
 }
-.material-symbols-outlined.more{
+.material-symbols-outlined.pen{
   align-self: flex-start;
+  font-size: medium;
 
 }
 .object-price {
