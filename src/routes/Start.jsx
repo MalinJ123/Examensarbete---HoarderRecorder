@@ -1,8 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 
-
-
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
 
@@ -12,167 +10,117 @@ import start from "../images/start.png";
 import book from "../images/book.png";
 
 function Start() {
-  const navigate = useNavigate();
-
   const { setChangeButtonsOnView } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
   });
 
-  const goToAddCategory = () => {
-    navigate("/add-category");
-  };
-
   return (
-    <section className="start__section">
+    <>
+      <img className="hero__image" src={start} alt="en bild från unsplash" />
 
-      <img className="hero__image" src={start} alt="Startsidans bild" />
+      <p className="quantity-categories__text">Du har 3 kategorier</p>
 
-      <div className="start__container">
+      <div className="serarchfield-container">
+        <div className="searchfield">
+          <span className="material-symbols-outlined search">search</span>
+          <p className="search-p">Sök efter katergori</p>
+        </div>
+      </div>
 
-        <p className="quantity-categories__text">Du har 3 kategorier</p>
+      <div className="category-wrapper">
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <Link to="/object">
+                <img className="category-img" src={book} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="category-content">
+              <div className="title-category">
+                <h4 className="title category">Böcker</h4>
+              </div>
 
-        <div className="search-input-with-icon__box">
-
-          <label htmlFor="search__input" className="search__label">
-
-            <span className="material-symbols-outlined">search</span>
-
-          </label>
-
-          <input id="search__input"
-            className="search__input-text"
-            type="text"
-            placeholder="Sök efter kategori" />
-
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <section className="categories__section">
-
-          <div className="category__container">
-
-              <div className="category__box">
-
-                <img className="category__image" src={book} alt="kategori bild" />
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+            <div className="title-category">
+                <h4 className="title category">Böcker</h4>
               </div>
 
-              <div className="category__info-kebab-icon">
-                <div className="category__info">
-                  
-                <p className="category-info__title">Böcker
-                </p>
-
-                <p className="category-info__details">3 objekt</p>
-
-                </div>
-
-                <div className="category__kebab-icon">
-                  
-                  <span className="material-symbols-outlined kebab__icon">
-                    more_vert
-                  </span>
-
-                </div>
-
-            </div>
-
-          </div>
-
-          <div className="category__container">
-
-            <div className="category__box">
-
-              <img className="category__image" src={book} alt="kategori bild" />
-            </div>
-
-            <div className="category__info-kebab-icon">
-              <div className="category__info">
-                
-              <p className="category-info__title">Böcker
-              </p>
-
-              <p className="category-info__details">3 objekt</p>
-
-              </div>
-
-              <div className="category__kebab-icon">
-                
-                <span className="material-symbols-outlined kebab__icon">
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
                   more_vert
                 </span>
-
               </div>
-
             </div>
-
           </div>
-
-          <div className="category__container">
-
-            <div className="category__box">
-
-              <img className="category__image" src={book} alt="kategori bild" />
-            </div>
-
-            <div className="category__info-kebab-icon">
-              <div className="category__info">
-                
-              <p className="category-info__title">Böcker
-              </p>
-
-              <p className="category-info__details">3 objekt</p>
-
-              </div>
-
-              <div className="category__kebab-icon">
-                
-                <span className="material-symbols-outlined kebab__icon">
-                  more_vert
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div className="category__container">
-
-            <div className="category__box">
-
-              <img className="category__image" src={book} alt="kategori bild" />
-            </div>
-
-            <div className="category__info-kebab-icon">
-              <div className="category__info">
-                
-              <p className="category-info__title">Böcker
-              </p>
-
-              <p className="category-info__details">3 objekt</p>
-
-              </div>
-
-              <div className="category__kebab-icon">
-                
-                <span className="material-symbols-outlined kebab__icon">
-                  more_vert
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-            <button className="fixed__button" onClick={() => goToAddCategory()} title="Lägg till ny kategori">
-              <span className="material-symbols-outlined round__button-icon">add</span>
-            </button>
         </div>
-    </section>
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+            <div className="title-category">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <img className="category-img" src={book} alt="kategori bild" />
+            </div>
+            <div className="category-content">
+            <div className="title-category">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>{" "}
+                <span className="material-symbols-outlined more">
+                  more_vert
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="add-category-container">
+        <Link to="/addcategory">
+          <button className="add-categorybtn">
+            <span className="material-symbols-outlined">add</span>
+          </button>
+        </Link>
+      </div>
+    </>
   );
 }
 export default Start;

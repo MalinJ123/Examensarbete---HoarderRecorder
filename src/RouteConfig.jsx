@@ -7,6 +7,7 @@ import User from './routes/User.jsx';
 import { Authentication } from './routes/Authentication.jsx';
 import { DeleteAccount } from './routes/DeleteAccount.jsx';
 import AddCategory from './routes/AddCategory.jsx';
+import Object from './routes/Object.jsx';
 
 
 export const Router = createHashRouter([
@@ -33,7 +34,11 @@ export const Router = createHashRouter([
       {
         path: '/delete-account',
         element: <DeleteAccount/>,
-      }
+      },
+       {
+        path: '/object',
+        element: <Object/>,
+      },
     ],
   },
 ]);

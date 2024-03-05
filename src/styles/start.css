@@ -1,162 +1,144 @@
-/* Start */
-.start__section {
-  height: auto;
-  width: 100%;
-}
-
-.start__container {
-  display: grid;
-  gap: 21px;
-  padding: 0px 21px;
-  padding-top: 21px;
-}
-
 .hero__image {
   width: 100%;
 }
 
-/* Search field */
-.search-input-with-icon__box {
+.p-container {
   display: flex;
-  flex-flow: row wrap;
-  gap: 6px;
-  background-color: var(--color-form-control);
-  border-radius: var(--border-radius-corner);
-  padding: 6px;
-  width: calc(100dvw - 42px);
-}
-
-.search-input-with-icon__box .search__label {
-  font-family: "Lato regular", sans-serif;
-  font-weight: 100;
-  font-size: var(--font-size-standard);
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-content: center;
-}
-
-.search-input-with-icon__box .search__input-text {
-  padding: 12px 24px;
-  font-size: var(--font-size-input-text);
-  font-family: "Lato regular", sans-serif;
-  font-weight: 100;
-  border: none;
-  background-color: var(--color-form-control);
-  color: var(--color-white);
-  outline: none;
-  padding: 0px;
-  width: calc(100% - 36px);
-}
-
-.search-input-with-icon__box .search__input-text::placeholder {
-  color: var(--color-input-placeholder-text);
+  justify-content: center;
 }
 
 .quantity-categories__text {
   font-family: "Lato light", sans-serif;
   font-weight: 100;
   text-align: center;
+  padding: 21px 0px;
+}
+
+.lato {
+  color: var(--color-white);
+  font-family: "Lato regular", sans-serif;
+  margin: 1em;
+  font-weight: 100;
+}
+
+/* Sökfält */
+.serarchfield-container {
+  display: flex;
+  justify-content: center;
+}
+
+.searchfield {
+  background-color: var(--color-form-control);
+  display: flex;
+  align-items: center;
+  width: 85%;
+  height: 2em;
+  border-radius: 5px;
+}
+
+.search-p {
+  color: var(--color-white);
+  font-family: "Lato regular", sans-serif;
+  font-weight: 100;
+}
+
+.search {
+  margin-right: 1em;
+  padding: 0.3em;
 }
 
 /* Category */
-.categories__section {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 8px;
-  column-gap: 6px;
-  justify-content: space-between;
-  justify-items: flex-start;
-}
 
-.category__container {
+.category-wrapper {
   display: flex;
-  flex-flow: column wrap;
+ justify-content: center;
+  flex-wrap: wrap;
+  margin: 2em 0em 1em;
+  
+}
+ .c-container{
+  display: flex;
   justify-content: center;
   align-items: center;
   align-content: center;
+  margin: 0.2em;
 }
 
-.category__box {
-  display: grid;
-  align-items: flex-end;
+.first {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-bg {
+  position: relative;
   background-color: var(--color-box);
-  border-radius: var(--border-radius-corner);
-  padding: 8px;
-  padding-bottom: 0px;
+  width: 7em;
+  height: 6.4em;
+  border-radius: 7px;
 }
 
-.category__image {
-  width: 105px;
-  height: 100px;
+.category-bg:last-child {
+  margin-left: auto; 
 }
 
-.category__info-kebab-icon {
+.category-img {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  width: 6em;
+}
+
+.category-content {
   display: flex;
-  flex-flow: row wrap;
-  padding: 7px 8px; 
-  gap: 6px;
-}
+  padding: 0.2em;
+  margin-bottom: 1em;
 
-.category__info-kebab-icon .kebab__icon {
-  width: 20px;
-}
 
-.category__kebab-icon {
-  display: grid;
-  place-content: center;
-  width: 20px;
 }
-
-.category__info {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 3px;
-  width: 70px;
-}
-
-.category-info__title {
-  font-size: var(--font-size-category-title);
-  font-family: "Lato light", sans-serif;
-  font-weight: bold;
-}
-
-.category-info__details {
-  color: var(--color-details);
+.object-p{
+  color: rgb(203, 199, 199);
   font-family: "JetBrains mono", monospace;
   font-weight: 100;
-  font-size: var(--font-size-category-details);
+  font-size: 12px;
 }
 
-/* Plus button */
+.title.category {
+  font-size: 15px;
+  font-family: "Lato light", sans-serif;
+}
 
-.fixed__button {
-  position: fixed;
-  bottom: 21px;
-  right: 21px;
-  display: grid;
-  place-content: center;
-  width: 55px;
-  height: 55px;
-  border-radius: var(--border-radius-rounded-button);
+.category-more {
+  display: flex;
+  justify-content: space-between;
+  width: 7em;
+
+}
+.material-symbols-outlined.more{
+  align-self: flex-start;
+
+}
+.object-price {
+  color: rgb(203, 199, 199);
+  font-family: "JetBrains mono", monospace;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+/* Lägg till kategori knapp */
+.add-category-container {
+  position: fixed; 
+  bottom: 1em; 
+  right: 1em; 
+  z-index: 999;
+}
+
+.add-categorybtn {
   background-color: var(--color-form-control);
-
-  border: none;
-  cursor: pointer;
+  padding: 0.3em 0.4em;
+  border-radius: 10px;
+  margin: 0em 2em 1em;
+  border-color: transparent;
 }
-
-.fixed__button > .round__button-icon {
-  font-size: var(--font-size-rounded-button-icon);
-}
-
-.fixed__button:hover {
-  background-color: var(--color-form-control-hover);
-}
-
-/*
-
-FIXAR DETTA IMORGON
 
 @media screen and (max-width: 360px) {
   .category-bg {
@@ -177,18 +159,13 @@ FIXAR DETTA IMORGON
   .searchfield {
     width: 19em;
   }
-  .category-wrapper {
-    margin: 2em 2em;
-    grid-template-columns: 1fr 1fr;
 
-  }
   .title.category {
     font-size: 13px;
     font-family: "Lato light", sans-serif;
   }
-  .category-more {
+ 
+  .category-more{
     width:5.5em;
   }
 }
-*/
-

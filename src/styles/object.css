@@ -1,0 +1,80 @@
+.hero__img-object {
+  width: 100%;
+  height: 10em;
+
+  image-rendering: crisp-edges;
+}
+.object-category {
+  font-size: 15px;
+  font-family: "Lato light", sans-serif;
+}
+
+.object-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Objekten / cards */
+.object-container {
+  /* margin: 2em 0em 1em; */
+  margin: 1em 0.5em 1em 0.5em; 
+  display: flex;
+  flex-wrap: wrap; 
+}
+.title-object {
+  width: 100%; 
+}
+.first-object {
+  display: flex;
+  flex-direction: column;
+  margin: 0.2em;
+}
+.object-bg {
+  position: relative;
+  background-color: var(--color-box);
+ 
+  max-width: 11em;
+  height: 12em;
+  border-radius: 7px;
+ 
+}
+
+.object-img {
+  position: absolute;
+  top: 9px;
+  left: 8px;
+  width: 10em;
+}
+.object-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding:0.3em;
+  width: 11em;
+}
+.title.category{
+  margin-bottom:0.2em;
+}
+.object-author,
+.object-price {
+  color: rgb(203, 199, 199);
+  font-family: "JetBrains mono", monospace;
+  font-weight: 100;
+  font-size: 12px;
+}
+.object-bold {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 360px) {
+  .hero__img-object {
+    height: 10em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .object-bg {
+    width: 100%; 
+    margin-right: 0; 
+  }
+}
