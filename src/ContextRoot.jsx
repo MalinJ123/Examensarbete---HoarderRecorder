@@ -15,7 +15,7 @@ export const ContextRoot = ({ children }) => {
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    const [authenticationView, setAuthenticationView] = useState('register');
+    const [authenticationView, setAuthenticationView] = useState('login');
 
     // Change the behavior the header's buttons depending on which view the user is currently on
     const [changeButtonsOnView, setChangeButtonsOnView] = useState('');
