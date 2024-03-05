@@ -1,41 +1,48 @@
-import '../styles/editCategory.css'
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { AppContext } from "../ContextRoot";
-
+import "../styles/editCategory.css"; 
 
 function Editcategory() {
+  const navigate = useNavigate();
+  const { setChangeButtonsOnView } = useContext(AppContext);
+  const [categoryName, setCategoryName] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false); 
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    setChangeButtonsOnView("add-category");
+  }, []);
 
-    const { setChangeButtonsOnView } = useContext(AppContext);
-    const [categoryName, setCategoryName] = useState("");
-    const [imagePreview, setImagePreview] = useState(null);
-  
-    useEffect(() => {
-      setChangeButtonsOnView("add-category");
-    });
-  
-    const handleNameChange = (e) => {
-      setCategoryName(e.target.value);
-    };
-  
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-  
-    const GoToCompletedCategory = () => {
-      navigate("/start");
+  const handleNameChange = (e) => {
+    setCategoryName(e.target.value);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
-  
+  };
+
+  const GoToCompletedCategory = () => {
+    navigate("/start");
+  };
+
+  const handleTrashClick = () => {
+    setShowOverlay(true); 
+  };
+
+  const handleDeleteConfirmation = (confirm) => {
+    if (confirm) {
+      console.log("Kategori raderad!");
+    }
+    setShowOverlay(false); 
+  };
 
   return (
     <>
@@ -73,20 +80,44 @@ function Editcategory() {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {/* Visa bildförhandsgranskning om en bild har valts */}
         </div>
         <div className="category-image-container">
-        <div className="category-content">
-          {imagePreview && (
-
-            <img src={imagePreview} alt="Preview" className="image-preview" />
-          )}
-        </div>
+          <div className="category-content">
+            {imagePreview && (
+              <img src={imagePreview} alt="Preview" className="image-preview" />
+            )}
+          </div>
         </div>
       </div>
-      <button className="fixed__button" onClick={() => GoToCompletedCategory()} title="Slutför">
-          <span className="material-symbols-outlined round__button-icon">done</span>
+      <button className="trash__button" onClick={handleTrashClick}>
+        {/* Lägg till ett klickhändelse för trash-knappen */}
+        <span className="material-symbols-outlined trash__btn">delete</span>
       </button>
+      <button
+        className="fixed__button"
+        onClick={GoToCompletedCategory}
+        title="Slutför"
+      >
+        <span className="material-symbols-outlined round__button-icon">
+          done
+        </span>
+      </button>
+
+      {/* Overlay för bekräftelse */}
+
+      {showOverlay && (
+        <div className="overlay">
+          <div className="overlay-content">
+            <p>Vill du verkligen radera mappen?</p>
+            <div>
+              <button className="" onClick={() => handleDeleteConfirmation(true)}>Ja</button>
+              <button onClick={() => handleDeleteConfirmation(false)}>Nej</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
-} export default Editcategory; 
+}
+
+export default Editcategory;
