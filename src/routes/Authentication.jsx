@@ -61,7 +61,7 @@ export const Authentication = () => {
 
 const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
-    const { setUsername, setUserPassword, setAuthenticationView } = useContext(AppContext);
+    const { username, userPassword, setUsername, setUserPassword, setAuthenticationView } = useContext(AppContext);
 
     return (
 
@@ -84,7 +84,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
-                    <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                 </div>
 
@@ -92,7 +92,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
-                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
 
                 </div>
                 
@@ -113,7 +113,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
 const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
-    const { setUsername, setUserPassword, setAuthenticationView} = useContext(AppContext);
+    const { username, userPassword, setUsername,  setUserPassword, setAuthenticationView} = useContext(AppContext);
 
     return (
 
@@ -136,7 +136,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
-                    <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                 </div>
 
@@ -144,7 +144,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
-                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
 
                 </div>
 

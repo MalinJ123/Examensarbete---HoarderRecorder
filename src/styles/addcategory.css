@@ -1,43 +1,9 @@
-.addcategory-container{
-    display: flex;
-    justify-content: center;
-    margin: 2em;
-    
-}
-.category-title{
-    font-family: "Lato light", sans-serif;
-    font-size: 26px;
-    font-weight: 70;
-}
-
-.categorylabel-container{
+.add-category__section {
     display: flex;
     flex-flow: column wrap;
-    gap: 6px;
-    background-color: var(--color-form-control);
-    border-radius: var(--border-radius-corner);
-    padding: 6px;
-    
-}
-.categorylabel-container.first,
-.categorylabel-container.second{
-    margin: 1em
-}
-.category-label{
-    font-family: "ABeeZee regular", cursive;
-    font-weight: 200;
-    font-size: var(--font-size-label);
-    margin-bottom: 0px;
-}
-.category-input{
-    /* font-size: var(--font-size-input-text); */
-    font-family: "Lato regular", sans-serif;
-    font-weight: 100;
-    border: none;
-    background-color: var(--color-form-control);
-    color: var(--color-white);
-    outline: none;
-    padding: 0px;
+    height: calc(100dvh - 60px);
+    width: 100%;
+    padding: 0px var(--spacing-standard);
 }
 
 /* Förhandsgranskning av Kategori bild */
@@ -46,7 +12,7 @@
     width: 15em;
 }
 
-.category-image-container{
+.category-image__container {
     display: flex;
     justify-content: center;
 }

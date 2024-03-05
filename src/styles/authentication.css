@@ -36,60 +36,6 @@
     font-family: "Pacifico", cursive;
 }
 
-/* Forms */
-.form__container {
-    display: flex;
-    flex-flow: column wrap;
-    gap: 21px;
-    margin: 36px 0px;
-}
-
-.form-button__group {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-}
-
-.form-button__column-group {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: space-between;
-    row-gap: 17px;
-}
-
-.form-input-with-label__box {
-    display: flex;
-    flex-flow: column wrap;
-    gap: 6px;
-    background-color: var(--color-form-control);
-    border-radius: var(--border-radius-corner);
-    padding: 6px;
-}
-
-.form-input-with-label__box .form__label {
-    font-family: "ABeeZee regular", cursive;
-    font-weight: 200;
-    font-size: var(--font-size-label);
-    margin-bottom: 0px;
-    cursor: pointer;
-}
-
-.form-input-with-label__box .form__input-text {
-    padding: 12px 24px;
-    font-size: var(--font-size-input-text);
-    font-family: "Lato regular", sans-serif;
-    font-weight: 100;
-    border: none;
-    background-color: var(--color-form-control);
-    color: var(--color-white);
-    outline: none;
-    padding: 0px;
-}
-
-.form-input-with-label__box .form__input-text::placeholder {
-    color: var(--color-input-placeholder-text);
-}
-
 @media screen and (min-width: 320px) and (max-width: 370px) {
     .form-button__group {
         display: flex;

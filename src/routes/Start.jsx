@@ -1,4 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -10,11 +12,18 @@ import start from "../images/start.png";
 import book from "../images/book.png";
 
 function Start() {
+
+  const navigate = useNavigate();
+
   const { setChangeButtonsOnView } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
   });
+
+  const goToNewCategoryView = () => {
+    navigate("/add-category");
+  }
 
   return (
     <>
@@ -113,13 +122,9 @@ function Start() {
         </div>
       </div>
 
-      <div className="add-category-container">
-        <Link to="/add-category">
-          <button className="add-categorybtn">
-            <span className="material-symbols-outlined">add</span>
-          </button>
-        </Link>
-      </div>
+      <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => goToNewCategoryView()}> 
+          <span className="material-symbols-outlined">add</span>
+      </button>
     </>
   );
 }
