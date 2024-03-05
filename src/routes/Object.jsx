@@ -42,36 +42,7 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span className="material-symbols-outlined more-icon">
-                more_vert
-              </span>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div className="object-container">
-          <div className="first-object">
-            <div className="object-bg">
-              <Link to="/object">
-                <img className="object-img" src={storm} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="object-info">
-              <div className="title-object">
-                <h4 className="title category"> Title: Böcker</h4>
-                <p className="object-author">
-                  <span className="object-bold">Författare:</span> Sara J maas
-                </p>
-
-                <p className="object-price">
-                  <span className="object-bold"> Pris:</span> 205:-
-                </p>
-              </div>{" "}
-              <span className="material-symbols-outlined more-icon">
-                more_vert
-              </span>
+              <span class="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
@@ -94,13 +65,10 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span className="material-symbols-outlined more-icon">
-                more_vert
-              </span>
+              <span class="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
-
 
         <div className="object-container">
           <div className="first-object">
@@ -120,14 +88,35 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span className="material-symbols-outlined more-icon">
-                more_vert
-              </span>
+              <span class="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
 
-      </div>
+        <div className="object-container">
+          <div className="first-object">
+            <div className="object-bg">
+              <Link to="/object">
+                <img className="object-img" src={storm} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="object-info">
+              <div className="title-object">
+                <h4 className="title category"> Title: Böcker</h4>
+                <p className="object-author">
+                  <span className="object-bold">Författare:</span> Sara J maas
+                </p>
+
+                <p className="object-price">
+                  <span className="object-bold"> Pris:</span> 205:-
+                </p>
+              </div>{" "}
+              <span class="material-symbols-outlined penn">edit</span>
+            </div>
+          </div>
+        </div>
+        
+</div>
 
       <div className="add-category-container">
         <Link to="/addcategory">
