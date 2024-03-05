@@ -16,6 +16,7 @@ html, body, #root {
 /* Root */
 
 :root {
+
   /* Colors */
   --color-header: #313131;
   --color-background: #272727;
@@ -55,6 +56,23 @@ html, body, #root {
   --border-radius-rounded-button: 15px;
 }
 /* font-size: var(--font-size-standard) */
+
+@media screen and (min-width: 320px) and (max-width: 390px) {
+  :root {
+
+  /* Font sizes */
+  --font-size-standard: 16px;
+  --font-size-logotype: 18px;
+  --font-size-title: 22px;
+  --font-size-label: 13px;
+  --font-size-input-text: 15px;
+  --font-size-hero-image-text: 28px;
+  --font-size-object-text: 12px;
+  --font-size-category-title: 13px;
+  --font-size-category-details: 12px;
+  --font-size-rounded-button-icon: 22px;
+  }
+}
 
 /* Fonts */
 @font-face {
