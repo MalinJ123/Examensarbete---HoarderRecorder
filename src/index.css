@@ -41,7 +41,15 @@ html, body, #root {
   --font-size-category-details: 13px;
   --font-size-rounded-button-icon: 26px;
 
-  /* Other */
+  /* Margins & paddings */
+  --spacing-smallest: 3px;
+  --spacing-smaller: 6px;
+  --spacing-small: 8px;
+  --spacing-medium: 17px;
+  --spacing-standard: 21px;
+  --spacing--titles: 36px;
+
+  /* Border radius */
   --border-radius-corner: 5px;
   --border-radius-rounded-button: 15px;
 }

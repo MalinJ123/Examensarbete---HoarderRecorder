@@ -31,13 +31,19 @@ export const Header = () => {
         >
           <span className="material-symbols-outlined header__icon">reply</span>
         </NavLink>
+      ) : changeButtonsOnView === "deletion" ? (
+        <NavLink
+          to="/user"
+        >
+          <span className="material-symbols-outlined header__icon">reply</span>
+        </NavLink>
       ) : (
         <div className="filler__box"></div>
       )}
       <h1 className="logotype__title">Hoarder Recorder</h1>
       {changeButtonsOnView === "user" ? (
           <span className="material-symbols-outlined header__icon" onClick={() => userIsLoggingOut()}>logout</span>
-      ) : changeButtonsOnView === "authentication" ? (
+      ) : changeButtonsOnView === "authentication" || changeButtonsOnView === "deletion" ? (
         <div className="filler__box"></div>
       ) : (
         <NavLink to="/user">

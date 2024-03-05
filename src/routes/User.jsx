@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,39 +10,21 @@ function User() {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, userProfilePicture, setUserProfilePicture, setAuthenticationView, setIsUserLoggedIn, username, setUsername, setUserPassword } = useContext(AppContext);
-
-  // Dialog
-  const deleteAccountDialogRef = useRef();
-
-  const stateDeleteAccountDialog = (state) => {
-    if (state) {
-      deleteAccountDialogRef.current.showModal();
-    } else {
-      deleteAccountDialogRef.current.close();
-    }
-  }
+  const { setChangeButtonsOnView, userProfilePicture, setUserProfilePicture, username } = useContext(AppContext);
 
   // Change the behavior the header's buttons depending on which view the user is currently on
   useEffect(() => {
     setChangeButtonsOnView('user');
   })
 
-
-  // If user actually deletes their account
-  const confirmedDeletionOfAccount = () => {
-    setUsername('');
-    setUserPassword('');
-    setIsUserLoggedIn(false)
-    stateDeleteAccountDialog(false)
-    setAuthenticationView('register')
-    navigate('/')
-  };
+  const goToDeleteAccountPrompt = () => {
+    navigate('/delete-account');
+  }
 
   return (
     <section className="user__section">
 
-      <h1 className="user__title">Hej {username}!</h1>
+      <h1 className="standard__title">Hej {username}!</h1>
 
       <form className="form__container">
 
@@ -69,7 +51,7 @@ function User() {
         }
         <div className="form-button__group">
 
-          <button type="button" className="secondary__button" onClick={() => stateDeleteAccountDialog(true)}>Ta bort konto</button>
+          <button type="button" className="secondary__button" onClick={() => goToDeleteAccountPrompt()}>Ta bort konto</button>
 
           {
             userProfilePicture === "" ? (
@@ -84,53 +66,6 @@ function User() {
         </div>
 
       </form>
-          <dialog ref={deleteAccountDialogRef} className="dialog">
-
-            <section className="clickable__overlay" onClick={
-              () => stateDeleteAccountDialog(false)
-            }>
-
-            <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
-              <div className="dialog__action-bar">
-
-                <button className="ghost__button" onClick={() => stateDeleteAccountDialog(false)} title="Stäng dialog">
-                  
-                  <span className="material-symbols-outlined">
-                  close
-                </span>
-
-                </button>
-
-              </div>
-
-              <h1 className="dialog__title">Vill du verkligen lämna <span className="hr-bold__span">Hoarder Recorder</span>? 😢</h1>
-
-              <p className="dialog-info__text">
-                Alla dina kontouppgifter, kategorier och objekt kommer att raderas!
-              </p>
-
-              <div className="dialog-center__box">
-
-                <p className="dialog-info__title">Detta konto bli raderat:</p>
-
-                <ul className="dialog__list">
-
-                  <li className="dialog__list-element"><span className="bold__span">ditt konto</span> och <span className="bold__span">din data</span>,</li>
-
-                  <li className="dialog__list-element"><span className="bold__span">3</span> objekt inom <span className="bold__span">3</span> kategorier.</li>
-
-                </ul>
-
-                <button className="secondary__button" onClick={() => confirmedDeletionOfAccount()}>Bekräfta
-                </button>
-
-              </div>
-
-          </div>
-
-        </section>
-
-      </dialog>
 
     </section>
   );

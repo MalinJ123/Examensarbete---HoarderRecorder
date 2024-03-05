@@ -67,7 +67,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
         <section className="auth__section">
 
-            <h1 className="auth__title">Registera nytt konto</h1>
+            <h1 className="standard__title">Registera nytt konto</h1>
 
             <div className="information__box">
 
@@ -119,7 +119,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
         <section className="auth__section">
 
-            <h1 className="auth__title">Logga in</h1>
+            <h1 className="standard__title">Logga in</h1>
 
             <div className="information__box">
 
