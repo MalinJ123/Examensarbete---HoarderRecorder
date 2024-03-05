@@ -114,7 +114,7 @@ function Start() {
       </div>
 
       <div className="add-category-container">
-        <Link to="/addcategory">
+        <Link to="/add-category">
           <button className="add-categorybtn">
             <span className="material-symbols-outlined">add</span>
           </button>
