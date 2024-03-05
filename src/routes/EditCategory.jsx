@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 import "../styles/editCategory.css"; 
 
-function Editcategory() {
+function EditCategory() {
   const navigate = useNavigate();
   const { setChangeButtonsOnView } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
