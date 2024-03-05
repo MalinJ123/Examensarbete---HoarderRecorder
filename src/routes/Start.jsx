@@ -38,7 +38,7 @@ function Start() {
               </Link>
             </div>
             <div className="category-content">
-              <div className="title-object">
+              <div className="title-category">
                 <h4 className="title category">Böcker</h4>
               </div>
 
@@ -58,7 +58,7 @@ function Start() {
               <img className="category-img" src={book} alt="kategori bild" />
             </div>
             <div className="category-content">
-              <div className="title-object">
+            <div className="title-category">
                 <h4 className="title category">Böcker</h4>
               </div>
 
@@ -78,7 +78,7 @@ function Start() {
               <img className="category-img" src={book} alt="kategori bild" />
             </div>
             <div className="category-content">
-              <div className="title-object">
+            <div className="title-category">
                 <h4 className="title category">Böcker</h4>
               </div>
 
@@ -98,7 +98,7 @@ function Start() {
               <img className="category-img" src={book} alt="kategori bild" />
             </div>
             <div className="category-content">
-              <div className="title-object">
+            <div className="title-category">
                 <h4 className="title category">Böcker</h4>
               </div>
 

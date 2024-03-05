@@ -9,26 +9,37 @@
   font-family: "Lato light", sans-serif;
 }
 
-/* Objekten / cards */
-.object-container {
-  /* border: 2px solid green; */
+.object-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.title-object{
-    width:15em;
-    border: 2px solid hotpink;
+/* Objekten / cards */
+.object-container {
+  /* margin: 2em 0em 1em; */
+  margin: 1em 0.5em 1em 0.5em; 
+  display: flex;
+  flex-wrap: wrap; 
+}
+.title-object {
+  width: 100%; 
 }
 .first-object {
   display: flex;
   flex-direction: column;
+  margin: 0.2em;
 }
 .object-bg {
   position: relative;
   background-color: var(--color-box);
-  width: 11em;
+ 
+  max-width: 11em;
   height: 12em;
   border-radius: 7px;
+ 
 }
+
 .object-img {
   position: absolute;
   top: 9px;
@@ -38,10 +49,13 @@
 .object-info {
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   align-items: flex-end;
+  padding:0.3em;
+  width: 11em;
 }
-
+.title.category{
+  margin-bottom:0.2em;
+}
 .object-author,
 .object-price {
   color: rgb(203, 199, 199);
@@ -56,7 +70,11 @@
 @media screen and (max-width: 360px) {
   .hero__img-object {
     height: 10em;
-
-    image-rendering: crisp-edges;
+  }
+}
+@media screen and (max-width: 768px) {
+  .object-bg {
+    width: 100%; 
+    margin-right: 0; 
   }
 }

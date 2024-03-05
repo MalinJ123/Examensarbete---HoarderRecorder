@@ -8,7 +8,6 @@ import blade from "../images/blade.png";
 function Object() {
   return (
     <>
-   
       <img
         className="hero__img-object"
         src={book}
@@ -24,7 +23,7 @@ function Object() {
         </div>
       </div>
 
-      <div className="category-wrapper">
+      <div className="object-wrapper">
         <div className="object-container">
           <div className="first-object">
             <div className="object-bg">
@@ -36,19 +35,100 @@ function Object() {
               <div className="title-object">
                 <h4 className="title category"> Title: Böcker</h4>
                 <p className="object-author">
-                  <p className="object-bold">Författare:</p>Sara J maas
+                  <span className="object-bold">Författare:</span> Sara J maas
                 </p>
 
                 <p className="object-price">
-                  <p className="object-bold">Pris:</p> 205:-
+                  <span className="object-bold"> Pris:</span> 205:-
                 </p>
-              </div>
-
-              <span className="material-symbols-outlined more-icon">more_vert</span>
+              </div>{" "}
+              <span className="material-symbols-outlined more-icon">
+                more_vert
+              </span>
             </div>
           </div>
         </div>
+
+
+
+        <div className="object-container">
+          <div className="first-object">
+            <div className="object-bg">
+              <Link to="/object">
+                <img className="object-img" src={storm} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="object-info">
+              <div className="title-object">
+                <h4 className="title category"> Title: Böcker</h4>
+                <p className="object-author">
+                  <span className="object-bold">Författare:</span> Sara J maas
+                </p>
+
+                <p className="object-price">
+                  <span className="object-bold"> Pris:</span> 205:-
+                </p>
+              </div>{" "}
+              <span className="material-symbols-outlined more-icon">
+                more_vert
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="object-container">
+          <div className="first-object">
+            <div className="object-bg">
+              <Link to="/object">
+                <img className="object-img" src={storm} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="object-info">
+              <div className="title-object">
+                <h4 className="title category"> Title: Böcker</h4>
+                <p className="object-author">
+                  <span className="object-bold">Författare:</span> Sara J maas
+                </p>
+
+                <p className="object-price">
+                  <span className="object-bold"> Pris:</span> 205:-
+                </p>
+              </div>{" "}
+              <span className="material-symbols-outlined more-icon">
+                more_vert
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="object-container">
+          <div className="first-object">
+            <div className="object-bg">
+              <Link to="/object">
+                <img className="object-img" src={storm} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="object-info">
+              <div className="title-object">
+                <h4 className="title category"> Title: Böcker</h4>
+                <p className="object-author">
+                  <span className="object-bold">Författare:</span> Sara J maas
+                </p>
+
+                <p className="object-price">
+                  <span className="object-bold"> Pris:</span> 205:-
+                </p>
+              </div>{" "}
+              <span className="material-symbols-outlined more-icon">
+                more_vert
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div className="add-category-container">
         <Link to="/addcategory">
           <button className="add-categorybtn">
