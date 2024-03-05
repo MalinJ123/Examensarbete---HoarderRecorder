@@ -1,15 +1,19 @@
 import React, { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "../styles/addcategory.css";
 import { AppContext } from "../ContextRoot";
 
 function AddCategory() {
+  const navigate = useNavigate();
+
   const { setChangeButtonsOnView } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
-  }, [setChangeButtonsOnView]);
+  });
 
   const handleNameChange = (e) => {
     setCategoryName(e.target.value);
@@ -26,16 +30,20 @@ function AddCategory() {
     }
   };
 
+  const GoToCompletedCategory = () => {
+    navigate("/object");
+  }
+
   return (
     <>
       <div className="addcategory-container">
-        <h2 className="category-title">Lägg till Kategori</h2>
+        <h2 className="category-title">Lägg till kategori</h2>
       </div>
 
       <div>
         <div className="categorylabel-container first">
           <label className="category-label" htmlFor="categoryName">
-            Kategorinamn
+            Kategorinamn*
           </label>
           <input
             type="text"
@@ -66,7 +74,6 @@ function AddCategory() {
         </div>
         <div className="category-image-container">
         <div className="category-content">
-        <h2 className="category-title">Förhandsgranskning </h2>
           {imagePreview && (
 
             <img src={imagePreview} alt="Preview" className="image-preview" />
@@ -74,6 +81,9 @@ function AddCategory() {
         </div>
         </div>
       </div>
+      <button className="fixed__button" onClick={() => GoToCompletedCategory()} title="Slutför">
+          <span className="material-symbols-outlined round__button-icon">done</span>
+      </button>
     </>
   );
 }

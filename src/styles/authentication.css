@@ -90,48 +90,6 @@
     color: var(--color-input-placeholder-text);
 }
 
-/* Primary button */
-.primary__button {
-    background-color: var(--color-form-control);
-    color: var(--color-white);
-    border: none;
-    padding: 12px 24px;
-    font-size: var(--font-size-standard);
-    font-family: "Lato light", sans-serif;
-    font-weight: 90;
-    cursor: pointer;
-    border-radius: var(--border-radius-corner);
-    outline: none;
-}
-
-.primary__button:hover {
-    background-color: var(--color-form-control-hover);
-}
-
-.primary__button:disabled {
-    cursor: not-allowed;
-    background-color: var(--color-form-control-disabled);
-}
-
-/* Ghost button */
-.ghost__button {
-    color: var(--color-white);
-    background-color: transparent;
-    padding: 12px 24px;
-    font-size: var(--font-size-standard);
-    font-family: "Lato light", sans-serif;
-    font-weight: 90;
-    cursor: pointer;
-    border-radius: var(--border-radius-corner);
-    border: none;
-}
-
-.ghost__button:hover {
-    background-color: var(--color-form-control-transparent-hover);
-    font-weight: bold;
-}
-
-
 @media screen and (min-width: 320px) and (max-width: 370px) {
     .form-button__group {
         display: flex;

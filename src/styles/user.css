@@ -19,22 +19,4 @@
   border: 1px solid var(--color-white);
 }
 
-/* Secondary button */
-
-.secondary__button {
-  color: var(--color-white);
-  background-color: transparent;
-  padding: 12px 24px;
-  font-size: var(--font-size-standard);
-  font-family: "Lato light", sans-serif;
-  font-weight: 90;
-  cursor: pointer;
-  border-radius: var(--border-radius-corner);
-  border: 1px solid var(--color-white); 
-}
-
-.secondary__button:hover {
-  background-color: var(--color-form-control-hover);
-  font-weight: bold;
-}
 

@@ -82,7 +82,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 <div className="form-input-with-label__box">
 
-                    <label className="form__label" htmlFor="username__input">Användarnamn</label>
+                    <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
                     <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
 
@@ -90,7 +90,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 <div className="form-input-with-label__box">
 
-                    <label className="form__label" htmlFor="password__input">Lösenord</label>
+                    <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
                     <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
 
@@ -134,7 +134,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 <div className="form-input-with-label__box">
 
-                    <label className="form__label" htmlFor="username__input">Användarnamn</label>
+                    <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
                     <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" onChange={(e) => setUsername(e.target.value)} />
 
@@ -142,7 +142,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 <div className="form-input-with-label__box">
 
-                    <label className="form__label" htmlFor="password__input">Lösenord</label>
+                    <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
                     <input className="form__input-text"  type="password" id="password__input" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
 
