@@ -89,7 +89,7 @@
 .form-input-with-label__box .form__input-text::placeholder {
   color: var(--color-input-placeholder-text);
 }
-/* 
+
 @media screen and (min-width: 320px) and (max-width: 370px) {
   .form-button__group {
     display: flex;
@@ -97,4 +97,4 @@
     justify-content: space-between;
     row-gap: 17px;
   }
-} */
+}
