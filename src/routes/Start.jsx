@@ -53,29 +53,9 @@ function Start() {
 
               <div className="category-more">
                 <p className="object-p">3 objekt </p>
-                <span class="material-symbols-outlined pen">edit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div className="c-container">
-          <div className="first">
-            <div className="category-bg">
-              <Link to="/object">
-                <img className="category-img" src={book} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="category-content">
-              <div className="title-category">
-                <h4 className="title category">Böcker</h4>
-              </div>
-
-              <div className="category-more">
-                <p className="object-p">3 objekt </p>
-                <span class="material-symbols-outlined pen">edit</span>
+                <Link to="/edit-category">
+                  <span className="material-symbols-outlined pen">edit</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -95,7 +75,27 @@ function Start() {
 
               <div className="category-more">
                 <p className="object-p">3 objekt </p>
-                <span class="material-symbols-outlined pen">edit</span>
+                <span className="material-symbols-outlined pen">edit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="c-container">
+          <div className="first">
+            <div className="category-bg">
+              <Link to="/object">
+                <img className="category-img" src={book} alt="kategori bild" />
+              </Link>
+            </div>
+            <div className="category-content">
+              <div className="title-category">
+                <h4 className="title category">Böcker</h4>
+              </div>
+
+              <div className="category-more">
+                <p className="object-p">3 objekt </p>
+                <span className="material-symbols-outlined pen">edit</span>
               </div>
             </div>
           </div>
@@ -114,13 +114,11 @@ function Start() {
 
               <div className="category-more">
                 <p className="object-p">3 objekt </p>
-                <span class="material-symbols-outlined pen">edit</span>
+                <span className="material-symbols-outlined pen">edit</span>
               </div>
             </div>
           </div>
         </div>
-
-        
       </div>
 
       <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => goToNewCategoryView()}> 

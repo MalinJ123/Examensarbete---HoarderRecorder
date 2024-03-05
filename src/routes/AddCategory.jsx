@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "../styles/addcategory.css";
 import { AppContext } from "../ContextRoot";
+import "../styles/addcategory.css";
 
 function AddCategory() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function AddCategory() {
   };
 
   const GoToCompletedCategory = () => {
-    navigate("/object");
+    navigate("/start");
   }
 
   const isCategoryNameEmpty = categoryName === "";
