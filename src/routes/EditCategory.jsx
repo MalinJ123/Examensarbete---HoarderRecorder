@@ -1,49 +1,52 @@
+import '../styles/editCategory.css'
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
-import "../styles/addcategory.css";
 
-function AddCategory() {
-  const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
-  const [categoryName, setCategoryName] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+function Editcategory() {
 
-  useEffect(() => {
-    setChangeButtonsOnView("add-category");
-  });
+    const navigate = useNavigate();
 
-  const handleNameChange = (e) => {
-    setCategoryName(e.target.value);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const { setChangeButtonsOnView } = useContext(AppContext);
+    const [categoryName, setCategoryName] = useState("");
+    const [imagePreview, setImagePreview] = useState(null);
+  
+    useEffect(() => {
+      setChangeButtonsOnView("add-category");
+    });
+  
+    const handleNameChange = (e) => {
+      setCategoryName(e.target.value);
+    };
+  
+    const handleImageChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+  
+    const GoToCompletedCategory = () => {
+      navigate("/start");
     }
-  };
-
-  const GoToCompletedCategory = () => {
-    navigate("/start");
-  }
+  
 
   return (
     <>
       <div className="addcategory-container">
-        <h2 className="category-title">Lägg till kategori</h2>
+        <h2 className="category-title">Redigera kategori</h2>
       </div>
 
       <div>
         <div className="categorylabel-container first">
           <label className="category-label" htmlFor="categoryName">
-            Kategorinamn*
+            Ny titel
           </label>
           <input
             type="text"
@@ -60,7 +63,7 @@ function AddCategory() {
       <div>
         <div className="categorylabel-container second">
           <label className="category-label" htmlFor="imageUpload">
-            Lägg till en bild
+            Ny bild
           </label>
           <input
             type="file"
@@ -86,6 +89,4 @@ function AddCategory() {
       </button>
     </>
   );
-}
-
-export default AddCategory;
+} export default Editcategory; 

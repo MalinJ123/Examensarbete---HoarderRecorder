@@ -140,7 +140,7 @@
   margin: 0em 2em 1em;
   border-color: transparent;
 }
-
+/* 
 @media screen and (max-width: 360px) {
   .category-bg {
     width: 6em;
@@ -169,4 +169,4 @@
   .category-more{
     width:5.5em;
   }
-}
+} */

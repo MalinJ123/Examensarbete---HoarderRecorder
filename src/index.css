@@ -56,7 +56,7 @@ html, body, #root {
 }
 /* font-size: var(--font-size-standard) */
 
-@media screen and (min-width: 320px) and (max-width: 390px) {
+/* @media screen and (min-width: 320px) and (max-width: 390px) {} */
   :root {
 
   /* Font sizes */
@@ -71,7 +71,7 @@ html, body, #root {
   --font-size-category-details: 12px;
   --font-size-rounded-button-icon: 24px;
   }
-}
+
 
 /* Fonts */
 @font-face {

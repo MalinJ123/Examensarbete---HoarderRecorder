@@ -4,12 +4,12 @@
 
   image-rendering: crisp-edges;
 }
-.object-category {
+/* .object-category {
   font-size: 15px;
   font-family: "Lato light", sans-serif;
-}
+} */
 
-.object-wrapper{
+.object-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -17,12 +17,12 @@
 
 /* Objekten / cards */
 .object-container {
-  margin: 1em 0.5em 1em 0.5em; 
+  margin-top: 1em;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 .title-object {
-  width: 100%; 
+  width: 100%;
 }
 .first-object {
   display: flex;
@@ -32,11 +32,10 @@
 .object-bg {
   position: relative;
   background-color: var(--color-box);
- 
+
   max-width: 11em;
   height: 12em;
   border-radius: 7px;
- 
 }
 
 .object-img {
@@ -49,11 +48,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding:0.3em;
+  padding: 0.3em;
   width: 11em;
 }
-.title.category{
-  margin-bottom:0.2em;
+.title.category {
+  margin-bottom: 0.2em;
 }
 .object-author,
 .object-price {
@@ -66,19 +65,8 @@
   font-weight: 500;
 }
 
-.material-symbols-outlined.penn{
+.material-symbols-outlined.penn {
   font-size: medium;
-align-items: center;
+  align-items: center;
 }
 
-@media screen and (max-width: 360px) {
-  .hero__img-object {
-    height: 10em;
-  }
-}
-@media screen and (max-width: 768px) {
-  .object-bg {
-    width: 100%; 
-    margin-right: 0; 
-  }
-}
