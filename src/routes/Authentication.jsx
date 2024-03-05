@@ -96,11 +96,11 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 </div>
                 
-                <div className="form-button__group">
+                <div className="form-button__column-group">
+
+                    <button type="button" className="ghost__button" onClick={() => setAuthenticationView("login")}>Gå till logga in</button>
 
                     <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
-
-                    <button type="button" className="primary__button" onClick={() => setAuthenticationView("login")}>Gå till logga in</button>
 
                 </div>
 
@@ -148,9 +148,9 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                 </div>
 
-                <div className="form-button__group">
+                <div className="form-button__column-group">
 
-                    <button type="button" className="primary__button" onClick={() => setAuthenticationView("register")}>Gå tillbaka till registrering</button>
+                    <button type="button" className="ghost__button" onClick={() => setAuthenticationView("register")}>Gå tillbaka till registrering</button>
 
                     <button type="submit" className="primary__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
 

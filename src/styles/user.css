@@ -35,5 +35,6 @@
 
 .secondary__button:hover {
   background-color: var(--color-form-control-hover);
+  font-weight: bold;
 }
 
