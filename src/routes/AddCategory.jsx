@@ -9,24 +9,23 @@ function AddCategory() {
 
   const { setChangeButtonsOnView } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+  const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
+  const [selectedImageName, setSelectedImageName] = useState("");
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
   });
-
-  const handleNameChange = (e) => {
-    setCategoryName(e.target.value);
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setPreviewSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
+
+      setSelectedImageName(file.name);
     }
   };
 
@@ -34,57 +33,82 @@ function AddCategory() {
     navigate("/object");
   }
 
-  return (
-    <>
-      <div className="addcategory-container">
-        <h2 className="category-title">Lägg till kategori</h2>
-      </div>
+  const isCategoryNameEmpty = categoryName === "";
 
-      <div>
-        <div className="categorylabel-container first">
-          <label className="category-label" htmlFor="categoryName">
-            Kategorinamn*
+  return (
+    <section className="add-category__section">
+
+      <h1 className="standard__title">Lägg till kategori</h1>
+
+      <form className="form__container 
+      form__container--margin-bottom">
+
+        <div className="form-input-with-label__box">
+
+          <label className="form__label" htmlFor="category-name__input">
+            Namnge kategorin*
           </label>
+
           <input
             type="text"
-            id="categoryName"
-            name="categoryName"
-            className="category-input"
-            placeholder="exempel: pokemon"
+            id="category-name__input"
+            className="form__input-text"
+            placeholder="Pokémon kort"
             value={categoryName}
-            onChange={handleNameChange}
+            onChange={(e) => setCategoryName(e.target.value)}
           />
-        </div>
-      </div>
 
-      <div>
-        <div className="categorylabel-container second">
-          <label className="category-label" htmlFor="imageUpload">
-            Lägg till en bild
+        </div>
+
+        <div className="form-input-with-label__box form-input-with-label__box--upload">
+
+          <label className="form__label" htmlFor="category-image-upload__input">
+            Ladda upp en bild för kategorin
           </label>
-          <input
-            type="file"
-            id="imageUpload"
-            name="imageUpload"
-            className="category-input"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          {/* Visa bildförhandsgranskning om en bild har valts */}
-        </div>
-        <div className="category-image-container">
-        <div className="category-content">
-          {imagePreview && (
 
-            <img src={imagePreview} alt="Preview" className="image-preview" />
-          )}
+          <div className="form-upload-button-name__container">
+          
+          <label className="form__upload-label" htmlFor="category-image-upload__input">
+            <span className="material-symbols-outlined upload">cloud_upload</span>
+            <p className="upload__text">Välj bild</p>
+          </label>
+
+          <label className="form__selected-file__label" htmlFor="category-image-upload__input">
+            {selectedImageName}
+          </label>
+
+          </div>
+
+
+
+          {/* Hide the default file input and made a custom one */}
+          <input 
+            type="file"
+            id="category-image-upload__input"
+            className="form__input-upload"
+            accept="image/*"
+            onChange={(e) => handleImageChange(e)}
+          />
+
         </div>
-        </div>
+
+      </form>
+
+      <div className="category-image__container">
+
+        {previewSelectedImage && (
+          <img src={previewSelectedImage} alt="Preview" className="image-preview" />
+        )}
+
       </div>
-      <button className="fixed__button" onClick={() => GoToCompletedCategory()} title="Slutför">
-          <span className="material-symbols-outlined round__button-icon">done</span>
+
+      <button type="button" className="fixed__button" onClick={() => GoToCompletedCategory()} disabled={isCategoryNameEmpty} title="Slutför">
+
+        <span className="material-symbols-outlined round__button-icon">done</span>
+
       </button>
-    </>
+
+    </section>
   );
 }
 
