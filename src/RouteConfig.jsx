@@ -8,7 +8,7 @@ import { Authentication } from "./routes/Authentication.jsx";
 import { DeleteAccount } from "./routes/DeleteAccount.jsx";
 import AddCategory from "./routes/AddCategory.jsx";
 import Object from "./routes/Object.jsx";
-import EditCategory from "./routes/EditCategory.jsx";
+import { EditCategory } from "./routes/EditCategory.jsx";
 
 export const Router = createHashRouter([
   {

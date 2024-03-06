@@ -1,7 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { RouterProvider } from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+
+import './index.css';
+import './app.css';
+
 
 import { Router } from './RouteConfig'
 import { ContextRoot } from './ContextRoot'

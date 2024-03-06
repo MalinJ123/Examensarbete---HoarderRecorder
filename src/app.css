@@ -1,0 +1,279 @@
+
+/* Texts */
+.standard__title {
+    margin: var(--spacing--titles) 0px;
+    text-align: center;
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-title);
+    font-weight: 70;
+}
+
+.hr-bold__span {
+    font-family: "Pacifico", cursive;
+}
+  
+/* Buttons */
+.fixed__button {
+    position: fixed;
+    bottom: var(--spacing-fixed-button);
+    right: var(--spacing-fixed-button);
+    display: grid;
+    place-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: var(--border-radius-rounded-button);
+    background-color: var(--color-form-control);
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+  
+.fixed__button > .round__button-icon {
+    font-size: var(--font-size-rounded-button-icon);
+}
+  
+.fixed__button:hover {
+    background-color: var(--color-form-control-hover);
+}
+  
+.fixed__button:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-form-control-disabled);
+}
+
+.fixed__button--second {
+    right: calc(var(--spacing-fixed-button) + 55px + var(--spacing-fixed-button));
+}
+  
+.secondary__button {
+    color: var(--color-white);
+    background-color: transparent;
+    padding: 12px 24px;
+    font-size: var(--font-size-standard);
+    font-family: "Lato light", sans-serif;
+    font-weight: 90;
+    cursor: pointer;
+    border-radius: var(--border-radius-corner);
+    border: 1px solid var(--color-white); 
+    outline: none;
+}
+  
+.secondary__button:hover {
+    background-color: var(--color-form-control-hover);
+    font-weight: bold;
+}
+
+.primary__button {
+    background-color: var(--color-form-control);
+    color: var(--color-white);
+    border: none;
+    padding: 12px 24px;
+    font-size: var(--font-size-standard);
+    font-family: "Lato light", sans-serif;
+    font-weight: 90;
+    cursor: pointer;
+    border-radius: var(--border-radius-corner);
+    outline: none;
+}
+  
+.primary__button:hover {
+    background-color: var(--color-form-control-hover);
+}
+  
+.primary__button:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-form-control-disabled);
+}
+  
+.ghost__button {
+    color: var(--color-white);
+    background-color: transparent;
+    padding: 12px 24px;
+    font-size: var(--font-size-standard);
+    font-family: "Lato light", sans-serif;
+    font-weight: 90;
+    cursor: pointer;
+    border-radius: var(--border-radius-corner);
+    border: none;
+    outline: none;
+}
+  
+.ghost__button:hover {
+    background-color: var(--color-form-control-transparent-hover);
+    font-weight: bold;
+}
+  
+/* Forms */
+.form__container {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 21px;
+    margin: var(--spacing-form) 0px;
+}
+  
+.form__container--margin-bottom {
+    margin-top: 0px;
+}
+  
+.form-button__group {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+  
+.form-button__column-group {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    row-gap: var(--spacing-medium);
+}
+  
+.form-input-with-label__box {
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--spacing-smaller);
+    background-color: var(--color-form-control);
+    border-radius: var(--border-radius-corner);
+    padding: var(--spacing-smaller);
+}
+  
+.form-input-with-label__box .form__label {
+    font-family: "ABeeZee regular", cursive;
+    font-weight: 200;
+    font-size: var(--font-size-label);
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+  
+.form-input-with-label__box .form__input-text {
+    font-size: var(--font-size-input-text);
+    font-family: "Lato regular", sans-serif;
+    font-weight: 100;
+    border: none;
+    background-color: var(--color-form-control);
+    color: var(--color-white);
+    outline: none;
+    padding: 0px;
+}
+  
+.form-input-with-label__box .form__input-text::placeholder {
+    color: var(--color-input-placeholder-text);
+}
+  
+.form-input-with-label__box--upload > .form__input-upload {
+    display: none;
+}
+  
+.form__upload-label {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 30px 71px;
+    gap: var(--spacing-smallest);
+    background-color: var(--color-form-button-in-input);
+    border-radius: var(--border-radius-corner);
+    padding: 6px 12px;
+    cursor: pointer;
+    width: 129px;
+    font-family: "Lato light", sans-serif;
+    font-weight: 70;
+    cursor: pointer;
+    font-size: var(--font-size-input-text);
+}
+  
+.form__upload-label:hover {
+    background-color: var(--color-form-button-in-input-hover);
+}
+  
+.form-upload-button-name__container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: var(--spacing-smaller);
+    align-items: center;
+}
+  
+.form__selected-file__label {
+    cursor: pointer;
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-input-text);
+    font-weight: 70;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 231px;
+}
+  
+@media screen and (min-width: 320px) and (max-width: 419px) {
+    .form__selected-file__label {
+      max-width: 131px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 370px) {
+    .form-button__group {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        row-gap: var(--spacing-medium);
+    }
+}
+
+/* Dialog & overlay  */
+.clickable__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    padding: 0px var(--spacing--overlay);
+    background-color: var(--color-overlay-background);
+}
+
+.dialog__title {
+    margin-top: 42px !important;
+}
+  
+.dialog__container {
+    background-color: var(--color-dialog-background);
+    width: 100%;
+    color: var(--color-white);
+    height: auto;
+    padding: var(--spacing-standard);
+    padding-top: 0px;
+    display: grid;
+    border-radius: var(--border-radius-corner);
+}
+
+.dialog__action-bar {
+    display: grid;
+    justify-content: flex-end;
+    height: 0px;
+}
+  
+.dialog-info__text {
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-standard);
+}
+  
+.dialog-info__title {
+    font-family: "Lato regular", sans-serif;
+    font-size: var(--font-size-standard);
+    font-weight: 100;
+}
+  
+.dialog-center__box {
+    padding: var(--spacing-medium) 0px;
+    display: grid;
+    justify-content: center;
+    gap: var(--spacing-medium);
+}
+
+.dialog__list > .dialog__list-element {
+    font-family: "Lato regular", sans-serif;
+    font-size: var(--font-size-standard);
+}
+  
+.bold__span {
+    font-weight: bold;
+}

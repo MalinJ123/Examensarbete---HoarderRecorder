@@ -16,7 +16,13 @@ html, body, #root {
 /* Root */
 :root {
 
-  /* font-size: var(--font-size-standard) */
+  /* 
+  * Examples:
+    font-size: var(--font-size-standard);
+    margin: var(--spacing-smallest) var(--spacing-standard);
+    padding: var(--spacing-smallest) var(--spacing-standard);
+    border-radius: var(--border-radius-corner);
+  */
 
   /* Main colors */
   --color-header: #313131;
@@ -34,6 +40,10 @@ html, body, #root {
   --color-form-button-in-input-hover: #4A4A4A;
   --color-form-control-disabled: #212121;
 
+  /* Dialog colors */
+  --color-overlay-background: rgba(0, 0, 0, 0.5);
+  --color-dialog-background: #313131;
+
   /* Font sizes */
   --font-size-standard: 18px;
   --font-size-logotype: 24px;
@@ -46,36 +56,21 @@ html, body, #root {
   --font-size-category-details: 13px;
   --font-size-rounded-button-icon: 26px;
 
-  /* Margins & paddings */
+  /* Margins, spacing & paddings */
   --spacing-smallest: 3px;
   --spacing-smaller: 6px;
   --spacing-small: 8px;
   --spacing-medium: 17px;
   --spacing-standard: 21px;
+  --spacing-fixed-button: 21px;
   --spacing--titles: 36px;
+  --spacing--overlay: 36px;
+  --spacing--form: 36px;
 
   /* Border radius */
   --border-radius-corner: 5px;
   --border-radius-rounded-button: 15px;
 }
-
-
-/* @media screen and (min-width: 320px) and (max-width: 390px) {} */
-  :root {
-
-  /* Font sizes */
-  --font-size-standard: 16px;
-  --font-size-logotype: 18px;
-  --font-size-title: 22px;
-  --font-size-label: 13px;
-  --font-size-input-text: 15px;
-  --font-size-hero-image-text: 28px;
-  --font-size-object-text: 12px;
-  --font-size-category-title: 13px;
-  --font-size-category-details: 12px;
-  --font-size-rounded-button-icon: 24px;
-  }
-
 
 /* Fonts */
 @font-face {
@@ -105,198 +100,6 @@ html, body, #root {
 
 .material-symbols-outlined {
   color: var(--color-white);
-}
-
-/* Buttons */
-.fixed__button {
-  position: fixed;
-  bottom: 21px;
-  right: 21px;
-  display: grid;
-  place-content: center;
-  width: 55px;
-  height: 55px;
-  border-radius: var(--border-radius-rounded-button);
-  background-color: var(--color-form-control);
-  border: none;
-  cursor: pointer;
-  outline: none;
-}
-
-.fixed__button > .round__button-icon {
-  font-size: var(--font-size-rounded-button-icon);
-}
-
-.fixed__button:hover {
-  background-color: var(--color-form-control-hover);
-}
-
-.fixed__button:disabled {
-  cursor: not-allowed;
-  background-color: var(--color-form-control-disabled);
-}
-
-.secondary__button {
-  color: var(--color-white);
-  background-color: transparent;
-  padding: 12px 24px;
-  font-size: var(--font-size-standard);
-  font-family: "Lato light", sans-serif;
-  font-weight: 90;
-  cursor: pointer;
-  border-radius: var(--border-radius-corner);
-  border: 1px solid var(--color-white); 
-  outline: none;
-}
-
-.secondary__button:hover {
-  background-color: var(--color-form-control-hover);
-  font-weight: bold;
-}
-
-.primary__button {
-  background-color: var(--color-form-control);
-  color: var(--color-white);
-  border: none;
-  padding: 12px 24px;
-  font-size: var(--font-size-standard);
-  font-family: "Lato light", sans-serif;
-  font-weight: 90;
-  cursor: pointer;
-  border-radius: var(--border-radius-corner);
-  outline: none;
-}
-
-.primary__button:hover {
-  background-color: var(--color-form-control-hover);
-}
-
-.primary__button:disabled {
-  cursor: not-allowed;
-  background-color: var(--color-form-control-disabled);
-}
-
-.ghost__button {
-  color: var(--color-white);
-  background-color: transparent;
-  padding: 12px 24px;
-  font-size: var(--font-size-standard);
-  font-family: "Lato light", sans-serif;
-  font-weight: 90;
-  cursor: pointer;
-  border-radius: var(--border-radius-corner);
-  border: none;
-  outline: none;
-}
-
-.ghost__button:hover {
-  background-color: var(--color-form-control-transparent-hover);
-  font-weight: bold;
-}
-
-/* Forms */
-.form__container {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 21px;
-  margin: 36px 0px;
-}
-
-.form__container--margin-bottom {
-  margin-top: 0px;
-}
-
-.form-button__group {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-
-.form-button__column-group {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  row-gap: 17px;
-}
-
-.form-input-with-label__box {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 6px;
-  background-color: var(--color-form-control);
-  border-radius: var(--border-radius-corner);
-  padding: 6px;
-}
-
-.form-input-with-label__box .form__label {
-  font-family: "ABeeZee regular", cursive;
-  font-weight: 200;
-  font-size: var(--font-size-label);
-  margin-bottom: 0px;
-  cursor: pointer;
-}
-
-.form-input-with-label__box .form__input-text {
-  font-size: var(--font-size-input-text);
-  font-family: "Lato regular", sans-serif;
-  font-weight: 100;
-  border: none;
-  background-color: var(--color-form-control);
-  color: var(--color-white);
-  outline: none;
-  padding: 0px;
-}
-
-.form-input-with-label__box .form__input-text::placeholder {
-  color: var(--color-input-placeholder-text);
-}
-
-.form-input-with-label__box--upload > .form__input-upload {
-  display: none;
-}
-
-.form__upload-label {
-  display: grid;
-  place-items: center;
-  grid-template-columns: 30px 71px;
-  gap: var(--spacing-smallest);
-  background-color: var(--color-form-button-in-input);
-  border-radius: var(--border-radius-corner);
-  padding: 6px 12px;
-  cursor: pointer;
-  width: 129px;
-  font-family: "Lato light", sans-serif;
-  font-weight: 70;
-  cursor: pointer;
-  font-size: var(--font-size-input-text);
-}
-
-.form__upload-label:hover {
-  background-color: var(--color-form-button-in-input-hover);
-}
-
-.form-upload-button-name__container {
-  display: flex;
-  flex-flow: row wrap;
-  gap: var(--spacing-smaller);
-  align-items: center;
-}
-
-.form__selected-file__label {
-  cursor: pointer;
-  font-family: "Lato light", sans-serif;
-  font-size: var(--font-size-input-text);
-  font-weight: 70;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 231px;
-}
-
-@media screen and (min-width: 320px) and (max-width: 419px) {
-  .form__selected-file__label {
-    max-width: 131px;
-  }
 }
 
 

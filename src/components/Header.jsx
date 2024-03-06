@@ -25,7 +25,7 @@ export const Header = () => {
   return (
     <header className="header">
 
-      {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" ? (
+      {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" || changeButtonsOnView === "edit-category" ? (
         <NavLink
           to="/start"
         >
@@ -43,7 +43,7 @@ export const Header = () => {
       <h1 className="logotype__title">Hoarder Recorder</h1>
       {changeButtonsOnView === "user" ? (
           <span className="material-symbols-outlined header__icon" onClick={() => userIsLoggingOut()}>logout</span>
-      ) : changeButtonsOnView === "authentication" || changeButtonsOnView === "deletion" || changeButtonsOnView === "add-category" ? (
+      ) : changeButtonsOnView === "authentication" || changeButtonsOnView === "deletion" || changeButtonsOnView === "add-category" || changeButtonsOnView === "edit-category" ? (
         <div className="filler__box"></div>
       ) : (
         <NavLink to="/user">

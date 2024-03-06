@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
-import "../styles/addcategory.css";
+import "../styles/addCategory.css";
 
 function AddCategory() {
   const navigate = useNavigate();
