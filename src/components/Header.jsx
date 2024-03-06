@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink} from "react-router-dom";
 
 import { AppContext } from '../ContextRoot';
 
@@ -22,6 +20,10 @@ export const Header = () => {
     navigate('/');
   }
 
+  const goBackToPastPage = () => {
+    navigate(-1);
+  };
+
   return (
     <header className="header">
 
@@ -31,6 +33,8 @@ export const Header = () => {
         >
           <span className="material-symbols-outlined header__icon">reply</span>
         </NavLink>
+      ) : changeButtonsOnView === "add-object" ? (
+        <span className="material-symbols-outlined header__icon" onClick={() => goBackToPastPage()}>reply</span>
       ) : changeButtonsOnView === "deletion" ? (
         <NavLink
           to="/user"

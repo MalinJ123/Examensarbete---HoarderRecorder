@@ -17,6 +17,9 @@ export const ContextRoot = ({ children }) => {
 
     const [authenticationView, setAuthenticationView] = useState('login');
 
+    // Check what category the user is currently on with the help of the database
+    const [checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn] = useState('');
+
     // Change the behavior the header's buttons depending on which view the user is currently on
     const [changeButtonsOnView, setChangeButtonsOnView] = useState('');
 
@@ -32,7 +35,7 @@ export const ContextRoot = ({ children }) => {
     }
 
   return (
-    <AppContext.Provider value={{username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
+    <AppContext.Provider value={{username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
       {children}
     </AppContext.Provider>
   );

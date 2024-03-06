@@ -14,10 +14,11 @@ export const Object = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
+  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("object");
+    setCheckWhatCategoryIsUserOn("Böcker");
   });
 
   const goToNewObjectView = () => {
