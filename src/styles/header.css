@@ -4,7 +4,7 @@
   height: 60px;
   width: 100%;
   background-color: var(--color-header);
-  padding: 0px 21px;
+  padding: 0px var(--spacing-standard);
   align-items: center;
 }
 

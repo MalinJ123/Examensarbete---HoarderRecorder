@@ -8,6 +8,11 @@
     font-weight: 70;
 }
 
+.standard__text {
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-standard);
+}
+
 .hr-bold__span {
     font-family: "Pacifico", cursive;
 }
@@ -42,7 +47,7 @@
 }
 
 .fixed__button--second {
-    right: calc(var(--spacing-fixed-button) + 55px + var(--spacing-fixed-button));
+    right: calc(var(--spacing-fixed-button) * 2 + 55px);
 }
   
 .secondary__button {

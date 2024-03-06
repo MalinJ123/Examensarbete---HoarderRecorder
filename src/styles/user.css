@@ -2,7 +2,7 @@
 .user__section {
   height: calc(100dvh - 96px);
   width: 100%;
-  padding: 0px 21px;
+  padding: 0px var(--spacing-standard);
 }
 
 /* Profile picture */

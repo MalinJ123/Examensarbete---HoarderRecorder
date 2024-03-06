@@ -6,7 +6,7 @@ import { AppContext } from '../ContextRoot';
 
 import "../styles/user.css";
 
-function User() {
+export const User = () => {
 
   const navigate = useNavigate();
 
@@ -70,4 +70,3 @@ function User() {
     </section>
   );
 }
-export default User;

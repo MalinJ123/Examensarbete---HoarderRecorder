@@ -94,10 +94,10 @@ function AddCategory() {
 
       </form>
 
-      <div className="category-image__container">
+      <div className="add-category-image__container">
 
         {previewSelectedImage && (
-          <img src={previewSelectedImage} alt="Preview" className="image-preview" />
+          <img src={previewSelectedImage} alt="Preview" className="add-category-image__preview" />
         )}
 
       </div>

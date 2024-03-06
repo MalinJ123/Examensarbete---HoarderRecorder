@@ -1,11 +1,27 @@
-import "../styles/object.css";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import book from "../images/book.png";
-import eld from "../images/eld.png";
-import storm from "../images/storm.png";
-import blade from "../images/blade.png";
 
-function Object() {
+import { AppContext } from "../ContextRoot";
+
+import "../styles/object.css";
+
+import book from "../images/book.png";
+import storm from "../images/storm.png";
+
+export const Object = () => {
+
+  const navigate = useNavigate();
+
+  const { setChangeButtonsOnView } = useContext(AppContext);
+
+  useEffect(() => {
+    setChangeButtonsOnView("object");
+  });
+
+  const goToNewObjectView = () => {
+    navigate("/add-object");
+  }
   return (
     <>
       <img
@@ -42,7 +58,7 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span class="material-symbols-outlined penn">edit</span>
+              <span className="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
@@ -65,7 +81,7 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span class="material-symbols-outlined penn">edit</span>
+              <span className="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
@@ -88,7 +104,7 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span class="material-symbols-outlined penn">edit</span>
+              <span className="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
@@ -111,21 +127,16 @@ function Object() {
                   <span className="object-bold"> Pris:</span> 205:-
                 </p>
               </div>{" "}
-              <span class="material-symbols-outlined penn">edit</span>
+              <span className="material-symbols-outlined penn">edit</span>
             </div>
           </div>
         </div>
         
 </div>
-
-      <div className="add-category-container">
-        <Link to="/addcategory">
-          <button className="add-categorybtn">
-            <span className="material-symbols-outlined">add</span>
-          </button>
-        </Link>
-      </div>
+ 
+      <button type="button" className="fixed__button" title="Lägg till objekt" onClick={() => goToNewObjectView()}> 
+        <span className="material-symbols-outlined">add</span>
+      </button>
     </>
   );
 }
-export default Object;

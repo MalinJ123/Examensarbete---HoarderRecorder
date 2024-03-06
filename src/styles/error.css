@@ -1,0 +1,17 @@
+/* Error */
+.error__section {
+    height: calc(100dvh - 36px);
+    width: 100%;
+    padding: 0px var(--spacing-standard);
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--spacing-standard);
+}
+
+.error__section > .standard__title {
+    margin-bottom: calc(var(--spacing-standard) - var(--spacing-titles)) ;
+}
+
+.error__animation {
+    width: calc(100vw - var(--spacing-standard) * 2);
+}

@@ -11,14 +11,19 @@ import "../styles/start.css";
 import start from "../images/start.png";
 import book from "../images/book.png";
 
-function Start() {
+export const Start = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
+  const { setChangeButtonsOnView, isUserLoggedIn } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
+
+    if (!isUserLoggedIn) {
+      navigate("/");
+    }
+    
   });
 
   const goToNewCategoryView = () => {
@@ -127,4 +132,3 @@ function Start() {
     </>
   );
 }
-export default Start;
