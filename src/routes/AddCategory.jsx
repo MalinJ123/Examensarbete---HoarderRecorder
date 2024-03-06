@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 import "../styles/addCategory.css";
 
-function AddCategory() {
+export const AddCategory = () => {
   const navigate = useNavigate();
 
   const { setChangeButtonsOnView } = useContext(AppContext);
@@ -112,4 +112,3 @@ function AddCategory() {
   );
 }
 
-export default AddCategory;

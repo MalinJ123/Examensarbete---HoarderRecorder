@@ -6,7 +6,7 @@ import { Start } from "./routes/Start";
 import { User } from "./routes/User.jsx";
 import { Authentication } from "./routes/Authentication.jsx";
 import { DeleteAccount } from "./routes/DeleteAccount.jsx";
-import AddCategory from "./routes/AddCategory.jsx";
+import { AddCategory } from "./routes/AddCategory.jsx";
 import { Object } from "./routes/Object.jsx";
 import { EditCategory } from "./routes/EditCategory.jsx";
 import { Error } from "./routes/Error.jsx";
