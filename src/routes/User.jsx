@@ -3,6 +3,8 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from '../ContextRoot';
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
+
 
 import "../styles/user.css";
 
@@ -23,6 +25,8 @@ export const User = () => {
 
   return (
     <section className="user__section">
+
+      <DisallowUserAccess />
 
       <h1 className="standard__title">Hej {username}!</h1>
 

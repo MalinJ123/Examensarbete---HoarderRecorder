@@ -89,6 +89,14 @@
     cursor: not-allowed;
     background-color: var(--color-form-control-disabled);
 }
+
+.primary__button--dialog {
+    background-color: var(--color-dialog-primary-button)
+}
+
+.primary__button--dialog:hover {
+    background-color: var(--color-dialog-primary-button-hover)
+}
   
 .ghost__button {
     color: var(--color-white);

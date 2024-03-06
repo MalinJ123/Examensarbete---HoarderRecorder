@@ -6,15 +6,13 @@ import { AppContext } from '../ContextRoot';
 import '../styles/authentication.css';
 
 export const Authentication = () => {
-    const { username, userPassword, authenticationView, setAuthenticationView, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
+    const { username, userPassword, authenticationView, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
 
     useEffect(() => {
         setChangeButtonsOnView('authentication');
       })
 
     const navigate = useNavigate()
-
-    const [selectView, setSelectView] = useState('register');
 
     const areFieldsEmpty = !username || !userPassword;
 
@@ -33,11 +31,6 @@ export const Authentication = () => {
             navigate('/start')
         }
     }
-
-    const handleViewChange = (view) => {
-        setSelectView(view);
-    };
-
 
     // If the user is already logged in, redirect to start instead of going to the login & register views
     useEffect(() => {

@@ -17,6 +17,7 @@
   padding: 15px;
   background-color: var(--color-background);
   border-radius: var(--border-radius-corner);
+  margin-bottom: var(--spacing-standard);
 }
 
 .information__box p {

@@ -101,8 +101,6 @@ export const EditCategory = () => {
 
         </div>
 
-
-
         {/* Hide the default file input and made a custom one */}
         <input 
           type="file"

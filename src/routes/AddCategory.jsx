@@ -2,6 +2,8 @@ import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
+
 import "../styles/addCategory.css";
 
 export const AddCategory = () => {
@@ -37,6 +39,8 @@ export const AddCategory = () => {
 
   return (
     <section className="add-category__section">
+      
+      <DisallowUserAccess />
 
       <h1 className="standard__title">Lägg till kategori</h1>
 

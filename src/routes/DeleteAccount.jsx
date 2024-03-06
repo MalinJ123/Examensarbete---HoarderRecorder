@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from '../ContextRoot';
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 import "../styles/delete-account.css";
 
@@ -30,6 +31,8 @@ export const DeleteAccount = () => {
 
         <section className="delete-account__section">
 
+             <DisallowUserAccess />
+             
             <h1 className="standard__title"><span className="material-symbols-outlined big__icon">
             warning
             </span></h1>

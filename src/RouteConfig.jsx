@@ -1,7 +1,7 @@
 import React from "react";
 import { createHashRouter } from "react-router-dom";
 
-import Root from "./routes/Root.jsx";
+import { Root } from "./routes/Root.jsx";
 import { Start } from "./routes/Start";
 import { User } from "./routes/User.jsx";
 import { Authentication } from "./routes/Authentication.jsx";

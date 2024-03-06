@@ -1,10 +1,9 @@
 import { useContext, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
-
 import { Link } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 import "../styles/start.css";
 
@@ -15,15 +14,10 @@ export const Start = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, isUserLoggedIn } = useContext(AppContext);
+  const { setChangeButtonsOnView } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
-
-    if (!isUserLoggedIn) {
-      navigate("/");
-    }
-    
   });
 
   const goToNewCategoryView = () => {
@@ -32,6 +26,10 @@ export const Start = () => {
 
   return (
     <>
+
+      {/* DisallowUserAccess is a component that checks if the user is really logged in. If not, the user will be redirected to root path. */}
+      <DisallowUserAccess />
+      
       <img className="hero__image" src={start} alt="en bild från unsplash" />
 
       <p className="quantity-categories__text">Du har 3 kategorier</p>

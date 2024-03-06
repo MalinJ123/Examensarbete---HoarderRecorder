@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { AppContext } from "../ContextRoot";
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 import "../styles/object.css";
 
@@ -24,6 +25,9 @@ export const Object = () => {
   }
   return (
     <>
+
+      <DisallowUserAccess />
+
       <img
         className="hero__img-object"
         src={book}

@@ -43,6 +43,8 @@ html, body, #root {
   /* Dialog colors */
   --color-overlay-background: rgba(0, 0, 0, 0.5);
   --color-dialog-background: #313131;
+  --color-dialog-primary-button: #373737;
+  --color-dialog-primary-button-hover: #4A4A4A;
 
   /* Font sizes */
   --font-size-standard: 18px;
