@@ -48,7 +48,7 @@ export const Object = () => {
         <div className="object-container">
           <div className="first-object">
             <div className="object-bg">
-              <Link to="/object">
+              <Link to="/show-object">
                 <img className="object-img" src={storm} alt="kategori bild" />
               </Link>
             </div>

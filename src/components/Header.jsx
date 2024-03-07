@@ -33,7 +33,7 @@ export const Header = () => {
         >
           <span className="material-symbols-outlined header__icon">reply</span>
         </NavLink>
-      ) : changeButtonsOnView === "add-object" ? (
+      ) : changeButtonsOnView === "add-object" || changeButtonsOnView === "show-object" ? (
         <span className="material-symbols-outlined header__icon" onClick={() => goBackToPastPage()}>reply</span>
       ) : changeButtonsOnView === "deletion" ? (
         <NavLink
