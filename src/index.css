@@ -47,9 +47,10 @@ html, body, #root {
   --color-dialog-primary-button-hover: #4A4A4A;
 
   /* Font sizes */
-  --font-size-standard: 18px;
-  --font-size-logotype: 24px;
   --font-size-title: 26px;
+  --font-size-text-title: 17px;
+  --font-size-standard: 16px;
+  --font-size-logotype: 20px;
   --font-size-label: 15px;
   --font-size-input-text: 16px;
   --font-size-hero-image-text: 32px;

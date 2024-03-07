@@ -12,6 +12,8 @@ export const EditCategory = () => {
   const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
   const [selectedImageName, setSelectedImageName] = useState("");
 
+  
+
     // Dialog
     const deleteCategoryDialogRef = useRef();
 
