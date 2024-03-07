@@ -8,6 +8,7 @@
 }
 .add-category-image__preview {
     width: 15em;
+    margin-top: var(--spacing-standard)
 }
 
 .add-category-image__container {

@@ -158,7 +158,7 @@
     cursor: pointer;
 }
   
-.form-input-with-label__box .form__input-text {
+.form-input-with-label__box .form__input-text, .form-input-with-label__box .form__input-textarea {
     font-size: var(--font-size-input-text);
     font-family: "Lato regular", sans-serif;
     font-weight: 100;
@@ -168,8 +168,12 @@
     outline: none;
     padding: 0px;
 }
+
+.form__input-textarea {
+    resize: vertical;
+}
   
-.form-input-with-label__box .form__input-text::placeholder {
+.form-input-with-label__box .form__input-text::placeholder, .form-input-with-label__box .form__input-textarea {
     color: var(--color-input-placeholder-text);
 }
   

@@ -42,7 +42,7 @@ export const AddCategory = () => {
       
       <DisallowUserAccess />
 
-      <h1 className="standard__title">Lägg till kategori</h1>
+      <h1 className="standard__title">Skapa kategori</h1>
 
       <form className="form__container 
       form__container--margin-bottom">
@@ -57,7 +57,7 @@ export const AddCategory = () => {
             type="text"
             id="category-name__input"
             className="form__input-text"
-            placeholder="Pokémon kort"
+            placeholder="Pokémonkort"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />

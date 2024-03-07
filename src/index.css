@@ -53,9 +53,10 @@ html, body, #root {
   --font-size-label: 15px;
   --font-size-input-text: 16px;
   --font-size-hero-image-text: 32px;
-  --font-size-object-text: 13px;
-  --font-size-category-title: 14px;
-  --font-size-category-details: 13px;
+  --font-size-object-text: 14px;
+  --font-size-guideline: 14px;
+  --font-size-category-title: 15px;
+  --font-size-category-details: 14px;
   --font-size-rounded-button-icon: 26px;
 
   /* Margins, spacing & paddings */

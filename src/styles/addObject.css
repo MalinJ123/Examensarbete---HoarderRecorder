@@ -1,0 +1,50 @@
+/* Add object */
+.add-object__section {
+    display: flex;
+    flex-flow: column wrap;
+    height: calc(100% - 60px);
+    width: 100vw;
+    padding: 0px var(--spacing-standard);
+    overflow-x: hidden;
+}
+
+.add-object__text-container {
+    margin: var(--spacing--titles) 0px;
+    text-align: center;
+    display: grid;
+    gap: var(--spacing-smallest)
+}
+
+.add-object__title, .add-object__info {
+    font-family: "Lato light", sans-serif;
+    font-weight: 70;
+}
+
+.add-object__title {
+    font-size: var(--font-size-title);
+}
+
+.add-object__info {
+    font-size: var(--font-size-standard);
+}
+
+.form-input-with-label-guideline__container {
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--spacing-smallest);
+}
+
+.add-object__guideline {
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-guideline);
+    font-weight: 70;
+}
+
+.add-category-image__preview {
+    width: 15em;
+}
+
+.add-category-image__container {
+    display: flex;
+    justify-content: center;
+}
