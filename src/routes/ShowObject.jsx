@@ -5,6 +5,7 @@ import storm from "../images/storm.png";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../ContextRoot";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 export const ShowObject = () => {
     const [currentImage, setCurrentImage] = useState(heir); // Startbild är 'heir'
   
@@ -62,9 +63,9 @@ export const ShowObject = () => {
             </p>
           </div>
           <button className="fixed__button" type="button" title="Slutför">
-  <span className="material-symbols-outlined round__button-icon">
-    done
-  </span>
+          <Link to="/edit-object">
+                  <span className="material-symbols-outlined">edit</span>
+                </Link>
 </button>
 
 <button className="fixed__button fixed__button--second" type="button">

@@ -43,7 +43,7 @@
 .material-symbols-outlined.back-arrow{
     position:fixed;
     top:14em;
-    left:1em;
+    left:1.3em;
     cursor:pointer; 
 }
 .material-symbols-outlined.forward-arrow{
@@ -64,16 +64,10 @@
   margin: 0.3em;
 }
 .material-symbols-outlined.back-arrow{
-    position:fixed;
-    top:14em;
     left:0.5em;
-    cursor:pointer; 
 }
 .material-symbols-outlined.forward-arrow{
-    position:fixed;
-    top:14em;
     right: 5em;
-    cursor:pointer; 
 }
     
 }

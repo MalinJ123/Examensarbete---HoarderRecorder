@@ -21,6 +21,7 @@ import { DeleteAccount } from "./routes/DeleteAccount.jsx";
 import { AddObject } from "./routes/AddObject.jsx";
 import { Object } from "./routes/Object.jsx";
 import {ShowObject } from "./routes/ShowObject.jsx";
+import { EditObject } from "./routes/EditObject.jsx";
 
 export const Router = createHashRouter([
   {
@@ -64,6 +65,10 @@ export const Router = createHashRouter([
       {
         path: "/show-object",
         element: <ShowObject />,
+      },
+      {
+        path: "/edit-object",
+        element: <EditObject />,
       }
     ],
     errorElement: <Error />
