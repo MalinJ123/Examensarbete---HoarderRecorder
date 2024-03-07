@@ -16,31 +16,60 @@ export const AddObject = () => {
   const [objectValue, setObjectValue] = useState("");
   const [objectNote, setObjectNote] = useState("");
 
-  const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
-  const [selectedImageName, setSelectedImageName] = useState("");
+  const [previewSelectedImageOne, setPreviewSelectedImageOne] = useState(null);
+  const [selectedImageNameOne, setSelectedImageNameOne] = useState("");
+  const [hasSelectedImageOne, setHasSelectedImageOne] = useState(false);
+
+  const [previewSelectedImageTwo, setPreviewSelectedImageTwo] = useState(null);
+  const [selectedImageNameTwo, setSelectedImageNameTwo] = useState("");
+
+  const [previewSelectedImageThree, setPreviewSelectedImageThree] = useState(null);
+  const [selectedImageNameThree, setSelectedImageNameThree] = useState("");
 
   useEffect(() => {
     setChangeButtonsOnView("add-object");
   });
 
-  const handleImageChange = (e) => {
+  const handleImageChangeOne = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewSelectedImage(reader.result);
+        setPreviewSelectedImageOne(reader.result);
       };
       reader.readAsDataURL(file);
 
-      setSelectedImageName(file.name);
+      setSelectedImageNameOne(file.name);
+      setHasSelectedImageOne(true);
+    } else {
+      setPreviewSelectedImageOne(null);
+      setSelectedImageNameOne("");
+      setHasSelectedImageOne(false);
     }
   };
 
-  const GoToCompletedCategory = () => {
+  const handleImageChangeTwo = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewSelectedImageTwo(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      setSelectedImageNameTwo(file.name);
+    } else {
+      setPreviewSelectedImageTwo(null);
+      setSelectedImageNameTwo("");
+    }
+  };
+  
+
+  const GoToCompletedObject = () => {
     navigate("/object");
   }
 
-  const isCategoryNameEmpty = objectName === "";
+  const areObjectRequirementsEmpty = (objectName.trim() === "" || !hasSelectedImageOne);
 
   return (
     <section className="add-object__section">
@@ -127,42 +156,75 @@ export const AddObject = () => {
               className="form__input-textarea"
               placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               value={objectNote}
-              cols={4}
+              rows={4}
               onChange={(e) => setObjectNote(e.target.value)}
             />
 
-          </div>
+        </div>
+
+        <div className="add-object__text-container">
+          <h2 className="standard__subtitle">Lägg upp bilder</h2>
+          <p className="add-object__info">Du behöver ladda upp minst en bild på objektet.</p>
+        </div>
 
 
         <div className="form-input-with-label__box form-input-with-label__box--upload">
 
-          <label className="form__label" htmlFor="category-image-upload__input">
-            Ladda upp en bild för objetet
+          <label className="form__label" htmlFor="category-image-upload__input-one">
+            Ladda upp bild 1 på objektet*
           </label>
 
           <div className="form-upload-button-name__container">
           
-          <label className="form__upload-label" htmlFor="category-image-upload__input">
-            <span className="material-symbols-outlined upload">cloud_upload</span>
-            <p className="upload__text">Välj bild</p>
-          </label>
+            <label className="form__upload-label" htmlFor="category-image-upload__input-one">
+              <span className="material-symbols-outlined upload">cloud_upload</span>
+              <p className="upload__text">Välj bild</p>
+            </label>
 
-          <label className="form__selected-file__label" htmlFor="category-image-upload__input">
-            {selectedImageName}
-          </label>
+            <label className="form__selected-file__label" htmlFor="category-image-upload__input-one">
+              {selectedImageNameOne}
+            </label>
+
+            </div>
+
+            {/* Hide the default file input and made a custom one */}
+            <input 
+              type="file"
+              id="category-image-upload__input-one"
+              className="form__input-upload"
+              accept="image/*"
+              onChange={(e) => handleImageChangeOne(e)}
+            />
 
           </div>
 
+          <div className="form-input-with-label__box form-input-with-label__box--upload">
 
+            <label className="form__label" htmlFor="category-image-upload__input-two">
+              Ladda upp bild 2 på objektet
+            </label>
 
-          {/* Hide the default file input and made a custom one */}
-          <input 
-            type="file"
-            id="category-image-upload__input"
-            className="form__input-upload"
-            accept="image/*"
-            onChange={(e) => handleImageChange(e)}
-          />
+            <div className="form-upload-button-name__container">
+
+            <label className="form__upload-label" htmlFor="category-image-upload__input-two">
+              <span className="material-symbols-outlined upload">cloud_upload</span>
+              <p className="upload__text">Välj bild</p>
+            </label>
+
+            <label className="form__selected-file__label" htmlFor="category-image-upload__input-two">
+              {selectedImageNameTwo}
+            </label>
+
+            </div>
+
+            {/* Hide the default file input and made a custom one */}
+            <input 
+              type="file"
+              id="category-image-upload__input-two"
+              className="form__input-upload"
+              accept="image/*"
+              onChange={(e) => handleImageChangeTwo(e)}
+            />
 
         </div>
 
@@ -170,13 +232,21 @@ export const AddObject = () => {
 
       <div className="add-category-image__container">
 
-        {previewSelectedImage && (
-          <img src={previewSelectedImage} alt="Preview" className="add-category-image__preview" />
+        {previewSelectedImageOne && (
+          <img src={previewSelectedImageOne} alt="Preview" className="add-category-image__preview" />
         )}
 
       </div>
 
-      <button type="button" className="fixed__button" onClick={() => GoToCompletedCategory()} disabled={isCategoryNameEmpty} title="Slutför">
+      <div className="add-category-image__container">
+
+        {previewSelectedImageTwo && (
+          <img src={previewSelectedImageTwo} alt="Preview" className="add-category-image__preview" />
+        )}
+
+    </div>
+
+      <button type="button" className="fixed__button" onClick={() => GoToCompletedObject()} disabled={areObjectRequirementsEmpty} title="Slutför">
 
         <span className="material-symbols-outlined round__button-icon">done</span>
 

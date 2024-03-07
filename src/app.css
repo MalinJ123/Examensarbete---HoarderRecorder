@@ -7,12 +7,24 @@
     font-size: var(--font-size-title);
     font-weight: 70;
 }
-.standard__text-title{
+
+.standard__subtitle {
+    margin: var(--spacing-smallest) 0px;
+    text-align: center;
+    font-family: "Lato light", sans-serif;
+    font-size: var(--font-size-subtitle);
+    font-weight: 70;
+}
+
+
+.standard__text-title {
     font-family: "Lato light", sans-serif;
     font-size: var(--font-size-text-title);
     font-weight: bold;
     margin-bottom:0.5em;
 }
+
+
 .standard__text {
     font-family: "Lato light", sans-serif;
     font-size: var(--font-size-standard);
@@ -20,6 +32,10 @@
 
 .hr-bold__span {
     font-family: "Pacifico", cursive;
+}
+
+.bold__span {
+    font-weight: bold;
 }
   
 /* Buttons */
@@ -221,7 +237,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 231px;
+    max-width: 211px;
 }
   
 @media screen and (min-width: 320px) and (max-width: 419px) {
@@ -296,6 +312,4 @@
     font-size: var(--font-size-standard);
 }
   
-.bold__span {
-    font-weight: bold;
-}
+

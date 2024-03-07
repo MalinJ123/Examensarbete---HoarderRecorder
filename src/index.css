@@ -5,6 +5,7 @@ html, body, #root {
   font-size: var(--font-size-standard);
   letter-spacing: 0.05em;
   font-family: "Lato regular", sans-serif;
+  overflow-x: hidden;
 }
 
 * {
@@ -48,6 +49,7 @@ html, body, #root {
 
   /* Font sizes */
   --font-size-title: 26px;
+  --font-size-subtitle: 20px;
   --font-size-text-title: 17px;
   --font-size-standard: 16px;
   --font-size-logotype: 20px;

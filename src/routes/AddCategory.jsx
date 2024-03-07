@@ -13,6 +13,7 @@ export const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
   const [selectedImageName, setSelectedImageName] = useState("");
+  const [hasSelectedImage, setHasSelectedImage] = useState(false);
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
@@ -28,6 +29,11 @@ export const AddCategory = () => {
       reader.readAsDataURL(file);
 
       setSelectedImageName(file.name);
+      setHasSelectedImage(true);
+    } else {
+      setPreviewSelectedImage(null);
+      setSelectedImageName("");
+      setHasSelectedImage(false);
     }
   };
 
@@ -35,7 +41,7 @@ export const AddCategory = () => {
     navigate("/start");
   }
 
-  const isCategoryNameEmpty = categoryName === "";
+  const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !hasSelectedImage);
 
   return (
     <section className="add-category__section">
@@ -64,10 +70,15 @@ export const AddCategory = () => {
 
         </div>
 
+        <div className="add-object__text-container">
+          <h2 className="standard__subtitle">Lägg upp bilder</h2>
+          <p className="add-object__info">Du behöver ladda upp minst en bild för kategorin.</p>
+        </div>
+
         <div className="form-input-with-label__box form-input-with-label__box--upload">
 
           <label className="form__label" htmlFor="category-image-upload__input">
-            Ladda upp en bild för kategorin
+            Ladda upp en bild för kategorin*
           </label>
 
           <div className="form-upload-button-name__container">
@@ -106,7 +117,7 @@ export const AddCategory = () => {
 
       </div>
 
-      <button type="button" className="fixed__button" onClick={() => GoToCompletedCategory()} disabled={isCategoryNameEmpty} title="Slutför">
+      <button type="button" className="fixed__button" onClick={() => GoToCompletedCategory()} disabled={areCategoryRequirementsEmpty} title="Slutför">
 
         <span className="material-symbols-outlined round__button-icon">done</span>
 

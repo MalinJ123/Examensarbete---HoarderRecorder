@@ -27,13 +27,7 @@ export const Header = () => {
   return (
     <header className="header">
 
-      {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" || changeButtonsOnView === "edit-category" || changeButtonsOnView === "object" ? (
-        <NavLink
-          to="/start"
-        >
-          <span className="material-symbols-outlined header__icon">reply</span>
-        </NavLink>
-      ) : changeButtonsOnView === "add-object" || changeButtonsOnView === "show-object" ? (
+      {changeButtonsOnView === "add-category" || changeButtonsOnView === "user" || changeButtonsOnView === "edit-category" || changeButtonsOnView === "object" || changeButtonsOnView === "add-object" || changeButtonsOnView === "show-object"  ? (
         <span className="material-symbols-outlined header__icon" onClick={() => goBackToPastPage()}>reply</span>
       ) : changeButtonsOnView === "deletion" ? (
         <NavLink

@@ -3,7 +3,7 @@
     display: flex;
     flex-flow: column wrap;
     height: calc(100% - 60px);
-    width: 100vw;
+    width: 100%;
     padding: 0px var(--spacing-standard);
     overflow-x: hidden;
 }
@@ -26,6 +26,10 @@
 
 .add-object__info {
     font-size: var(--font-size-standard);
+}
+
+.add-object__text-container .standard__subtitle {
+    margin-top: 0px;
 }
 
 .form-input-with-label-guideline__container {
