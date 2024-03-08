@@ -242,7 +242,7 @@
   
 @media screen and (min-width: 320px) and (max-width: 419px) {
     .form__selected-file__label {
-      max-width: 131px;
+      max-width: 113px;
     }
 }
 

@@ -15,6 +15,16 @@ export const ContextRoot = ({ children }) => {
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+    useEffect(() => {
+      const lsUSer = localStorage.getItem(localStorageUser);
+      if (lsUSer) {
+        const userData = JSON.parse(lsUSer);
+        setUsername(userData.username);
+        setUserPassword(userData.userPassword);
+        setIsUserLoggedIn(userData.loggedIn)
+      }
+    })
+
     const [authenticationView, setAuthenticationView] = useState('login');
 
     // Check what category the user is currently on with the help of the database
@@ -35,7 +45,7 @@ export const ContextRoot = ({ children }) => {
     }
 
   return (
-    <AppContext.Provider value={{username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
+    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
       {children}
     </AppContext.Provider>
   );

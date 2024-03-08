@@ -6,45 +6,36 @@ import { AppContext } from '../ContextRoot';
 import '../styles/authentication.css';
 
 export const Authentication = () => {
-    const { username, userPassword, authenticationView, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
+    const { localStorageUser, username, userPassword, authenticationView, isUserLoggedIn, setChangeButtonsOnView, setIsUserLoggedIn } = useContext(AppContext);
 
     useEffect(() => {
         setChangeButtonsOnView('authentication');
+        if (isUserLoggedIn) {
+            navigate('/start')
+        }
       })
 
     const navigate = useNavigate()
 
-    const areFieldsEmpty = !username || !userPassword;
+    const onHandleSubmit = (e) => {
+        e.preventDefault();
 
-    const registerOrLoginUserGoToStart = (chosen) => {
         if (username !== "" && userPassword !== "") {
-            /* 
-                if (chosen === 'register') {
-
-                } else {
-
-                }
-            */
-
             setIsUserLoggedIn(true);
-
             navigate('/start')
+
+            localStorage.setItem(localStorageUser, JSON.stringify({username, password: userPassword, loggedIn: true}))
         }
     }
 
-    // If the user is already logged in, redirect to start instead of going to the login & register views
-    useEffect(() => {
-        if (isUserLoggedIn) {
-            navigate('/start')
-        }
-    })
+    const areFieldsEmpty = !username || !userPassword;
 
     return (
 
         <section className="auth__splashscreen">
 
           {
-            authenticationView === 'register' ? <Register registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} /> : <Login registerOrLoginUserGoToStart={registerOrLoginUserGoToStart} areFieldsEmpty={areFieldsEmpty} /> 
+            authenticationView === 'register' ? <Register areFieldsEmpty={areFieldsEmpty} onHandleSubmit={onHandleSubmit} /> : <Login areFieldsEmpty={areFieldsEmpty} onHandleSubmit={onHandleSubmit} /> 
           }
 
         </section>
@@ -52,7 +43,7 @@ export const Authentication = () => {
     );
 };
 
-const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
+const Register = ({ areFieldsEmpty, onHandleSubmit }) => {
 
     const { username, userPassword, setUsername, setUserPassword, setAuthenticationView } = useContext(AppContext);
 
@@ -71,7 +62,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
             </div>
 
-            <form className="form__container">
+            <form className="form__container" onSubmit={onHandleSubmit} >
 
                 <div className="form-input-with-label__box">
 
@@ -93,7 +84,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <button type="button" className="ghost__button" onClick={() => setAuthenticationView("login")}>Gå till logga in</button>
 
-                    <button type="button" className="primary__button" onClick={() => registerOrLoginUserGoToStart("register")} disabled={areFieldsEmpty} >Registrera</button>
+                    <button type="submit" className="primary__button" disabled={areFieldsEmpty} >Registrera</button>
 
                 </div>
 
@@ -104,7 +95,7 @@ const Register = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
     )
 };
 
-const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
+const Login = ({ areFieldsEmpty, onHandleSubmit }) => {
 
     const { username, userPassword, setUsername,  setUserPassword, setAuthenticationView} = useContext(AppContext);
 
@@ -123,7 +114,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
             </div>
 
-            <form className="form__container">
+            <form className="form__container" onSubmit={onHandleSubmit} >
 
                 <div className="form-input-with-label__box">
 
@@ -145,7 +136,7 @@ const Login = ({ registerOrLoginUserGoToStart, areFieldsEmpty }) => {
 
                     <button type="button" className="ghost__button" onClick={() => setAuthenticationView("register")}>Gå tillbaka till registrering</button>
 
-                    <button type="button" className="primary__button" onClick={() => registerOrLoginUserGoToStart("login")} disabled={areFieldsEmpty}>Logga in</button>
+                    <button type="submit" className="primary__button" disabled={areFieldsEmpty}>Logga in</button>
 
                 </div>
 

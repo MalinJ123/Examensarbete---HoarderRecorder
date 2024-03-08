@@ -8,6 +8,10 @@ html, body, #root {
   overflow-x: hidden;
 }
 
+#root:has(.section--spacer) > .section--spacer:has(.fixed__button) {
+  margin-bottom: var(--spacing-margin-fixed-button);
+}
+
 * {
   box-sizing: border-box;
   margin: 0px;
@@ -23,6 +27,7 @@ html, body, #root {
     margin: var(--spacing-smallest) var(--spacing-standard);
     padding: var(--spacing-smallest) var(--spacing-standard);
     border-radius: var(--border-radius-corner);
+    box-shadow: var(--shadow-elevation-medium-dark);
   */
 
   /* Main colors */
@@ -72,10 +77,25 @@ html, body, #root {
   --spacing--titles: 36px;
   --spacing--overlay: 36px;
   --spacing--form: 36px;
+  --spacing-margin-fixed-button: 97px;
 
   /* Border radius */
   --border-radius-corner: 5px;
   --border-radius-rounded-button: 15px;
+
+  /* Shadow */
+  --shadow-color-dark: 0deg 0% 5%;
+  --shadow-elevation-medium-dark:
+    0.3px 0.5px 0.6px hsl(var(--shadow-color-dark) / 0.46),
+    0.8px 1.6px 1.9px -0.9px hsl(var(--shadow-color-dark) / 0.44),
+    2.2px 4.3px 5.3px -1.8px hsl(var(--shadow-color-dark) / 0.42),
+    5.4px 10.8px 13.1px -2.7px hsl(var(--shadow-color-dark) / 0.4);
+    --shadow-color-lighter: 0deg 0% 7%;
+    --shadow-elevation-medium-lighter:
+      0.3px 0.5px 0.6px hsl(var(--shadow-color-lighter) / 0.46),
+      0.8px 1.6px 1.9px -0.9px hsl(var(--shadow-color-lighter) / 0.44),
+      2.2px 4.3px 5.3px -1.8px hsl(var(--shadow-color-lighter) / 0.42),
+      5.4px 10.8px 13.1px -2.7px hsl(var(--shadow-color-lighter) / 0.4);
 }
 
 /* Fonts */

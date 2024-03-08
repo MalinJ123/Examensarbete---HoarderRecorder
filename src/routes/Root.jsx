@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { Header } from "../components/Header.jsx"
 
@@ -6,6 +7,7 @@ import { AppContext } from '../ContextRoot';
 
 
 export const Root = () => {
+  const navigate = useNavigate();
   const { userNotLoggedInDialogRef, stateUserNotLoggedInDialog } = useContext(AppContext);
 
   return (
@@ -15,15 +17,13 @@ export const Root = () => {
 
       <dialog ref={userNotLoggedInDialogRef} className="dialog">
 
-        <section className="clickable__overlay" onClick={
-        () => stateUserNotLoggedInDialog(false)
-        }>
+        <section className="clickable__overlay" onClick={() => {stateUserNotLoggedInDialog(false), navigate("/")}}>
 
         <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
 
         <div className="dialog__action-bar">
 
-            <button className="ghost__button" type="button" onClick={() => stateUserNotLoggedInDialog(false)} title="Stäng dialog">
+            <button className="ghost__button" type="button" onClick={() => {stateUserNotLoggedInDialog(false), navigate("/")}} title="Stäng dialog">
 
             <span className="material-symbols-outlined">
             close
@@ -40,7 +40,7 @@ export const Root = () => {
         </p>
 
         <div className="dialog-center__box">
-            <button className="primary__button primary__button--dialog" onClick={() => stateUserNotLoggedInDialog(false)}>Förstår
+            <button className="primary__button primary__button--dialog" onClick={() => {stateUserNotLoggedInDialog(false), navigate("/")}}>Förstår
             </button>
 
         </div>

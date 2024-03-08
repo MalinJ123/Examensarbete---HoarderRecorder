@@ -25,7 +25,7 @@ export const Object = () => {
     navigate("/add-object");
   }
   return (
-    <>
+    <section className="section--spacer">
 
       <DisallowUserAccess />
 
@@ -143,6 +143,6 @@ export const Object = () => {
       <button type="button" className="fixed__button" title="Lägg till objekt" onClick={() => goToNewObjectView()}> 
         <span className="material-symbols-outlined">add</span>
       </button>
-    </>
+    </section>
   );
 }

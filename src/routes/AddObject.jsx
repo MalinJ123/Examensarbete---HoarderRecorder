@@ -63,6 +63,22 @@ export const AddObject = () => {
       setSelectedImageNameTwo("");
     }
   };
+
+  const handleImageChangeThree = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewSelectedImageThree(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      setSelectedImageNameThree(file.name);
+    } else {
+      setPreviewSelectedImageThree(null);
+      setSelectedImageNameThree("");
+    }
+  };
   
 
   const GoToCompletedObject = () => {
@@ -72,7 +88,7 @@ export const AddObject = () => {
   const areObjectRequirementsEmpty = (objectName.trim() === "" || !hasSelectedImageOne);
 
   return (
-    <section className="add-object__section">
+    <section className="add-object__section section--spacer">
       
       <DisallowUserAccess />
       <div className="add-object__text-container">
@@ -162,11 +178,7 @@ export const AddObject = () => {
 
         </div>
 
-        <div className="add-object__text-container">
-          <h2 className="standard__subtitle">Lägg upp bilder</h2>
-          <p className="add-object__info">Du behöver ladda upp minst en bild på objektet.</p>
-        </div>
-
+        <h2 className="standard__subtitle">Ladda upp bilder</h2>
 
         <div className="form-input-with-label__box form-input-with-label__box--upload">
 
@@ -228,23 +240,63 @@ export const AddObject = () => {
 
         </div>
 
+        <div className="form-input-with-label__box form-input-with-label__box--upload">
+
+          <label className="form__label" htmlFor="category-image-upload__input-three">
+            Ladda upp bild 3 på objektet
+          </label>
+
+          <div className="form-upload-button-name__container">
+
+          <label className="form__upload-label" htmlFor="category-image-upload__input-three">
+            <span className="material-symbols-outlined upload">cloud_upload</span>
+            <p className="upload__text">Välj bild</p>
+          </label>
+
+          <label className="form__selected-file__label" htmlFor="category-image-upload__input-three">
+            {selectedImageNameThree}
+          </label>
+
+          </div>
+
+          {/* Hide the default file input and made a custom one */}
+          <input 
+            type="file"
+            id="category-image-upload__input-three"
+            className="form__input-upload"
+            accept="image/*"
+            onChange={(e) => handleImageChangeThree(e)}
+          />
+
+        </div>
+
+
       </form>
 
-      <div className="add-category-image__container">
+      <div className="add-object-image__container">
 
         {previewSelectedImageOne && (
-          <img src={previewSelectedImageOne} alt="Preview" className="add-category-image__preview" />
+          <div className="add-object-image-text__container">
+            <img src={previewSelectedImageOne} alt="Preview" className="add-object-image__preview" />
+            <p className="add-object-image__text">Bild 1</p>
+          </div>
+        )}
+
+        {previewSelectedImageTwo && (
+          <div className="add-object-image-text__container">
+            <img src={previewSelectedImageTwo} alt="Preview" className="add-object-image__preview" />
+            <p className="add-object-image__text">Bild 2</p>
+          </div>
+        )}
+
+        {previewSelectedImageThree && (
+            <div className="add-object-image-text__container">
+              <img src={previewSelectedImageThree} alt="Preview" className="add-object-image__preview" />
+              <p className="add-object-image__text">Bild 3</p>
+            </div>
         )}
 
       </div>
-
-      <div className="add-category-image__container">
-
-        {previewSelectedImageTwo && (
-          <img src={previewSelectedImageTwo} alt="Preview" className="add-category-image__preview" />
-        )}
-
-    </div>
 
       <button type="button" className="fixed__button" onClick={() => GoToCompletedObject()} disabled={areObjectRequirementsEmpty} title="Slutför">
 

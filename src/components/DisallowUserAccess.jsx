@@ -10,10 +10,11 @@ export const DisallowUserAccess = () => {
     const { changeButtonsOnView, isUserLoggedIn, stateUserNotLoggedInDialog } = useContext(AppContext);
 
     const disallowUserAccessCheck = (view) => {
-        if (view !== 'authentication') {
+        if (view !== 'authentication' || view !== 'error') {
             if (!isUserLoggedIn) {
-                navigate('/');
                 stateUserNotLoggedInDialog(true);
+            } else {
+                stateUserNotLoggedInDialog(false);
             }
         }
     }

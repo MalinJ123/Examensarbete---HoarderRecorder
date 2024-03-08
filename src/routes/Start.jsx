@@ -25,7 +25,7 @@ export const Start = () => {
   }
 
   return (
-    <>
+    <section className="section--spacer">
 
       {/* DisallowUserAccess is a component that checks if the user is really logged in. If not, the user will be redirected to root path. */}
       <DisallowUserAccess />
@@ -127,6 +127,6 @@ export const Start = () => {
       <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => goToNewCategoryView()}> 
           <span className="material-symbols-outlined">add</span>
       </button>
-    </>
+    </section>
   );
 }

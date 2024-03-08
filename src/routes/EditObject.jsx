@@ -96,7 +96,7 @@ export const EditObject = () => {
     objectName.trim() === "" || !hasSelectedImageOne;
 
   return (
-    <section className="add-object__section">
+    <section className="add-object__section section--spacer">
       <DisallowUserAccess />
       <div className="add-object__text-container">
         <h1 className="add-object__title">Redigera objekt</h1>

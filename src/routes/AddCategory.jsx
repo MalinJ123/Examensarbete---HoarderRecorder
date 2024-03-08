@@ -70,10 +70,7 @@ export const AddCategory = () => {
 
         </div>
 
-        <div className="add-object__text-container">
-          <h2 className="standard__subtitle">Lägg upp bilder</h2>
-          <p className="add-object__info">Du behöver ladda upp minst en bild för kategorin.</p>
-        </div>
+          <h2 className="standard__subtitle">Ladda upp bild</h2>
 
         <div className="form-input-with-label__box form-input-with-label__box--upload">
 
@@ -93,8 +90,6 @@ export const AddCategory = () => {
           </label>
 
           </div>
-
-
 
           {/* Hide the default file input and made a custom one */}
           <input 
