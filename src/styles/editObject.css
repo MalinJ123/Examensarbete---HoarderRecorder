@@ -4,12 +4,30 @@ justify-content: space-between;
 }
 
 .lastchild {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
   }
-.trash__btn{
+.trash{
     align-items: right;
-    /* border: 2px solid green;  */
     margin-right: 1em;
 }
 
 
+/* lägga bilderna i rad */
+
+.images-content{
+   display: flex; 
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom:5.5em;
+}
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap; 
+  }
+  .add-category-image__preview {
+    width: 100px; 
+    height: 100px; 
+    margin-right: 10px; 
+  }
+  

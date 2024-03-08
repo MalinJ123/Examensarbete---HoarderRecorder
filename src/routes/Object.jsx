@@ -60,10 +60,11 @@ export const Object = () => {
                 </p>
 
                 <p className="object-price">
-                  <span className="object-bold"> Pris:</span> 205:-
+                  <span className="object-bold"> Pris:</span> 500:-
                 </p>
-              </div>{" "}
-              <span className="material-symbols-outlined penn">edit</span>
+              </div>
+             <Link to ="/edit-object">
+             <span className="material-symbols-outlined penn">edit</span></Link>
             </div>
           </div>
         </div>
@@ -83,7 +84,7 @@ export const Object = () => {
                 </p>
 
                 <p className="object-price">
-                  <span className="object-bold"> Pris:</span> 205:-
+                  <span className="object-bold"> Pris:</span> 305:-
                 </p>
               </div>{" "}
               <span className="material-symbols-outlined penn">edit</span>

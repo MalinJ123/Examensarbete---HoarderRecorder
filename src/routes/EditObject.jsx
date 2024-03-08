@@ -5,21 +5,20 @@ import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/editObject.css";
 
-import "../styles/addObject.css";
+
 
 export const EditObject = () => {
+  // Tillbaka knapp i headern från den här sidan 
   const navigate = useNavigate();
+  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn } = useContext(AppContext);
+ 
 
-  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn } =
-    useContext(AppContext);
 
   const [objectName, setObjectName] = useState("");
   const [objectProducer, setObjectProducer] = useState("");
   const [objectValue, setObjectValue] = useState("");
   const [objectNote, setObjectNote] = useState("");
 
-  
-  
   const [previewSelectedImageOne, setPreviewSelectedImageOne] = useState(null);
   const [selectedImageNameOne, setSelectedImageNameOne] = useState("");
   const [hasSelectedImageOne, setHasSelectedImageOne] = useState(false);
@@ -28,7 +27,8 @@ export const EditObject = () => {
   const [selectedImageNameTwo, setSelectedImageNameTwo] = useState("");
   const [hasSelectedImageTwo, setHasSelectedImageTwo] = useState(false);
 
-  const [previewSelectedImageThree, setPreviewSelectedImageThree] = useState(null);
+  const [previewSelectedImageThree, setPreviewSelectedImageThree] =
+    useState(null);
   const [selectedImageNameThree, setSelectedImageNameThree] = useState("");
   const [hasSelectedImageThree, setHasSelectedImageThree] = useState(false);
 
@@ -101,7 +101,7 @@ export const EditObject = () => {
       <div className="add-object__text-container">
         <h1 className="add-object__title">Redigera objekt</h1>
         <p className="add-object__info">
-          Är i kategorin: {checkWhatCategoryIsUserOn}
+          Är i kategorin:{checkWhatCategoryIsUserOn}
         </p>
       </div>
 
@@ -127,7 +127,6 @@ export const EditObject = () => {
 
           <p className="add-object__guideline">Tex.: Boktitel, pokémonnamn.</p>
         </div>
-
 
         <div className="form-input-with-label-guideline__container">
           <div className="form-input-with-label__box">
@@ -184,7 +183,7 @@ export const EditObject = () => {
           <h2 className="standard__subtitle">Redigera befintliga bilder</h2>
         </div>
 
-{/* bild 1  */}
+        {/* bild 1  */}
         <div className="form-input-with-label__box form-input-with-label__box--upload">
           <label
             className="form__label"
@@ -210,7 +209,7 @@ export const EditObject = () => {
             >
               {selectedImageNameOne}
             </label>
-            <span className="material-symbols-outlined trash__btn">delete</span>
+            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -223,7 +222,7 @@ export const EditObject = () => {
           />
         </div>
 
-{/* bild 2  */}
+        {/* bild 2  */}
         <div className="form-input-with-label__box form-input-with-label__box--upload">
           <label
             className="form__label"
@@ -249,7 +248,7 @@ export const EditObject = () => {
             >
               {selectedImageNameTwo}
             </label>
-            <span className="material-symbols-outlined trash__btn">delete</span>
+            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -262,10 +261,7 @@ export const EditObject = () => {
           />
         </div>
 
-
-
-
-{/* bild 3 */}
+        {/* bild 3 */}
 
         <div className="form-input-with-label__box form-input-with-label__box--upload lastchild">
           <label
@@ -292,7 +288,7 @@ export const EditObject = () => {
             >
               {selectedImageNameThree}
             </label>
-            <span className="material-symbols-outlined trash__btn">delete</span>
+            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -306,34 +302,36 @@ export const EditObject = () => {
         </div>
       </form>
 
-      <div className="add-category-image__container">
-        {previewSelectedImageOne && (
-          <img
-            src={previewSelectedImageOne}
-            alt="Preview"
-            className="add-category-image__preview"
-          />
-        )}
-      </div>
+      <div className="images-content">
+        <div className="add-category-image__container">
+          {previewSelectedImageOne && (
+            <img
+              src={previewSelectedImageOne}
+              alt="Preview"
+              className="add-category-image__preview"
+            />
+          )}
+        </div>
 
-      <div className="add-category-image__container">
-        {previewSelectedImageTwo && (
-          <img
-            src={previewSelectedImageTwo}
-            alt="Preview"
-            className="add-category-image__preview"
-          />
-        )}
-      </div>
+        <div className="add-category-image__container">
+          {previewSelectedImageTwo && (
+            <img
+              src={previewSelectedImageTwo}
+              alt="Preview"
+              className="add-category-image__preview"
+            />
+          )}
+        </div>
 
-      <div className="add-category-image__container">
-        {previewSelectedImageThree && (
-          <img
-            src={previewSelectedImageThree}
-            alt="Preview"
-            className="add-category-image__preview"
-          />
-        )}
+        <div className="add-category-image__container">
+          {previewSelectedImageThree && (
+            <img
+              src={previewSelectedImageThree}
+              alt="Preview"
+              className="add-category-image__preview"
+            />
+          )}
+        </div>
       </div>
 
       <button
