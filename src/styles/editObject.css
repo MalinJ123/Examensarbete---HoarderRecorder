@@ -1,0 +1,15 @@
+.form-upload-button-name__container.box {
+display: flex;
+justify-content: space-between;
+}
+
+.lastchild {
+    margin-bottom: 3em;
+  }
+.trash__btn{
+    align-items: right;
+    /* border: 2px solid green;  */
+    margin-right: 1em;
+}
+
+
