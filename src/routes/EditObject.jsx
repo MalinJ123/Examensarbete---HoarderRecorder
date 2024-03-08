@@ -308,7 +308,7 @@ export const EditObject = () => {
             <img
               src={previewSelectedImageOne}
               alt="Preview"
-              className="add-category-image__preview"
+              className="add-category-image__preview smallpic"
             />
           )}
         </div>
@@ -318,7 +318,7 @@ export const EditObject = () => {
             <img
               src={previewSelectedImageTwo}
               alt="Preview"
-              className="add-category-image__preview"
+              className="add-category-image__preview smallpic"
             />
           )}
         </div>
@@ -328,7 +328,7 @@ export const EditObject = () => {
             <img
               src={previewSelectedImageThree}
               alt="Preview"
-              className="add-category-image__preview"
+              className="add-category-image__preview smallpic"
             />
           )}
         </div>
