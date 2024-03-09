@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 
@@ -11,19 +11,6 @@ export const EditCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
   const [selectedImageName, setSelectedImageName] = useState("");
-
-  
-
-    // Dialog
-    const deleteCategoryDialogRef = useRef();
-
-    const stateDeleteCategoryDialog = (state) => {
-      if (state) {
-        deleteCategoryDialogRef.current.showModal();
-      } else {
-        deleteCategoryDialogRef.current.close();
-      }
-    }
 
   useEffect(() => {
     setChangeButtonsOnView("edit-category");
@@ -134,55 +121,6 @@ export const EditCategory = () => {
         </span>
       </button>
 
-      <button className="fixed__button fixed__button--second" type="button" onClick={() => stateDeleteCategoryDialog(true)}>
-        <span className="material-symbols-outlined trash__btn">delete</span>
-      </button>
-
-      <dialog ref={deleteCategoryDialogRef} className="dialog">
-
-        <section className="clickable__overlay" onClick={
-          () => stateDeleteCategoryDialog(false)
-        }>
-
-        <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
-
-          <div className="dialog__action-bar">
-
-            <button className="ghost__button" type="button" onClick={() => stateDeleteCategoryDialog(false)} title="Stäng dialog">
-
-            <span className="material-symbols-outlined">
-              close
-            </span>
-
-      </button>
-
-      </div>
-
-          <h1 className="dialog__title standard__title">Vill du radera kategorin?</h1>
-
-          <p className="dialog-info__text">
-            Kategorin och dess innehåll kommer att raderas permanent.
-          </p>
-
-          <div className="dialog-center__box">
-
-            <p className="dialog-info__title">Detta kommer bli raderat:</p>
-
-            <ul className="dialog__list">
-
-              <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> inom kategorin.</li>
-            </ul>
-
-            <button className="secondary__button" onClick={() => handleDeleteConfirmation(true)}>Bekräfta
-            </button>
-
-          </div>
-
-        </div>
-
-        </section>
-
-      </dialog>
     </section>
   );
 }

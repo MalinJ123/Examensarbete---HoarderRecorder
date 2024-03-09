@@ -130,6 +130,19 @@
     border-radius: var(--border-radius-corner);
     border: none;
     outline: none;
+    z-index: 9999;
+}
+
+.ghost__button--menu {
+    padding: 6px 6px;
+}
+
+.ghost__button:has(.button__span) {
+    flex-flow: row wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-smallest);
 }
   
 .ghost__button:hover {
@@ -268,8 +281,21 @@
     background-color: var(--color-overlay-background);
 }
 
+.clickable__overlay--menu {
+    display: grid;
+    align-items: flex-end;
+    padding: 0px;
+}
+
+.dialog__title--menu {
+    border-bottom: .75px solid var(--color-white);
+    padding-bottom: var(--spacing-medium);
+    margin-top: var(--spacing-medium) !important;
+    font-size: var(--font-size-subtitle);
+}
+
 .dialog__title {
-    margin-top: 42px !important;
+    margin-top: 42px;
 }
   
 .dialog__container {
@@ -311,5 +337,26 @@
     font-family: "Lato regular", sans-serif;
     font-size: var(--font-size-standard);
 }
-  
 
+.dialog__list--menu {
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    gap: var(--spacing-medium);
+    margin-top: var(--spacing-medium);
+    place-content: unset;
+    justify-content: space-between;
+}
+
+.menu__icon {
+    width: 24px;
+    height: 24px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 419px) {
+    .dialog__list--menu {
+        gap: 0px;
+        justify-content: unset;
+        place-content: center;
+    }
+}

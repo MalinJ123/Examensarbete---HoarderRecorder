@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -11,6 +11,27 @@ import start from "../images/start.png";
 import book from "../images/book.png";
 
 export const Start = () => {
+
+    // Dialog
+    const deleteCategoryDialogRef = useRef();
+
+    const stateDeleteCategoryDialog = (state) => {
+      if (state) {
+        deleteCategoryDialogRef.current.showModal();
+      } else {
+        deleteCategoryDialogRef.current.close();
+      }
+    }
+
+  const dialogContextMenuRef = useRef();
+
+  const stateDialogContextMenu = (state) => {
+    if (state) {
+      dialogContextMenuRef.current.showModal();
+    } else {
+      dialogContextMenuRef.current.close();
+    }
+  }
 
   const navigate = useNavigate();
 
@@ -56,9 +77,9 @@ export const Start = () => {
 
               <div className="category-more">
                 <p className="object-p">3 objekt </p>
-                <Link to="/edit-category">
-                  <span className="material-symbols-outlined pen">edit</span>
-                </Link>
+                <button className="ghost__button" onClick={() => stateDialogContextMenu(true)}>
+                  <span className="material-symbols-outlined pen">more_vert</span>
+                </button>
               </div>
             </div>
           </div>
@@ -123,6 +144,107 @@ export const Start = () => {
           </div>
         </div>
       </div>
+
+      <dialog className="dialog__context-menu" ref={dialogContextMenuRef}>
+
+        <section className="clickable__overlay clickable__overlay--menu" onClick={() => stateDialogContextMenu(false)}>
+
+          <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
+
+            <div className="dialog__action-bar">
+
+              <button className="ghost__button" type="button" onClick={() => stateDialogContextMenu(false)} title="Stäng dialog">
+
+                <span className="material-symbols-outlined">close</span>
+
+              </button>
+
+            </div>
+
+              <h1 className="dialog__title dialog__title--menu">Böcker</h1>
+
+              <ul className="dialog__list dialog__list--menu">
+
+                <li className="dialog__list-element">
+                  
+                  <button className="ghost__button ghost__button--menu" onClick={() => {
+                    navigate("/object"), stateDialogContextMenu(false)
+                  }}>
+                  
+                  <span className="material-symbols-outlined menu__icon">open_in_browser</span><span className="button__span">Öppna</span></button>
+                  
+                  </li>
+
+                  <li className="dialog__list-element">
+                  
+                  <button className="ghost__button ghost__button--menu"  onClick={() => {
+                    navigate("/edit-category"), stateDialogContextMenu(false)
+                  }}>
+                  
+                  <span className="material-symbols-outlined menu__icon">edit</span><span className="button__span">Redigera</span></button>
+                  
+                  </li>
+
+                  <li className="dialog__list-element">
+                  
+                  <button className="ghost__button ghost__button--menu" onClick={() => 
+                    stateDeleteCategoryDialog(true)
+                  }>
+                  
+                  <span className="material-symbols-outlined menu__icon">folder_delete</span><span className="button__span">Radera</span></button>
+                  
+                  </li>
+
+              </ul>
+          </div>
+        </section>
+      </dialog>
+
+      <dialog ref={deleteCategoryDialogRef} className="dialog">
+
+        <section className="clickable__overlay" onClick={
+          () => stateDeleteCategoryDialog(false)
+        }>
+
+        <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
+
+        <div className="dialog__action-bar">
+
+          <button className="ghost__button" type="button" onClick={() => stateDeleteCategoryDialog(false)} title="Stäng dialog">
+
+          <span className="material-symbols-outlined">
+            close
+          </span>
+
+      </button>
+
+      </div>
+
+        <h1 className="dialog__title standard__title">Vill du radera kategorin?</h1>
+
+        <p className="dialog-info__text">
+          Kategorin och dess innehåll kommer att raderas permanent.
+        </p>
+
+        <div className="dialog-center__box">
+
+      <p className="dialog-info__title">Detta kommer bli raderat:</p>
+
+      <ul className="dialog__list">
+
+        <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> inom kategorin.</li>
+      </ul>
+
+      <button className="secondary__button" onClick={() => handleDeleteConfirmation(true)}>Bekräfta
+      </button>
+
+    </div>
+
+  </div>
+
+  </section>
+
+</dialog>
 
       <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => goToNewCategoryView()}> 
           <span className="material-symbols-outlined">add</span>
