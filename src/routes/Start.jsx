@@ -46,7 +46,7 @@ export const Start = () => {
   }
 
   return (
-    <section className="section--spacer">
+    <section className="start__section section--spacer">
 
       {/* DisallowUserAccess is a component that checks if the user is really logged in. If not, the user will be redirected to root path. */}
       <DisallowUserAccess />
@@ -161,7 +161,7 @@ export const Start = () => {
 
             </div>
 
-              <h1 className="dialog__title dialog__title--menu">Böcker</h1>
+              <h1 className="dialog__title dialog__title--menu"><span className="material-symbols-outlined">folder</span> Böcker</h1>
 
               <ul className="dialog__list dialog__list--menu">
 

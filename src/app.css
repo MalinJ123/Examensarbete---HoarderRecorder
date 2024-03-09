@@ -292,6 +292,10 @@
     padding-bottom: var(--spacing-medium);
     margin-top: var(--spacing-medium) !important;
     font-size: var(--font-size-subtitle);
+    display: flex;
+    flex-flow: row wrap;
+    gap: var(--spacing-medium);
+    align-items: center;
 }
 
 .dialog__title {
