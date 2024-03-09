@@ -137,6 +137,11 @@
     padding: 6px 6px;
 }
 
+.ghost__button--kebab {
+    padding: 3px;
+    z-index: unset;
+}
+
 .ghost__button:has(.button__span) {
     flex-flow: row wrap;
     display: flex;
@@ -311,6 +316,7 @@
     padding-top: 0px;
     display: grid;
     border-radius: var(--border-radius-corner);
+    user-select: none;
 }
 
 .dialog__action-bar {

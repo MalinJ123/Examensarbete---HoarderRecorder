@@ -8,6 +8,11 @@ html, body, #root {
   overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 #root:has(.section--spacer) > .section--spacer:has(.fixed__button) {
   margin-bottom: var(--spacing-margin-fixed-button);
 }
@@ -34,6 +39,7 @@ html, body, #root {
   --color-header: #313131;
   --color-background: #272727;
   --color-box: #313131;
+  --color-box-hover: #373737;
   --color-white: #FFF;
   --color-details: #CBC7C7;
 

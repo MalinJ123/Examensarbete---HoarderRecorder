@@ -11,6 +11,16 @@
   padding-top: 21px;
 }
 
+.hero__image {
+  width: 100%;
+}
+
+.quantity-categories__text {
+  font-family: "Lato light", sans-serif;
+  font-weight: 100;
+  text-align: center;
+}
+
 /* Search field */
 .search-input-with-icon__box {
   display: flex;
@@ -19,7 +29,7 @@
   background-color: var(--color-form-control);
   border-radius: var(--border-radius-corner);
   padding: 6px;
-  width: calc(100dvw - 42px);
+  width: calc(100dvw - var(--spacing-standard) * 2);
 }
 
 .search-input-with-icon__box .search__label {
@@ -53,132 +63,101 @@
 /* Category */
 .categories__section {
   display: grid;
-  grid-template-columns: repeat(3, 112px);
+  grid-template-columns: repeat(3, 120px);
   row-gap: var(--spacing-small);
   column-gap: var(--spacing-smaller);
-  justify-items: flex-start;
+  justify-content: space-between;
+  width: calc(100vw - var(--spacing-standard) * 2);
+}
+
+.category__image {
+  width: 105px;
+  height: 100px;
+}
+
+.category__box {
+  padding: 8px;
+  display: grid;
+  align-items: flex-end;
+  background-color: var(--color-box);
+  border-radius: var(--border-radius-corner);
+  padding-bottom: 0px;
+}
+
+.category__info-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: var(--spacing-small); 
+  gap: var(--spacing-smaller);
 }
 
 @media screen and (min-width: 320px) and (max-width: 419px) {
   .categories__section {
-    grid-template-columns: repeat(2, 112px);
+    grid-template-columns: repeat(2, 134px);
     justify-content: space-between;
+  }
+
+  .category__box {
+    padding: 10px;
+  }
+
+  .category__image {
+    width: 114px;
+    height: 104px;
+  }
+
+  .category__info-container {
+    width: 134px;
   }
 }
 
-.hero__image {
-  width: 100%;
-}
-
-.p-container {
+.category__container {
   display: flex;
-  justify-content: center;
-}
-
-.quantity-categories__text {
-  font-family: "Lato light", sans-serif;
-  font-weight: 100;
-  text-align: center;
-  padding: 21px 0px;
-}
-
-.category-content{
-  display: flex;
-  flex-direction: column;
-}
-
-/* Category */
-
-.category-wrapper {
-  display: flex;
- justify-content: center;
-  flex-wrap: wrap;
-  margin: 2em 0em 1em;
-  
-}
- .c-container{
-  display: flex;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
   align-content: center;
-  margin: 0.2em;
-  margin: 0!important;
-  padding: 0!important;
 }
 
-.first {
+.category__box:hover {
+  background-color: var(--color-box-hover);
+  cursor: pointer;
+}
+
+.category__info {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
+  gap: var(--spacing-smallest);
 }
 
-.category-bg {
-  position: relative;
-  background-color: var(--color-box);
-  width: 7em;
-  height: 6.4em;
-  border-radius: 7px;
-}
-
-.category-bg:last-child {
-  margin-left: auto; 
-}
-
-.category-img {
-  position: absolute;
-  top: 10px;
-  left: 8px;
-  width: 6em;
-}
-
-.category-content {
-  display: flex;
-  padding: 0.2em;
-  margin-bottom: 1em;
-
-
-}
-.object-p{
-  color: rgb(203, 199, 199);
-  font-family: "JetBrains mono", monospace;
-  font-weight: 100;
-  font-size: 12px;
-}
-
-.title.category {
-  font-size: 15px;
+.category-info__title {
+  font-size: var(--font-size-category-title);
   font-family: "Lato light", sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 74px;
 }
 
-.category-more {
-  display: flex;
-  justify-content: space-between;
-  width: 6.6em;
-
-}
-.material-symbols-outlined.pen{
-  align-self: flex-start;
-  font-size: medium;
-
-}
-.object-price {
-  color: rgb(203, 199, 199);
+.category-info__details {
+  color: var(--color-details);
   font-family: "JetBrains mono", monospace;
   font-weight: 100;
-  font-size: 12px;
+  font-size: var(--font-size-category-details);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 74px;
 }
 
-/* Lägg till kategori knapp */
-.add-category-container {
-  position: fixed; 
-  bottom: 1em; 
-  right: 1em; 
-  z-index: 999;
+.category__info-kebab-icon .kebab__icon {
+  width: 20px;
 }
 
-.add-categorybtn {
-  background-color: var(--color-form-control);
-  padding: 0.3em 0.4em;
-  border-radius: 10px;
-  margin: 0em 2em 1em;
-  border-color: transparent;
+.category__kebab-icon {
+  display: grid;
+  width: 20px;
+  justify-self: flex-end;
 }
+

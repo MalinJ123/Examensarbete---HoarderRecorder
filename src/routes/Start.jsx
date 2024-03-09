@@ -73,33 +73,47 @@ export const Start = () => {
         <section className="categories__section">
 
           {
-            [...Array(4)].map((_, index) => (
-              <div className="c-container" key={index}>
-              <div className="first">
-                <div className="category-bg">
-                  <Link to="/object">
-                    <img className="category-img" src={book} alt="kategori bild" />
-                  </Link>
+            [...Array(22)].map((_, index) => (
+              <div className="category__container" key={index}>
+
+                <div className="category__box" onClick={() => navigate("/object")}>
+
+                    <img className="category__image" src={book} alt="kategori bild" />
+
                 </div>
-                <div className="category-content">
-                  <div className="title-category">
-                    <h4 className="title category">Böcker</h4>
+
+                <div className="category__info-container">
+
+                  <div className="category__info" onClick={() => navigate("/object")}>
+
+                    <p className="category-info__title">Böcker
+                    </p>
+
+                    <p className="category-info__details">3 obj.</p>
+
                   </div>
-  
-                  <div className="category-more">
-                    <p className="object-p">3 objekt </p>
-                    <button className="ghost__button" onClick={() => stateDialogContextMenu(true)}>
-                      <span className="material-symbols-outlined pen">more_vert</span>
-                    </button>
-                  </div>
+
+                  <div className="category__kebab-icon">
+
+                  <button className="ghost__button ghost__button--kebab" onClick={() => stateDialogContextMenu(true)}>
+
+                    <span className="material-symbols-outlined kebab__icon">
+                    more_vert
+                    </span>
+
+                  </button>
+
                 </div>
-              </div>
+
+                </div>
+
             </div>
             ))
           }
-        </section>
-      </div>
 
+        </section>
+
+      </div>
 
       <dialog className="dialog__context-menu" ref={dialogContextMenuRef}>
 
@@ -191,7 +205,9 @@ export const Start = () => {
         <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> inom kategorin.</li>
       </ul>
 
-      <button className="secondary__button" onClick={() => handleDeleteConfirmation(true)}>Bekräfta
+      <button className="secondary__button" onClick={() => {
+        stateDeleteCategoryDialog(false), stateDialogContextMenu(false);
+      }}>Bekräfta
       </button>
 
     </div>
