@@ -53,97 +53,53 @@ export const Start = () => {
       
       <img className="hero__image" src={start} alt="en bild från unsplash" />
 
-      <p className="quantity-categories__text">Du har 3 kategorier</p>
+      <div className="start__container">
+        
+        <p className="quantity-categories__text">Du har 3 kategorier</p>
 
-      <div className="serarchfield-container">
-        <div className="searchfield">
-          <span className="material-symbols-outlined search">search</span>
-          <p className="search-p">Sök efter katergori</p>
+
+        <div className="search-input-with-icon__box">
+
+          <label htmlFor="search__input" className="search__label">
+
+            <span className="material-symbols-outlined">search</span>
+
+          </label>
+
+          <input id="search__input" className="search__input-text" type="text" placeholder="Sök efter kategori" />
+
         </div>
+
+        <section className="categories__section">
+
+          {
+            [...Array(4)].map((_, index) => (
+              <div className="c-container" key={index}>
+              <div className="first">
+                <div className="category-bg">
+                  <Link to="/object">
+                    <img className="category-img" src={book} alt="kategori bild" />
+                  </Link>
+                </div>
+                <div className="category-content">
+                  <div className="title-category">
+                    <h4 className="title category">Böcker</h4>
+                  </div>
+  
+                  <div className="category-more">
+                    <p className="object-p">3 objekt </p>
+                    <button className="ghost__button" onClick={() => stateDialogContextMenu(true)}>
+                      <span className="material-symbols-outlined pen">more_vert</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ))
+          }
+        </section>
       </div>
 
-      <div className="category-wrapper">
-        <div className="c-container">
-          <div className="first">
-            <div className="category-bg">
-              <Link to="/object">
-                <img className="category-img" src={book} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="category-content">
-              <div className="title-category">
-                <h4 className="title category">Böcker</h4>
-              </div>
-
-              <div className="category-more">
-                <p className="object-p">3 objekt </p>
-                <button className="ghost__button" onClick={() => stateDialogContextMenu(true)}>
-                  <span className="material-symbols-outlined pen">more_vert</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="c-container">
-          <div className="first">
-            <div className="category-bg">
-              <Link to="/object">
-                <img className="category-img" src={book} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="category-content">
-              <div className="title-category">
-                <h4 className="title category">Böcker</h4>
-              </div>
-
-              <div className="category-more">
-                <p className="object-p">3 objekt </p>
-                <span className="material-symbols-outlined pen">edit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="c-container">
-          <div className="first">
-            <div className="category-bg">
-              <Link to="/object">
-                <img className="category-img" src={book} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="category-content">
-              <div className="title-category">
-                <h4 className="title category">Böcker</h4>
-              </div>
-
-              <div className="category-more">
-                <p className="object-p">3 objekt </p>
-                <span className="material-symbols-outlined pen">edit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="c-container">
-          <div className="first">
-            <div className="category-bg">
-              <Link to="/object">
-                <img className="category-img" src={book} alt="kategori bild" />
-              </Link>
-            </div>
-            <div className="category-content">
-              <div className="title-category">
-                <h4 className="title category">Böcker</h4>
-              </div>
-
-              <div className="category-more">
-                <p className="object-p">3 objekt </p>
-                <span className="material-symbols-outlined pen">edit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <dialog className="dialog__context-menu" ref={dialogContextMenuRef}>
 
