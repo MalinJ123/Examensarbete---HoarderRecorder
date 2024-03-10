@@ -8,6 +8,10 @@ html, body, #root {
   overflow-x: hidden;
 }
 
+html:not(input, textarea), body:not(input, textarea), #root:not(input, textarea) {
+  user-select: none;
+}
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;

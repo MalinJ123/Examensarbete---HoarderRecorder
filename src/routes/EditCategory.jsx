@@ -33,23 +33,17 @@ export const EditCategory = () => {
     navigate("/start");
   };
 
-  const handleTrashClick = () => {
-    setShowOverlay(true); 
-  };
-
-  const handleDeleteConfirmation = (confirm) => {
-    if (confirm) {
-      navigate("/start");
-    }
-    setShowOverlay(false); 
-  };
-
   const isCategoryNameEmpty = categoryName === "";
 
   return (
     <section className="add-category__section">
 
-    <h1 className="standard__title">Redigera kategori</h1>
+      <div className="add-object__text-container">
+        <h1 className="add-object__title">Redigera kategori</h1>
+        <p className="add-object__info">
+          Redigerar kategorin: Böcker
+        </p>
+      </div>
 
     <form className="form__container 
     form__container--margin-bottom">

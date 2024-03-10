@@ -301,6 +301,14 @@
     flex-flow: row wrap;
     gap: var(--spacing-medium);
     align-items: center;
+
+}
+
+.dialog__title--menu > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 192px;
 }
 
 .dialog__title {

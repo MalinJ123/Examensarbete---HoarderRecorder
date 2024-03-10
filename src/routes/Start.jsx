@@ -51,7 +51,7 @@ export const Start = () => {
       {/* DisallowUserAccess is a component that checks if the user is really logged in. If not, the user will be redirected to root path. */}
       <DisallowUserAccess />
       
-      <img className="hero__image" src={start} alt="en bild från unsplash" />
+      <img className="hero__image" src={start} alt="Startsidans bild" />
 
       <div className="start__container">
         
@@ -131,7 +131,7 @@ export const Start = () => {
 
             </div>
 
-              <h1 className="dialog__title dialog__title--menu"><span className="material-symbols-outlined">folder</span> Böcker</h1>
+              <h1 className="dialog__title dialog__title--menu"><span className="material-symbols-outlined">folder</span> <span>Böcker</span></h1>
 
               <ul className="dialog__list dialog__list--menu">
 
