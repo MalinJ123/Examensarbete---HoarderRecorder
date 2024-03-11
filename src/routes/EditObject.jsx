@@ -112,7 +112,7 @@ export const EditObject = () => {
         <div className="form-input-with-label-guideline__container">
           <div className="form-input-with-label__box">
             <label className="form__label" htmlFor="object-name__input">
-              Titel
+              Namnge objektet*
             </label>
 
             <input

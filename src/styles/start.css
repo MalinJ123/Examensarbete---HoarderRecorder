@@ -91,7 +91,7 @@
   padding: var(--spacing-small); 
   gap: var(--spacing-smaller);
 }
-
+/* 
 @media screen and (min-width: 320px) and (max-width: 419px) {
   .categories__section {
     grid-template-columns: repeat(2, 134px);
@@ -110,6 +110,17 @@
 
   .category__info-container {
     width: 134px;
+  }
+} */
+
+@media screen and (max-width: 408px) {
+  .categories__section {
+    grid-template-columns: repeat(2, 2fr);
+    justify-content: space-between;
+  }
+  .category__image {
+    width: 117px;
+    height: 104px;
   }
 }
 

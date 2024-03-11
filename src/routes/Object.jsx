@@ -90,9 +90,8 @@ export const Object = () => {
 
                     <p className="object-info__title">Storms</p>
 
-                    <p className="object-info__details object-info__details--author">
+                    <p className="object-info__details">
 
-                     <span className="material-symbols-outlined author__icon">person</span>
 
                       Sara J Maas
 
@@ -148,7 +147,7 @@ export const Object = () => {
             <li className="dialog__list-element">
               
               <button className="ghost__button ghost__button--menu" onClick={() => {
-                navigate("/object"), stateDialogContextMenu(false)
+                navigate("/show-object"), stateDialogContextMenu(false)
               }}>
               
               <span className="material-symbols-outlined menu__icon">open_in_browser</span><span className="button__span">Öppna</span></button>
@@ -158,7 +157,7 @@ export const Object = () => {
               <li className="dialog__list-element">
               
               <button className="ghost__button ghost__button--menu"  onClick={() => {
-                navigate("/edit-category"), stateDialogContextMenu(false)
+                navigate("/edit-object"), stateDialogContextMenu(false)
               }}>
               
               <span className="material-symbols-outlined menu__icon">edit</span><span className="button__span">Redigera</span></button>

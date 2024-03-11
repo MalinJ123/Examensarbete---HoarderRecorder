@@ -12,6 +12,7 @@ html:not(input, textarea), body:not(input, textarea), #root:not(input, textarea)
   user-select: none;
 }
 
+/* För att ta bort skrollbar */
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
