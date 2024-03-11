@@ -8,6 +8,7 @@
 /* Titel, författare och pris */
 .object-title-p {
   text-align: left;
+  padding: 0px var(--spacing-small);
 }
 .standard__text.title{
     margin: 1em 0em;
@@ -56,6 +57,7 @@
 /* Anteckning + p-tagg */
 .description-content {
   margin-top: 1em;
+  padding: 0px var(--spacing-small);
 }
 
 
