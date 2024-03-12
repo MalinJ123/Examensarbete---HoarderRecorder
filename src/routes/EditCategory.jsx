@@ -71,7 +71,7 @@ export const EditCategory = () => {
           Ladda upp en ny bild för kategorin
         </label>
 
-        <div className="form-upload-button-name__container">
+        <div className="form-upload-button-name__container box">
         
         <label className="form__upload-label" htmlFor="category-image-upload__input">
           <span className="material-symbols-outlined upload">cloud_upload</span>
@@ -81,7 +81,7 @@ export const EditCategory = () => {
         <label className="form__selected-file__label" htmlFor="category-image-upload__input">
           {selectedImageName}
         </label>
-
+        <span className="material-symbols-outlined trash">delete</span>
         </div>
 
         {/* Hide the default file input and made a custom one */}

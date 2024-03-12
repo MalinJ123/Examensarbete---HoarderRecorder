@@ -186,7 +186,7 @@ export const AddObject = () => {
             Ladda upp bild 1 på objektet*
           </label>
 
-          <div className="form-upload-button-name__container">
+          <div className="form-upload-button-name__container box">
           
             <label className="form__upload-label" htmlFor="category-image-upload__input-one">
               <span className="material-symbols-outlined upload">cloud_upload</span>
@@ -196,7 +196,7 @@ export const AddObject = () => {
             <label className="form__selected-file__label" htmlFor="category-image-upload__input-one">
               {selectedImageNameOne}
             </label>
-
+            <span className="material-symbols-outlined trash">delete</span>
             </div>
 
             {/* Hide the default file input and made a custom one */}
@@ -216,7 +216,7 @@ export const AddObject = () => {
               Ladda upp bild 2 på objektet
             </label>
 
-            <div className="form-upload-button-name__container">
+            <div className="form-upload-button-name__container box">
 
             <label className="form__upload-label" htmlFor="category-image-upload__input-two">
               <span className="material-symbols-outlined upload">cloud_upload</span>
@@ -226,7 +226,7 @@ export const AddObject = () => {
             <label className="form__selected-file__label" htmlFor="category-image-upload__input-two">
               {selectedImageNameTwo}
             </label>
-
+            <span className="material-symbols-outlined trash">delete</span>
             </div>
 
             {/* Hide the default file input and made a custom one */}
@@ -246,7 +246,7 @@ export const AddObject = () => {
             Ladda upp bild 3 på objektet
           </label>
 
-          <div className="form-upload-button-name__container">
+          <div className="form-upload-button-name__container box">
 
           <label className="form__upload-label" htmlFor="category-image-upload__input-three">
             <span className="material-symbols-outlined upload">cloud_upload</span>
@@ -256,7 +256,7 @@ export const AddObject = () => {
           <label className="form__selected-file__label" htmlFor="category-image-upload__input-three">
             {selectedImageNameThree}
           </label>
-
+          <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
