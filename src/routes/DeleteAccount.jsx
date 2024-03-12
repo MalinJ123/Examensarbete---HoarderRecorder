@@ -11,7 +11,7 @@ export const DeleteAccount = () => {
 
     const navigate = useNavigate();
 
-    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword } = useContext(AppContext);
+    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword, localStorageUser } = useContext(AppContext);
 
     // Change the behavior the header's buttons depending on which view the user is currently on
     useEffect(() => {
@@ -23,6 +23,7 @@ export const DeleteAccount = () => {
         setUsername('');
         setUserPassword('');
         setIsUserLoggedIn(false)
+        localStorage.removeItem(localStorageUser);
         setAuthenticationView('register')
         navigate('/')
     };

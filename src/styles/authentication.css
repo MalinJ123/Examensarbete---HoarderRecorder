@@ -1,6 +1,6 @@
 /* Auth */
 .auth__splashscreen {
-  height: calc(100dvh - 60px);
+  height: calc(100vh - 60px);
   width: 100%;
   background-image: url("../images/dots_background.png");
   background-size: cover;
