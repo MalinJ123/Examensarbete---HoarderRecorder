@@ -57,7 +57,7 @@ export const DeleteAccount = () => {
 
                 </ul>
 
-                <button className="secondary__button" onClick={() => confirmedDeletionOfAccount()}>Bekräfta
+                <button className="secondary__button user-btn" onClick={() => confirmedDeletionOfAccount()}>Bekräfta
                 </button>
 
               </div>
