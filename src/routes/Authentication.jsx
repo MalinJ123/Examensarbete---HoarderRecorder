@@ -68,7 +68,7 @@ const Register = ({ areFieldsEmpty, onHandleSubmit }) => {
 
                     <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
-                    <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text" type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={24} />
 
                 </div>
 
@@ -76,7 +76,7 @@ const Register = ({ areFieldsEmpty, onHandleSubmit }) => {
 
                     <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
-                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} maxLength={32} />
 
                 </div>
                 
@@ -120,7 +120,7 @@ const Login = ({ areFieldsEmpty, onHandleSubmit }) => {
 
                     <label className="form__label" htmlFor="username__input">Användarnamn*</label>
 
-                    <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <input className="form__input-text"  type="text" id="username__input" placeholder="JohannaDoe" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={24} />
 
                 </div>
 
@@ -128,7 +128,7 @@ const Login = ({ areFieldsEmpty, onHandleSubmit }) => {
 
                     <label className="form__label" htmlFor="password__input">Lösenord*</label>
 
-                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
+                    <input className="form__input-text"  type="password" id="password__input" placeholder="********" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} maxLength={32} />
 
                 </div>
 

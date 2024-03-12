@@ -1,14 +1,16 @@
 /* Add category */
 .add-category__section {
-    display: flex;
-    flex-flow: column wrap;
+    display: grid;
     height: calc(100dvh - 60px);
     width: 100%;
     padding: 0px var(--spacing-standard);
+    grid-template-rows: 1fr 1fr 1fr 1fr 200px;
 }
+
 .add-category-image__preview {
-    width: 15em;
-    margin-top: var(--spacing-standard)
+    width: 200px;
+    height: 200px;
+    margin-top: var(--spacing-standard);
 }
 
 .add-category-image__container {
