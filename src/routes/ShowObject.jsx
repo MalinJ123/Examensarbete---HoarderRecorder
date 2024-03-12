@@ -55,7 +55,7 @@ export const ShowObject = () => {
             </div>
           </div>
   
-          <div className="description-content">
+          <div className="description-content section--spacer">
             <p className="standard__text-title">Anteckning</p>
             <p className="standard__text">
               Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i

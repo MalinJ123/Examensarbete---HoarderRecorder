@@ -55,7 +55,7 @@
 }
 
 /* Anteckning + p-tagg */
-.description-content {
+.description-content.section--spacer {
   margin-top: 1em;
   padding: 0px var(--spacing-small);
 }
@@ -72,4 +72,10 @@
     right: 5em;
 }
     
+}
+
+/* knapparna finns i app.css */
+
+.fixed__button.fixed__button--second{
+  user-select: none;
 }
