@@ -234,6 +234,7 @@
     font-weight: 70;
     cursor: pointer;
     font-size: var(--font-size-input-text);
+    user-select: none;
 }
   
 .form__upload-label:hover {
@@ -245,6 +246,7 @@
     flex-flow: row wrap;
     gap: var(--spacing-smaller);
     align-items: center;
+    user-select: none;
 }
   
 .form__selected-file__label {
