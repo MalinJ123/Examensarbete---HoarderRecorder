@@ -32,7 +32,7 @@ export const ShowObject = () => {
 
     return (
       <>
-        <section className="show-object-wrapper">
+        <section className="show-object-wrapper section--spacer">
           <div className="object-title-p">
             <p className="standard__text title">Heir of Fire</p>
             <p className="standard__text ">Författare: Sara J Maas</p>
@@ -58,6 +58,22 @@ export const ShowObject = () => {
           <div className="description-content section--spacer">
             <p className="standard__text-title">Anteckning</p>
             <p className="standard__text">
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
+              Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
+              bokryggen.
               Detta är en skitbra bok. Om jag hittar en liknande bok så borde jag köpa den eftersom den här är trasig i
               bokryggen.
             </p>
