@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
+
+import { imageDb } from "../firebaseConfig.js";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/user.css";
@@ -14,28 +18,41 @@ export const User = () => {
     username,
   } = useContext(AppContext);
 
-  // State to store the name of the selected image
-  const [selectedImageName, setSelectedImageName] = useState("");
+  // State to store the selected image
+  const [selectedImage, setSelectedImage] = useState(null);
+  // State to store the URL of the selected image
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
 
   useEffect(() => {
     setChangeButtonsOnView("user");
   }, [setChangeButtonsOnView]);
 
+  useEffect(() => {
+    if (selectedImage) {
+      const imgRef = ref(imageDb, `images/${v4()}`);
+      uploadBytes(imgRef, selectedImage, {
+        contentType: "image/jpeg",
+      })
+        .then((snapshot) => {
+          console.log("Image uploaded:", snapshot);
+          getDownloadURL(snapshot.ref).then((url) => {
+            console.log("Image URL:", url);
+            setSelectedImageUrl(url);
+          });
+        })
+        .catch((error) => {
+          console.error("Error uploading image:", error);
+          // Handle error
+        });
+    }
+  }, [selectedImage]);
+
   const goToDeleteAccountPrompt = () => {
     navigate("/delete-account");
-  };
-
-  // Function to handle file upload
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImageName(file.name); 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserProfilePicture(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   return (
@@ -62,15 +79,10 @@ export const User = () => {
               </span>
               <p className="upload__text">Välj bild</p>
             </label>
-            
-            {/* Display the name of the selected image */}
-            <label
-              className="form__selected-file__label"
-              htmlFor="profile-picture__input"
-            >
-              {selectedImageName}
-            </label>
-            <span className="material-symbols-outlined trash">delete</span>
+
+              <span className="material-symbols-outlined trash">
+                delete
+              </span>
           </div>
 
           {/* Hide the default file input and make a custom one */}
@@ -79,14 +91,14 @@ export const User = () => {
             id="profile-picture__input"
             className="form__input-upload"
             accept="image/*"
-            onChange={handleFileUpload}
+            onChange={(e) => handleImageChange(e)}
           />
         </div>
-        {userProfilePicture && (
+        {selectedImageUrl && (
           <section className="profile-picture__spacer">
             <img
               className="user-profile-picture__image"
-              src={userProfilePicture}
+              src={selectedImageUrl}
               alt="Profilbild"
             />
           </section>
@@ -109,3 +121,4 @@ export const User = () => {
     </section>
   );
 };
+
