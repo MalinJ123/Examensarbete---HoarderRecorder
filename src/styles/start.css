@@ -154,3 +154,12 @@
   height: 25px;
   justify-self: flex-end;
 }
+
+.dialog-info__text.overlay-text{
+  margin-bottom:1em;
+  padding:0em 1em;
+}
+
+.secondary__button.big{
+  margin-top:1em;
+}

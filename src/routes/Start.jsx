@@ -192,25 +192,25 @@ export const Start = () => {
 
         <h1 className="dialog__title standard__title">Vill du radera kategorin?</h1>
 
-        <p className="dialog-info__text">
-          Kategorin och dess innehåll kommer att raderas permanent.
+        <p className="dialog-info__text overlay-text">
+       <em>   Kategorin och dess innehåll kommer att raderas permanent.</em>
         </p>
 
         <div className="dialog-center__box">
-
       <p className="dialog-info__title">Detta kommer bli raderat:</p>
+
 
       <ul className="dialog__list">
 
-        <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> inom kategorin.</li>
+        <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> </li>
       </ul>
 
-      <button className="secondary__button" onClick={() => {
+
+    </div>
+      <button className="secondary__button big" onClick={() => {
         stateDeleteCategoryDialog(false), stateDialogContextMenu(false);
       }}>Bekräfta
       </button>
-
-    </div>
 
   </div>
 
