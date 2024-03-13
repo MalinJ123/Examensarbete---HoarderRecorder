@@ -25,4 +25,52 @@
   font-weight: 100;
 }
 
+/* Validering för login  */
+.error-text {
+  background-color: rgba(221, 50, 50, 0.493);
+  color: rgb(113, 10, 10);
+  padding: 0.1em 0.3em;
+}
 
+.username-container.error,
+.password-container.error {
+  position: relative;
+}
+
+.password-container.error::after,
+.username-container.error::after {
+  content: "\00a0";
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  color: red;
+  font-size: 12px;
+}
+
+.username-container.error input,
+.password-container.error input {
+  border: 1px solid rgb(237, 0, 0);
+}
+
+.username-container.success input,
+.password-container.success input {
+  border: 1px solid green;
+}
+
+
+.form__container {
+  position: relative;
+}
+
+.error-message {
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.input-error {
+  border: 1px solid red;
+}
