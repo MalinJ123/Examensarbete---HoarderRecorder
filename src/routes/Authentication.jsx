@@ -9,6 +9,7 @@ export const Authentication = () => {
     username,
     userPassword,
     authenticationView,
+    setAuthenticationView,
     isUserLoggedIn,
     setChangeButtonsOnView,
     setIsUserLoggedIn,
@@ -51,9 +52,10 @@ export const Authentication = () => {
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
-        <Register />
+        <Register setAuthenticationView={setAuthenticationView} />
       ) : (
         <Login
+          setAuthenticationView={setAuthenticationView}
           usernameError={usernameError}
           passwordError={passwordError}
           onHandleSubmit={onHandleSubmit}
@@ -63,11 +65,14 @@ export const Authentication = () => {
   );
 };
 
-const Login = ({ usernameError, passwordError, onHandleSubmit }) => {
-  const { username, userPassword, setUsername, setUserPassword } = useContext(
-    AppContext
-  );
-
+const Login = ({
+  usernameError,
+  passwordError,
+  onHandleSubmit,
+  setAuthenticationView,
+}) => {
+  const { username, userPassword, setUsername, setUserPassword } =
+    useContext(AppContext);
   const handleUsernameChange = (e) => {
     const value = e.target.value;
     setUsername(value);
@@ -118,9 +123,7 @@ const Login = ({ usernameError, passwordError, onHandleSubmit }) => {
             onChange={handleUsernameChange}
             maxLength={24}
           />
-          {usernameError && (
-            <p className="error-message">{usernameError}</p>
-          )}
+          {usernameError && <p className="error-message">{usernameError}</p>}
         </div>
         <div
           className={`form-input-with-label__box ${
@@ -139,9 +142,7 @@ const Login = ({ usernameError, passwordError, onHandleSubmit }) => {
             onChange={handlePasswordChange}
             maxLength={32}
           />
-          {passwordError && (
-            <p className="error-message">{passwordError}</p>
-          )}
+          {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
         <div className="form-button__column-group">
           <button
@@ -151,11 +152,7 @@ const Login = ({ usernameError, passwordError, onHandleSubmit }) => {
           >
             Gå tillbaka till registrering
           </button>
-          <button
-            type="submit"
-            className="primary__button"
-            // disabled={usernameError || passwordError}
-          >
+          <button type="submit" className="primary__button">
             Logga in
           </button>
         </div>
@@ -164,7 +161,12 @@ const Login = ({ usernameError, passwordError, onHandleSubmit }) => {
   );
 };
 
-const Register = () => {
+const Register = ({
+  usernameError,
+  passwordError,
+  onHandleSubmit,
+  setAuthenticationView,
+}) => {
   return (
     <section className="auth__section">
       <h1 className="standard__title">Registrera nytt konto</h1>
@@ -201,7 +203,11 @@ const Register = () => {
           />
         </div>
         <div className="form-button__column-group">
-          <button type="button" className="ghost__button">
+          <button
+            type="button"
+            className="ghost__button"
+            onClick={() => setAuthenticationView("login")}
+          >
             Gå till logga in
           </button>
           <button type="submit" className="primary__button">
