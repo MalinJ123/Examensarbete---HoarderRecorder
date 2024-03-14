@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { getDocs, addDoc, collection, where, query } from "firebase/firestore";
+
+import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import "../styles/authentication.css";
 
@@ -14,12 +17,16 @@ export const Authentication = () => {
     setChangeButtonsOnView,
     setIsUserLoggedIn,
   } = useContext(AppContext);
+
   const navigate = useNavigate();
 
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const onHandleSubmit = (e) => {
+
+  const dbref = collection(db, "users");
+
+  const onHandleSubmit = async (e) => {
     e.preventDefault();
 
     if (!username) {
@@ -35,16 +42,69 @@ export const Authentication = () => {
     }
 
     if (username && userPassword) {
-      if (username === "Malin" && userPassword === "12345") {
-        setIsUserLoggedIn(true);
-        navigate("/start");
+      if (authenticationView === "register") {
 
-        localStorage.setItem(
-          localStorageUser,
-          JSON.stringify({ username, password: userPassword, loggedIn: true })
-        );
-      } else {
-        setUsernameError("Fel användarnamn eller lösenord");
+        const matchUsername = query(dbref, where("username", "==", username));
+
+        try {
+          const snapshot = await getDocs(matchUsername);
+          const userMatchArray = snapshot.docs.map((doc) => doc.data());
+
+          if (userMatchArray.length > 0) {
+            setUsernameError("Användarnamnet är upptaget");
+            return;
+
+          } else {
+
+            await addDoc(dbref, {username: username, password: userPassword});
+
+            setIsUserLoggedIn(true);
+
+            navigate("/start");
+
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ username, password: userPassword, loggedIn: true })
+            );
+          }
+
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
+
+      } else if (authenticationView === "login") {
+
+        const matchUsername = query(dbref, where("username", "==", username));
+        const matchPassword = query(dbref, where("password", "==", userPassword));
+
+
+        try {
+
+          const userNameSnapshot = await getDocs(matchUsername);
+          const userNameMatchArray = userNameSnapshot.docs.map((doc) => doc.data());
+
+          const userPasswordSnapshot = await getDocs(matchPassword);
+          const userPasswordMatchArray = userPasswordSnapshot.docs.map((doc) => doc.data());
+
+          if (userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
+
+            setIsUserLoggedIn(true);
+
+            navigate("/start");
+    
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ username, password: userPassword, loggedIn: true })
+            );
+
+          } else {
+            setUsernameError("Fel användarnamn eller lösenord");
+            return;
+          }
+
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
       }
     }
   };
@@ -177,7 +237,7 @@ const Register = ({
           hålla reda på allt du håller kärt! ❤️
         </p>
       </div>
-      <form className="form__container">
+      <form className="form__container" onSubmit={onHandleSubmit}>
         <div className="form-input-with-label__box">
           <label className="form__label" htmlFor="username__input">
             Användarnamn*
@@ -210,7 +270,7 @@ const Register = ({
           >
             Gå till logga in
           </button>
-          <button type="submit" className="primary__button">
+          <button type="button" className="primary__button">
             Registrera
           </button>
         </div>
