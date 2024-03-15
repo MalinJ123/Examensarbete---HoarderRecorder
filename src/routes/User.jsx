@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+
+import { db } from "../firebaseConfig";
 import { imageDb } from "../firebaseConfig.js";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
@@ -16,12 +19,13 @@ export const User = () => {
     userProfilePicture,
     setUserProfilePicture,
     username,
+    localStorageUser
   } = useContext(AppContext);
 
   // State to store the selected image
   const [selectedImage, setSelectedImage] = useState(null);
-  // State to store the URL of the selected image
-  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
+  const existingDataInUserLS = JSON.parse(localStorage.getItem(localStorageUser)) || {};
 
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
@@ -32,28 +36,52 @@ export const User = () => {
   }, [setChangeButtonsOnView]);
 
   useEffect(() => {
-    if (selectedImage) {
-      const imgRef = ref(imageDb, `images/${v4()}`);
-      uploadBytes(imgRef, selectedImage, {
-        contentType: "image/jpeg",
-      })
-        .then((snapshot) => {
-          console.log("Image uploaded:", snapshot);
-          getDownloadURL(snapshot.ref).then((url) => {
-            console.log("Image URL:", url);
-            setSelectedImageUrl(url);
+    const uploadImage = async () => {
+      if (selectedImage) {
+        try {
+          const imgRef = ref(imageDb, `images/${v4()}`);
+          const snapshot = await uploadBytes(imgRef, selectedImage, {
+            contentType: "image/jpeg",
           });
-        })
-        .catch((error) => {
-          console.error("Error uploading image:", error);
+          console.log("Image uploaded:", snapshot);
+
+          const url = await getDownloadURL(snapshot.ref);
+          console.log("Image URL:", url);
+
+          const dbref = collection(db, "users");
+          const matchUsername = query(dbref, where("username", "==", username));
+          const userSnapshot = await getDocs(matchUsername);
+          const userDocs = userSnapshot.docs;
+
+          if (userDocs.length === 1) {
+            const userDoc = userDocs[0];
+            const userDocRef = doc(db, "users", userDoc.id);
+
+            await updateDoc(userDocRef, { userProfilePicture: url });
+            setUserProfilePicture(url);
+
+            existingDataInUserLS.userProfilePicture = userProfilePicture;
+
+            localStorage.setItem(localStorageUser, JSON.stringify(existingDataInUserLS));
+
+            console.log("User profile picture updated successfully");
+          } else {
+            console.error("Error: Multiple users found with the same username");
+          }
+        } catch (error) {
+          console.error("Error:", error);
           // Handle error
-        });
-    }
-  }, [selectedImage]);
+        }
+      }
+    };
+
+    uploadImage();
+  }, [selectedImage, username]);
 
   const goToDeleteAccountPrompt = () => {
     navigate("/delete-account");
   };
+
 
   return (
     <section className="user__section">
@@ -94,11 +122,11 @@ export const User = () => {
             onChange={(e) => handleImageChange(e)}
           />
         </div>
-        {selectedImageUrl && (
+        {userProfilePicture && (
           <section className="profile-picture__spacer">
             <img
               className="user-profile-picture__image"
-              src={selectedImageUrl}
+              src={userProfilePicture}
               alt="Profilbild"
             />
           </section>
@@ -111,11 +139,6 @@ export const User = () => {
           >
             Ta bort konto
           </button>
-          {userProfilePicture && (
-            <button type="submit" className="primary__button">
-              Slutför ändring
-            </button>
-          )}
         </div>
       </form>
     </section>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDocs, addDoc, collection, where, query } from "firebase/firestore";
 
@@ -13,10 +13,13 @@ export const Authentication = () => {
     userPassword,
     authenticationView,
     setAuthenticationView,
-    isUserLoggedIn,
     setChangeButtonsOnView,
     setIsUserLoggedIn,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    setChangeButtonsOnView("authentication");
+  }, [])
 
   const navigate = useNavigate();
 
@@ -27,6 +30,7 @@ export const Authentication = () => {
   const dbref = collection(db, "users");
 
   const onHandleSubmit = async (e) => {
+    console.log("Hello there from onHandleSubmit")
     e.preventDefault();
 
     if (!username) {
@@ -42,7 +46,10 @@ export const Authentication = () => {
     }
 
     if (username && userPassword) {
+      console.log("Username and password are filled in!")
+      console.log("Authentication view is: ", authenticationView)
       if (authenticationView === "register") {
+        console.log("Authentication view is register!")
 
         const matchUsername = query(dbref, where("username", "==", username));
 
@@ -112,13 +119,15 @@ export const Authentication = () => {
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
-        <Register setAuthenticationView={setAuthenticationView} />
+        <Register setAuthenticationView={setAuthenticationView} onHandleSubmit={onHandleSubmit} usernameError={usernameError} setUsernameError={setUsernameError} setPasswordError={setPasswordError}
+        passwordError={passwordError} />
       ) : (
         <Login
           setAuthenticationView={setAuthenticationView}
           usernameError={usernameError}
           passwordError={passwordError}
           onHandleSubmit={onHandleSubmit}
+          setUsernameError={setUsernameError} setPasswordError={setPasswordError}
         />
       )}
     </section>
@@ -130,9 +139,12 @@ const Login = ({
   passwordError,
   onHandleSubmit,
   setAuthenticationView,
+  setUsernameError,
+  setPasswordError
 }) => {
   const { username, userPassword, setUsername, setUserPassword } =
     useContext(AppContext);
+
   const handleUsernameChange = (e) => {
     const value = e.target.value;
     setUsername(value);
@@ -222,11 +234,37 @@ const Login = ({
 };
 
 const Register = ({
-  usernameError,
-  passwordError,
   onHandleSubmit,
   setAuthenticationView,
+  usernameError,
+  setUsernameError,
+  passwordError,
+  setPasswordError
 }) => {
+
+  const { username, userPassword, setUsername, setUserPassword } =
+    useContext(AppContext);
+
+  const handleUsernameChange = (e) => {
+    const value = e.target.value;
+    setUsername(value);
+    if (!value) {
+      setUsernameError("Du måste fylla i användarnamn");
+    } else {
+      setUsernameError("");
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setUserPassword(value);
+    if (!value) {
+      setPasswordError("Du måste fylla i lösenord");
+    } else {
+      setPasswordError("");
+    }
+  };
+
   return (
     <section className="auth__section">
       <h1 className="standard__title">Registrera nytt konto</h1>
@@ -237,7 +275,7 @@ const Register = ({
           hålla reda på allt du håller kärt! ❤️
         </p>
       </div>
-      <form className="form__container" onSubmit={onHandleSubmit}>
+      <form className="form__container" onSubmit={(e) => onHandleSubmit(e)}>
         <div className="form-input-with-label__box">
           <label className="form__label" htmlFor="username__input">
             Användarnamn*
@@ -247,8 +285,11 @@ const Register = ({
             type="text"
             id="username__input"
             placeholder="JohannaDoe"
+            value={username}
+            onChange={handleUsernameChange}
             maxLength={24}
           />
+          {usernameError && <p className="error-message">{usernameError}</p>}
         </div>
         <div className="form-input-with-label__box">
           <label className="form__label" htmlFor="password__input">
@@ -259,8 +300,11 @@ const Register = ({
             type="password"
             id="password__input"
             placeholder="********"
+            value={userPassword}
+            onChange={handlePasswordChange}
             maxLength={32}
           />
+          {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
         <div className="form-button__column-group">
           <button
@@ -270,7 +314,7 @@ const Register = ({
           >
             Gå till logga in
           </button>
-          <button type="button" className="primary__button">
+          <button type="submit" className="primary__button">
             Registrera
           </button>
         </div>
@@ -278,3 +322,4 @@ const Register = ({
     </section>
   );
 };
+

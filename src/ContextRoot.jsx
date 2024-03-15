@@ -1,4 +1,7 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
+import { getDocs, collection, where, query } from "firebase/firestore";
+
+import { db } from "./firebaseConfig";
 
 export const AppContext = createContext();
 
@@ -16,14 +19,36 @@ export const ContextRoot = ({ children }) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-      const lsUSer = localStorage.getItem(localStorageUser);
-      if (lsUSer) {
-        const userData = JSON.parse(lsUSer);
-        setUsername(userData.username);
-        setUserPassword(userData.userPassword);
-        setIsUserLoggedIn(userData.loggedIn)
-      }
-    })
+      const dbref = collection(db, "users");
+    
+      const lsFunction = async () => {
+        const lsUser = localStorage.getItem(localStorageUser);
+        if (lsUser) {
+          const userData = JSON.parse(lsUser);
+          setUsername(userData.username || ''); 
+          setUserPassword(userData.userPassword || '');
+          setIsUserLoggedIn(userData.loggedIn || false);
+          setUserProfilePicture(userData.userPicture || '');
+    
+          // Check if the user is logged in and fetch the profile image from the database
+          if (userData.loggedIn) {
+            const matchUsername = query(dbref, where("username", "==", userData.username));
+            const snapshot = await getDocs(matchUsername);
+            snapshot.forEach((doc) => {
+              // Update the userProfilePicture in localStorageUser with the profile image from the database
+              const profilePicture = doc.data().userProfilePicture;
+              localStorage.setItem(localStorageUser, JSON.stringify({
+                ...userData,
+                userPicture: profilePicture
+              }));
+              setUserProfilePicture(profilePicture);
+            });
+          }
+        }
+      };
+    
+      lsFunction();
+    }, []);
 
     const [authenticationView, setAuthenticationView] = useState('login');
 

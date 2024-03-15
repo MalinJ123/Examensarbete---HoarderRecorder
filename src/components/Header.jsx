@@ -9,7 +9,7 @@ export const Header = () => {
 
   const navigate = useNavigate();
 
-  const { localStorageUser, changeButtonsOnView, setIsUserLoggedIn, setAuthenticationView, setUsername, setUserPassword } = useContext(AppContext);
+  const { localStorageUser, changeButtonsOnView, setIsUserLoggedIn, setAuthenticationView, setUsername, setUserPassword, userProfilePicture } = useContext(AppContext);
 
   // If the is logging out, redirect to the start page
   const userIsLoggingOut = () => {
@@ -48,7 +48,13 @@ export const Header = () => {
         <div className="filler__box"></div>
       ) : (
         <NavLink to="/user">
-          <span className="material-symbols-outlined header__icon">person</span>
+          {
+            userProfilePicture !== "" ? (
+              <img src={userProfilePicture} alt="Profile" className="header__profile-picture" />
+            ) : (
+              <span className="material-symbols-outlined header__icon">person</span>
+            )
+          }
         </NavLink>
       )}
     </header>
