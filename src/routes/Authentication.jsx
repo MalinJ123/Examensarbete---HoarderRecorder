@@ -7,6 +7,12 @@ import { AppContext } from "../ContextRoot";
 import "../styles/authentication.css";
 
 export const Authentication = () => {
+
+  // const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const {
     localStorageUser,
     username,
@@ -23,14 +29,10 @@ export const Authentication = () => {
 
   const navigate = useNavigate();
 
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-
+ 
   const dbref = collection(db, "users");
 
   const onHandleSubmit = async (e) => {
-    console.log("Hello there from onHandleSubmit")
     e.preventDefault();
 
     if (!username) {
@@ -116,6 +118,41 @@ export const Authentication = () => {
     }
   };
 
+  // Hantera valideringen för registrera konto 
+
+  const onHandleRegister = (e) => {
+    e.preventDefault();
+
+    if (!username) {
+      setUsernameError("Du måste fylla i användarnamn");
+    } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
+      setUsernameError("Användarnamnet får bara innehålla bokstäver och siffror");
+    } else {
+      setUsernameError("");
+    }
+
+    if (!userPassword) {
+      setPasswordError("Du måste fylla i lösenord");
+    } else if (!/^[a-zA-Z0-9]+$/.test(userPassword)) {
+      setPasswordError("Lösenordet får bara innehålla bokstäver och siffror");
+    } else {
+      setPasswordError("");
+    }
+
+    if (username && userPassword && !usernameError && !passwordError) {
+      if (username === "Malin" && userPassword === "12345") {
+        setIsUserLoggedIn(true);
+        navigate("/start");
+
+        localStorage.setItem(
+          localStorageUser,
+          JSON.stringify({ username, password: userPassword, loggedIn: true })
+        );
+      } else {
+        setUsernameError("Fel användarnamn eller lösenord");
+      }
+    }
+  };
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
@@ -322,4 +359,3 @@ const Register = ({
     </section>
   );
 };
-
