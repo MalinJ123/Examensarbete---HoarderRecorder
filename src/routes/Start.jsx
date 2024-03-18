@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 
+import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
@@ -11,6 +12,8 @@ import start from "../images/start.png";
 import book from "../images/book.png";
 
 export const Start = () => {
+
+  const [categories, setCategories] = useState([]);
 
     // Dialog
     const deleteCategoryDialogRef = useRef();
@@ -35,7 +38,7 @@ export const Start = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
+  const { setChangeButtonsOnView, username } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
@@ -44,6 +47,34 @@ export const Start = () => {
   const goToNewCategoryView = () => {
     navigate("/add-category");
   }
+
+  const dbRef = collection(db, "categories");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+          const matchCategoriesByUsername = query(dbRef, where("username", "==", username));
+          const userSnapshot = await getDocs(matchCategoriesByUsername);
+    
+          const categoriesArray = [];
+    
+          userSnapshot.forEach((doc) => {
+            const categoryData = doc.data();
+    
+            categoriesArray.push(categoryData);
+    
+        });
+
+        setCategories(categoriesArray);
+      } catch (error) {
+        console.error("Error getting categories:", error);
+      }
+    }
+
+    fetchCategories();
+
+
+  }, [username]); 
 
   return (
     <section className="start__section section--spacer">
@@ -71,6 +102,45 @@ export const Start = () => {
         </div>
 
         <section className="categories__section">
+
+          {
+            categories.map((category, index) => (
+              <div className="category__container" key={index}>
+
+                <div className="category__box" onClick={() => navigate("/object")}>
+
+                    <img className="category__image" src={book} alt="kategori bild" />
+
+                </div>
+
+                <div className="category__info-container">
+
+                  <div className="category__info" onClick={() => navigate("/object")}>
+
+                    <p className="category-info__title">{category.categoryName}
+                    </p>
+
+                    <p className="category-info__details">{category.objects.length} obj.</p>
+
+                  </div>
+
+                  <div className="category__kebab-icon">
+
+                  <button className="ghost__button ghost__button--kebab" onClick={() => stateDialogContextMenu(true)}>
+
+                    <span className="material-symbols-outlined kebab__icon">
+                    more_vert
+                    </span>
+
+                  </button>
+
+                </div>
+
+                </div>
+
+              </div>
+
+            ))}
 
           {
             [...Array(22)].map((_, index) => (

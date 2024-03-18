@@ -48,8 +48,8 @@ export const User = () => {
           const url = await getDownloadURL(snapshot.ref);
           console.log("Image URL:", url);
 
-          const dbref = collection(db, "users");
-          const matchUsername = query(dbref, where("username", "==", username));
+          const dbRef = collection(db, "users");
+          const matchUsername = query(dbRef, where("username", "==", username));
           const userSnapshot = await getDocs(matchUsername);
           const userDocs = userSnapshot.docs;
 
