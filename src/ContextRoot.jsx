@@ -12,6 +12,8 @@ export const ContextRoot = ({ children }) => {
 
     const [username, setUsername] = useState('');
 
+    const [userId, setUserId] = useState('');
+
     const [userPassword, setUserPassword] = useState('');
 
     const [userProfilePicture, setUserProfilePicture] = useState('');
@@ -19,20 +21,21 @@ export const ContextRoot = ({ children }) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-      const dbref = collection(db, "users");
+      const dbRef = collection(db, "users");
     
       const lsFunction = async () => {
         const lsUser = localStorage.getItem(localStorageUser);
         if (lsUser) {
           const userData = JSON.parse(lsUser);
-          setUsername(userData.username || ''); 
+          setUsername(userData.username || '');
+          setUserId(userData.id || '');
           setUserPassword(userData.userPassword || '');
           setIsUserLoggedIn(userData.loggedIn || false);
           setUserProfilePicture(userData.userPicture || '');
     
           // Check if the user is logged in and fetch the profile image from the database
           if (userData.loggedIn) {
-            const matchUsername = query(dbref, where("username", "==", userData.username));
+            const matchUsername = query(dbRef, where("id", "==", userData.id));
             const snapshot = await getDocs(matchUsername);
             snapshot.forEach((doc) => {
               // Update the userProfilePicture in localStorageUser with the profile image from the database
@@ -70,7 +73,7 @@ export const ContextRoot = ({ children }) => {
     }
 
   return (
-    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
+    <AppContext.Provider value={{ username, setUsername, userId, setUserId, userPassword, setUserPassword, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
       {children}
     </AppContext.Provider>
   );

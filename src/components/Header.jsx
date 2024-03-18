@@ -25,10 +25,6 @@ export const Header = () => {
     navigate(-1);
   };
 
-  useEffect(() => {
-    console.log(userProfilePicture)
-  })
-
   return (
     <header className="header">
 

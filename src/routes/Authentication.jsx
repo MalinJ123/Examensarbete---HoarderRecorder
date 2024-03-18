@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDocs, addDoc, collection, where, query } from "firebase/firestore";
+import { v4 } from "uuid";
 
 import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
@@ -30,7 +31,7 @@ export const Authentication = () => {
   const navigate = useNavigate();
 
  
-  const dbref = collection(db, "users");
+  const dbRef = collection(db, "users");
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
@@ -53,9 +54,11 @@ export const Authentication = () => {
       if (authenticationView === "register") {
         console.log("Authentication view is register!")
 
-        const matchUsername = query(dbref, where("username", "==", username));
+        // If the username is already taken, display an error message
+        const matchUsername = query(dbRef, where("username", "==", username));
 
         try {
+
           const snapshot = await getDocs(matchUsername);
           const userMatchArray = snapshot.docs.map((doc) => doc.data());
 
@@ -65,7 +68,29 @@ export const Authentication = () => {
 
           } else {
 
-            await addDoc(dbref, {username: username, password: userPassword});
+            const generateUserId = async (dbRef) => {
+              // Generate an user id
+              let userId = v4();
+
+              let checkIfUserIdExists = true;
+              while (checkIfUserIdExists) {
+                const matchUserId = query(dbRef, where("userId", "==", userId));
+                const snapshot = await getDocs(matchUserId);
+
+                if (snapshot.empty) {
+                  checkIfUserIdExists = false;
+                } else {
+                  userId = v4();
+                }
+              }
+
+              return userId;
+
+            }
+
+            const userId = await generateUserId(dbRef);
+
+            await addDoc(dbRef, {id: userId, username: username, password: userPassword});
 
             setIsUserLoggedIn(true);
 
@@ -73,7 +98,7 @@ export const Authentication = () => {
 
             localStorage.setItem(
               localStorageUser,
-              JSON.stringify({ username, password: userPassword, loggedIn: true })
+              JSON.stringify({ id: userId, username: username, password: userPassword, loggedIn: true })
             );
           }
 
@@ -83,8 +108,8 @@ export const Authentication = () => {
 
       } else if (authenticationView === "login") {
 
-        const matchUsername = query(dbref, where("username", "==", username));
-        const matchPassword = query(dbref, where("password", "==", userPassword));
+        const matchUsername = query(dbRef, where("username", "==", username));
+        const matchPassword = query(dbRef, where("password", "==", userPassword));
 
 
         try {
