@@ -1,5 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { collection, query, where, addDoc } from "firebase/firestore";
+
+import { db, imageDb } from "../firebaseConfig";
+
 
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
@@ -9,10 +13,9 @@ import "../styles/addCategory.css";
 export const AddCategory = () => {
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
+  const { setChangeButtonsOnView, userId } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
-  const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
-  const [selectedImageName, setSelectedImageName] = useState("");
+  const [SelectedImage, setSelectedImage] = useState(null);
   const [hasSelectedImage, setHasSelectedImage] = useState(false);
 
   useEffect(() => {
@@ -20,23 +23,9 @@ export const AddCategory = () => {
   });
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-
-      setSelectedImageName(file.name);
-      setHasSelectedImage(true);
-    } else {
-      setPreviewSelectedImage(null);
-      setSelectedImageName("");
-      setHasSelectedImage(false);
-    }
-  };
-
+    setSelectedImage(e.target.files[0]);
+  }
+  
   const GoToCompletedCategory = () => {
     navigate("/start");
   }
@@ -85,9 +74,6 @@ export const AddCategory = () => {
             <p className="upload__text">Välj bild</p>
           </label>
 
-          <label className="form__selected-file__label" htmlFor="category-image-upload__input">
-            {selectedImageName}
-          </label>
           <span className="material-symbols-outlined trash">delete</span>
           </div>
 
@@ -106,8 +92,8 @@ export const AddCategory = () => {
 
       <div className="add-category-image__container">
 
-        {previewSelectedImage && (
-          <img src={previewSelectedImage} alt="Preview" className="add-category-image__preview" />
+        {selectedImage && (
+          <img src={selectedImage} alt="Preview" className="add-category-image__preview" />
         )}
 
       </div>

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
@@ -38,7 +38,7 @@ export const Start = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, username } = useContext(AppContext);
+  const { setChangeButtonsOnView, userId } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
@@ -53,8 +53,8 @@ export const Start = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-          const matchCategoriesByUsername = query(dbRef, where("username", "==", username));
-          const userSnapshot = await getDocs(matchCategoriesByUsername);
+          const matchCategoriesByUserId = query(dbRef, where("id", "==", userId));
+          const userSnapshot = await getDocs(matchCategoriesByUserId);
     
           const categoriesArray = [];
     
@@ -74,7 +74,7 @@ export const Start = () => {
     fetchCategories();
 
 
-  }, [username]); 
+  }, [userId]); 
 
   return (
     <section className="start__section section--spacer">
