@@ -5,12 +5,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.API_KEY,
-  authDomain: import.meta.env.AUTH_DOMAIN,
-  projectId: import.meta.env.PROJECT_ID,
-  storageBucket: import.meta.env.STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.MESSAGING_SENDER_ID,
-  appId: import.meta.env.APP_ID
+  apiKey: "AIzaSyCQ5e5Y6yGR0iFMBlCa1fSKa5FZjSKcORw",
+  authDomain: "hoarderrecorder.firebaseapp.com",
+  projectId:"hoarderrecorder",
+  storageBucket:"hoarderrecorder.appspot.com",
+  messagingSenderId:"590281804630",
+  appId:"1:590281804630:web:d4bc5a72ce6a6f9a7224f7",
 };
 
 // Initialize Firebase
