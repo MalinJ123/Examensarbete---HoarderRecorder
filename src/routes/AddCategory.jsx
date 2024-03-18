@@ -15,8 +15,7 @@ export const AddCategory = () => {
 
   const { setChangeButtonsOnView, userId } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
-  const [SelectedImage, setSelectedImage] = useState(null);
-  const [hasSelectedImage, setHasSelectedImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
@@ -30,7 +29,36 @@ export const AddCategory = () => {
     navigate("/start");
   }
 
-  const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !hasSelectedImage);
+  useEffect(() => {
+    const uploadCategory = async () => {
+      if (selectedImage && categoryName.trim() !== "") {
+        try {
+          const imgRef = ref(imageDb, `images/${v4()}`);
+          const snapshot = await uploadBytes(imgRef, selectedImage, {
+            contentType: "image/jpeg",
+          });
+          console.log("Image uploaded:", snapshot);
+
+          const url = await getDownloadURL(snapshot.ref);
+          console.log("Image URL:", url);
+
+          const dbRef = collection(db, "categories");
+          const matchUsernameId = query(dbRef, where("id", "==", userId));
+          const userSnapshot = await getDocs(matchUsernameId);
+          const userDocs = userSnapshot.docs;
+
+        } catch (error) {
+          console.error("Error:", error);
+          // Handle error
+        }
+      }
+    };
+
+    uploadCategory();
+  }, [selectedImage, userId]);
+
+
+  const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !selectedImage);
 
   return (
     <section className="add-category__section">

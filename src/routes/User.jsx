@@ -60,6 +60,8 @@ export const User = () => {
 
             await updateDoc(userDocRef, { userProfilePicture: url });
             setUserProfilePicture(url);
+            // Error: Multiple users found with the same username
+            // TODO: UserProfilePicture doesn't get added to localStorage
 
             existingDataInUserLS.userProfilePicture = userProfilePicture;
 
@@ -77,7 +79,7 @@ export const User = () => {
     };
 
     uploadImage();
-  }, [selectedImage, username]);
+  }, [selectedImage, userId]);
 
   const goToDeleteAccountPrompt = () => {
     navigate("/delete-account");
