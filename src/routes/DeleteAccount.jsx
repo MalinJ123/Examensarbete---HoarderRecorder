@@ -1,7 +1,10 @@
 import { useContext, useEffect } from "react";
-
+import { ref, deleteObject } from "firebase/storage";
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
+import { db } from "../firebaseConfig";
+import { imageDb } from "../firebaseConfig.js";
 import { AppContext } from '../ContextRoot';
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
@@ -11,7 +14,7 @@ export const DeleteAccount = () => {
 
     const navigate = useNavigate();
 
-    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword, localStorageUser } = useContext(AppContext);
+    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword, setUserProfilePicture, setUserId, localStorageUser, userId } = useContext(AppContext);
 
     // Change the behavior the header's buttons depending on which view the user is currently on
     useEffect(() => {
@@ -19,13 +22,43 @@ export const DeleteAccount = () => {
     })
 
     // If user actually deletes their account
-    const confirmedDeletionOfAccount = () => {
+    const confirmedDeletionOfAccount = async () => {
+      try {
+
+        const dbRef = collection(db, "users");
+        const matchUserId = query(dbRef, where("id", "==", userId));
+        const snapshot = await getDocs(matchUserId);
+    
+        if (snapshot.empty) {
+          return; 
+        }
+    
+        const userDoc = snapshot.docs[0];
+    
+        const userData = userDoc.data();
+        if (userData.userProfilePicture) {
+          const storageRef = ref(imageDb, userData.userProfilePicture);
+          await deleteObject(storageRef);
+          console.log("Image deleted successfully");
+        }
+    
+        await deleteDoc(userDoc.ref);
+
         setUsername('');
+        setUserId('');
+        setUserProfilePicture('');
         setUserPassword('');
-        setIsUserLoggedIn(false)
+        setIsUserLoggedIn(false);
         localStorage.removeItem(localStorageUser);
-        setAuthenticationView('register')
-        navigate('/')
+        setAuthenticationView('register');
+        navigate('/');
+
+        // TODO: Delete documents from collections "categories" and "objects" where the user id matches the user id of the user that is being deleted. Also remove all the images from the storage that are connected to the user that is being deleted.
+    
+        console.log("User account successfully deleted!");
+      } catch (error) {
+        console.error("Error deleting user data:", error);
+      }
     };
 
     return (
