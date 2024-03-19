@@ -20,37 +20,47 @@ export const ContextRoot = ({ children }) => {
 
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    useEffect(() => {
-      const dbRef = collection(db, "users");
-    
-      const lsFunction = async () => {
+    const handleLSUserData = async () => {
+      try {
         const lsUser = localStorage.getItem(localStorageUser);
         if (lsUser) {
           const userData = JSON.parse(lsUser);
           setUsername(userData.username || '');
           setUserId(userData.id || '');
           setIsUserLoggedIn(userData.loggedIn || false);
-          setUserProfilePicture(userData.userPicture || '');
     
-          // Check if the user is logged in and fetch the profile image from the database
+          // Check for profile picture in both local storage and user data
           if (userData.loggedIn) {
-            const matchUserId = query(dbRef, where("id", "==", userData.id));
-            const snapshot = await getDocs(matchUserId);
-            snapshot.forEach((doc) => {
-              // Update the userProfilePicture in localStorageUser with the profile image from the database
-              const profilePicture = doc.data().userProfilePicture;
-              localStorage.setItem(localStorageUser, JSON.stringify({
-                ...userData,
-                userPicture: profilePicture
-              }));
-              setUserProfilePicture(profilePicture);
-            });
+            const storedProfilePicture = userData.userProfilePicture;
+            const hasProfilePictureInLS = storedProfilePicture && localStorage.getItem(localStorageUser)?.userProfilePicture;
+    
+            if (!hasProfilePictureInLS) {
+
+              const dbRef = collection(db, "users");
+              const matchUserId = query(dbRef, where("id", "==", userData.id));
+              const snapshot = await getDocs(matchUserId);
+              snapshot.forEach((doc) => {
+                const profilePicture = doc.data().userProfilePicture;
+                localStorage.setItem(localStorageUser, JSON.stringify({
+                  ...userData,
+                  userProfilePicture: profilePicture
+                }));
+                setUserProfilePicture(profilePicture);
+              });
+            } else {
+              // Use profile picture from local storage if available
+              setUserProfilePicture(storedProfilePicture);
+            }
           }
         }
-      };
-    
-      lsFunction();
-    }, []);
+      } catch (error) {
+        console.error("Error parsing localStorage data:", error);
+      }
+    };
+
+    useEffect(() => {
+      handleLSUserData();
+    }, [isUserLoggedIn]);
 
     const [authenticationView, setAuthenticationView] = useState('login');
 
