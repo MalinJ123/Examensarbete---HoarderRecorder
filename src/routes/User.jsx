@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
 
 import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
@@ -40,7 +40,7 @@ export const User = () => {
     const uploadImage = async () => {
       if (selectedImage) {
         try {
-          const imgRef = ref(imageDb, `images/${v4()}`);
+          const imgRef = ref(imageDb, `profiles/${v4()}`);
           const snapshot = await uploadBytes(imgRef, selectedImage, {
             contentType: "image/jpeg",
           });
@@ -62,6 +62,7 @@ export const User = () => {
             setUserProfilePicture(url);
             // Error: Multiple users found with the same username
             // TODO: UserProfilePicture doesn't get added to localStorage
+            // If changing the code, the page reloads and the upload function goes off
 
             existingDataInUserLS.userProfilePicture = userProfilePicture;
 
@@ -73,13 +74,57 @@ export const User = () => {
           }
         } catch (error) {
           console.error("Error:", error);
-          // Handle error
+
         }
       }
     };
 
     uploadImage();
   }, [selectedImage, userId]);
+
+  const deleteUserImage = async (userId) => {
+    try {
+      const dbRef = collection(db, "users");
+      const matchUserId = query(dbRef, where("id", "==", userId));
+      const userSnapshot = await getDocs(matchUserId);
+      const userDocs = userSnapshot.docs;
+  
+      if (userDocs.length === 1) {
+        const userDoc = userDocs[0];
+        const userDocRef = doc(db, "users", userDoc.id);
+  
+        // Retrieve the image URL from Firestore
+        const userData = userDoc.data();
+        const imageUrl = userData.userProfilePicture;
+  
+        // Check if the user has a profile image
+        if (imageUrl) {
+          // Delete the image URL from Firestore
+          await updateDoc(userDocRef, { userProfilePicture: null });
+  
+          // Construct the storage reference by appending Firebase Storage domain
+          const storageRef = ref(imageDb, imageUrl);
+  
+          // Delete the image from Firebase Storage
+          await deleteObject(storageRef);
+
+          setUserProfilePicture(null);
+
+          // TODO: UserProfilePicture doesn't get removed from localStorage and where does userPicture come from?
+  
+          console.log("Image deleted successfully");
+        } else {
+          console.error("Error: User does not have a profile image");
+        }
+      } else {
+        console.error("Error: Multiple users found with the same user ID");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error
+    }
+  };
+
 
   const goToDeleteAccountPrompt = () => {
     navigate("/delete-account");
@@ -111,7 +156,7 @@ export const User = () => {
               <p className="upload__text">Välj bild</p>
             </label>
 
-              <span className="material-symbols-outlined trash">
+              <span className="material-symbols-outlined trash" onClick={() => deleteUserImage(userId)}>
                 delete
               </span>
           </div>

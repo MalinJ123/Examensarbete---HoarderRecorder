@@ -38,7 +38,7 @@ export const AddCategory = () => {
         try {
 
           // Upload the image to the storage
-          const imgRef = ref(imageDb, `images/${v4()}`);
+          const imgRef = ref(imageDb, `categories/${v4()}`);
           const snapshot = await uploadBytes(imgRef, selectedImage, {
             contentType: "image/jpeg",
           });
