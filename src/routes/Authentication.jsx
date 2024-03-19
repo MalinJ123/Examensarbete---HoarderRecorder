@@ -55,7 +55,6 @@ export const Authentication = () => {
       console.log("Username and password are filled in!")
       console.log("Authentication view is: ", authenticationView)
       if (authenticationView === "register") {
-        console.log("Authentication view is register!")
 
         // If the username is already taken, display an error message
         const matchUsername = query(dbRef, where("username", "==", username));

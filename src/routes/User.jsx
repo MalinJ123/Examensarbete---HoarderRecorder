@@ -98,13 +98,12 @@ export const User = () => {
           // Delete the image URL from Firestore
           await updateDoc(userDocRef, { userProfilePicture: null });
   
-          // Construct the storage reference by appending Firebase Storage domain
           const storageRef = ref(imageDb, imageUrl);
   
           // Delete the image from Firebase Storage
           await deleteObject(storageRef);
   
-          // Update userProfilePicture state and local storage (choose one approach):
+          // Update userProfilePicture state and local storage
   
           setUserProfilePicture(null);
           localStorage.setItem(localStorageUser, JSON.stringify({
