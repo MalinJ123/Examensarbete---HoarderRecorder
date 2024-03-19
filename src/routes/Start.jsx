@@ -48,33 +48,32 @@ export const Start = () => {
     navigate("/add-category");
   }
 
-  const dbRef = collection(db, "categories");
-
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-          const matchCategoriesByUserId = query(dbRef, where("id", "==", userId));
-          const userSnapshot = await getDocs(matchCategoriesByUserId);
-    
-          const categoriesArray = [];
-    
-          userSnapshot.forEach((doc) => {
-            const categoryData = doc.data();
-    
-            categoriesArray.push(categoryData);
-    
-        });
+    const dbRef = collection(db, "categories");
 
-        setCategories(categoriesArray);
-      } catch (error) {
-        console.error("Error getting categories:", error);
-      }
-    }
+    const fetchCategories = async () => {
+        try {
+            const matchCategoriesByUserId = query(dbRef, where("userId", "==", userId));
+            const userSnapshot = await getDocs(matchCategoriesByUserId);
+    
+            const categoriesArray = [];
+    
+            userSnapshot.forEach((doc) => {
+                const categoryData = doc.data();
+                categoriesArray.push(categoryData);
+            });
+
+            setCategories(categoriesArray);
+
+        } catch (error) {
+            console.error("Error getting categories:", error);
+        }
+    };
 
     fetchCategories();
 
+}, [userId]);
 
-  }, [userId]); 
 
   return (
     <section className="start__section section--spacer">
@@ -104,12 +103,12 @@ export const Start = () => {
         <section className="categories__section">
 
           {
-            categories.map((category, index) => (
-              <div className="category__container" key={index}>
+            categories.map((category) => (
+              <div className="category__container" key={category.id}>
 
                 <div className="category__box" onClick={() => navigate("/object")}>
 
-                    <img className="category__image" src={book} alt="kategori bild" />
+                    <img className="category__image" src={category.image} alt="kategori bild" />
 
                 </div>
 
@@ -117,10 +116,8 @@ export const Start = () => {
 
                   <div className="category__info" onClick={() => navigate("/object")}>
 
-                    <p className="category-info__title">{category.categoryName}
+                    <p className="category-info__title">{category.name}
                     </p>
-
-                    <p className="category-info__details">{category.objects.length} obj.</p>
 
                   </div>
 
@@ -141,45 +138,6 @@ export const Start = () => {
               </div>
 
             ))}
-
-          {
-            [...Array(22)].map((_, index) => (
-              <div className="category__container" key={index}>
-
-                <div className="category__box" onClick={() => navigate("/object")}>
-
-                    <img className="category__image" src={book} alt="kategori bild" />
-
-                </div>
-
-                <div className="category__info-container">
-
-                  <div className="category__info" onClick={() => navigate("/object")}>
-
-                    <p className="category-info__title">Böcker
-                    </p>
-
-                    <p className="category-info__details">3 obj.</p>
-
-                  </div>
-
-                  <div className="category__kebab-icon">
-
-                  <button className="ghost__button ghost__button--kebab" onClick={() => stateDialogContextMenu(true)}>
-
-                    <span className="material-symbols-outlined kebab__icon">
-                    more_vert
-                    </span>
-
-                  </button>
-
-                </div>
-
-                </div>
-
-            </div>
-            ))
-          }
 
         </section>
 

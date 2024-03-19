@@ -9,8 +9,6 @@ import "../styles/authentication.css";
 
 export const Authentication = () => {
 
-  // const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -22,11 +20,16 @@ export const Authentication = () => {
     setAuthenticationView,
     setChangeButtonsOnView,
     setIsUserLoggedIn,
+    isUserLoggedIn
   } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("authentication");
-  }, [])
+
+    if(isUserLoggedIn) {
+      navigate("/start");
+    }
+  }, [isUserLoggedIn])
 
   const navigate = useNavigate();
 
@@ -107,6 +110,8 @@ export const Authentication = () => {
         }
 
       } else if (authenticationView === "login") {
+        // TODO: När man loggar ut och loggar in med ett annat konto, så visas det gamla kontots data istället!
+        // Fixar sig när man uppdaterar sidan
 
         const matchUsername = query(dbRef, where("username", "==", username));
         const matchPassword = query(dbRef, where("password", "==", userPassword));
@@ -120,7 +125,10 @@ export const Authentication = () => {
           const userPasswordSnapshot = await getDocs(matchPassword);
           const userPasswordMatchArray = userPasswordSnapshot.docs.map((doc) => doc.data());
 
-          if (userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
+          const userDocs = userNameSnapshot.docs.filter((doc) => doc.data().id);
+
+          if (userDocs.length > 0 && userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
+            const userId = userDocs[0].data().id;
 
             setIsUserLoggedIn(true);
 
@@ -128,7 +136,7 @@ export const Authentication = () => {
     
             localStorage.setItem(
               localStorageUser,
-              JSON.stringify({ username, password: userPassword, loggedIn: true })
+              JSON.stringify({ id: userId, username: username, loggedIn: true })
             );
 
           } else {
@@ -143,41 +151,7 @@ export const Authentication = () => {
     }
   };
 
-  // Hantera valideringen för registrera konto 
-
-  const onHandleRegister = (e) => {
-    e.preventDefault();
-
-    if (!username) {
-      setUsernameError("Du måste fylla i användarnamn");
-    } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
-      setUsernameError("Användarnamnet får bara innehålla bokstäver och siffror");
-    } else {
-      setUsernameError("");
-    }
-
-    if (!userPassword) {
-      setPasswordError("Du måste fylla i lösenord");
-    } else if (!/^[a-zA-Z0-9]+$/.test(userPassword)) {
-      setPasswordError("Lösenordet får bara innehålla bokstäver och siffror");
-    } else {
-      setPasswordError("");
-    }
-
-    if (username && userPassword && !usernameError && !passwordError) {
-      if (username === "Malin" && userPassword === "12345") {
-        setIsUserLoggedIn(true);
-        navigate("/start");
-
-        localStorage.setItem(
-          localStorageUser,
-          JSON.stringify({ username, password: userPassword, loggedIn: true })
-        );
-      } else {
-        setUsernameError("Fel användarnamn eller lösenord");
-      }
-    }
-  };
+  
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
@@ -204,7 +178,7 @@ const Login = ({
   setUsernameError,
   setPasswordError
 }) => {
-  const { username, userPassword, setUsername, setUserPassword } =
+  const { username, setUsername, userPassword, setUserPassword } =
     useContext(AppContext);
 
   const handleUsernameChange = (e) => {
@@ -301,10 +275,11 @@ const Register = ({
   usernameError,
   setUsernameError,
   passwordError,
-  setPasswordError
+  setPasswordError,
+
 }) => {
 
-  const { username, userPassword, setUsername, setUserPassword } =
+  const { username, setUsername, userPassword, setUserPassword } =
     useContext(AppContext);
 
   const handleUsernameChange = (e) => {

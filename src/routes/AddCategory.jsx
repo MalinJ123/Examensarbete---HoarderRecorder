@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, where, addDoc } from "firebase/firestore";
+import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
+import { v4 } from "uuid";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { db, imageDb } from "../firebaseConfig";
 
@@ -15,8 +17,8 @@ export const AddCategory = () => {
 
   const { setChangeButtonsOnView, userId } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
-  const [SelectedImage, setSelectedImage] = useState(null);
-  const [hasSelectedImage, setHasSelectedImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
@@ -30,7 +32,87 @@ export const AddCategory = () => {
     navigate("/start");
   }
 
-  const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !hasSelectedImage);
+  useEffect(() => {
+    const uploadCategory = async () => {
+      if (selectedImage && categoryName.trim() !== "") {
+        try {
+
+          // Upload the image to the storage
+          const imgRef = ref(imageDb, `categories/${v4()}`);
+          const snapshot = await uploadBytes(imgRef, selectedImage, {
+            contentType: "image/jpeg",
+          });
+          console.log("Image uploaded:", snapshot);
+
+          const url = await getDownloadURL(snapshot.ref);
+          console.log("Image URL:", url);
+
+          setPreviewImage(url);
+
+          // Upload the category to the database
+          const dbRef = collection(db, "categories");
+
+          const generateCategoryId = async (dbRef) => {
+            // Generate a category id
+            let categoryId = v4();
+
+            let checkIfCategoryIdExists = true;
+            while (checkIfCategoryIdExists) {
+              const matchCategoryId = query(dbRef, where("id", "==", categoryId));
+              const snapshot = await getDocs(matchCategoryId);
+
+              if (snapshot.empty) {
+                checkIfCategoryIdExists = false;
+              } else {
+                categoryId = v4();
+              }
+            }
+
+            return categoryId;
+
+          }
+
+
+
+          const generateObjectsContainerId = async (dbRef) => {
+            // Generate a category id
+            let objectsContainerId = v4();
+
+            let checkIfObjectsContainerIdExists = true;
+            while (checkIfObjectsContainerIdExists) {
+              const matchObjectsContainerId = query(dbRef, where("id", "==", objectsContainerId));
+              const snapshot = await getDocs(matchObjectsContainerId);
+
+              if (snapshot.empty) {
+                checkIfObjectsContainerIdExists = false;
+              } else {
+                objectsContainerId = v4();
+              }
+            }
+
+            return objectsContainerId;
+
+          }
+
+          const categoryId = await generateCategoryId(dbRef);
+          const idForObjectsContainer = await generateObjectsContainerId(dbRef);
+
+          await addDoc(dbRef, {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: url, userId: userId})
+
+          // TODO: If someone changes their mind and changes category name, it won't take effect
+
+        } catch (error) {
+          console.error("Error:", error);
+          // Handle error
+        }
+      }
+    };
+
+    uploadCategory();
+  }, [selectedImage, userId]);
+
+
+  const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !selectedImage);
 
   return (
     <section className="add-category__section">
@@ -92,8 +174,8 @@ export const AddCategory = () => {
 
       <div className="add-category-image__container">
 
-        {selectedImage && (
-          <img src={selectedImage} alt="Preview" className="add-category-image__preview" />
+        {previewImage && (
+          <img src={previewImage} alt="Preview" className="add-category-image__preview" />
         )}
 
       </div>
