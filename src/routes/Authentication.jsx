@@ -95,14 +95,15 @@ export const Authentication = () => {
 
             await addDoc(dbRef, {id: userId, username: username, password: userPassword});
 
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ id: userId, username: username, loggedIn: true })
+            );
+
             setIsUserLoggedIn(true);
 
             navigate("/start");
 
-            localStorage.setItem(
-              localStorageUser,
-              JSON.stringify({ id: userId, username: username, password: userPassword, loggedIn: true })
-            );
           }
 
         } catch (error) {
@@ -110,48 +111,40 @@ export const Authentication = () => {
         }
 
       } else if (authenticationView === "login") {
-        // TODO: När man loggar ut och loggar in med ett annat konto, så visas det gamla kontots data istället!
-        // Fixar sig när man uppdaterar sidan
-
-        const matchUsername = query(dbRef, where("username", "==", username));
-        const matchPassword = query(dbRef, where("password", "==", userPassword));
-
 
         try {
 
-          const userNameSnapshot = await getDocs(matchUsername);
-          const userNameMatchArray = userNameSnapshot.docs.map((doc) => doc.data());
+          const querySnapshot = await getDocs(
+            query(dbRef, "users", where("username", "==", username), where("password", "==", userPassword))
+          );
+      
+          if (querySnapshot.empty) {
 
-          const userPasswordSnapshot = await getDocs(matchPassword);
-          const userPasswordMatchArray = userPasswordSnapshot.docs.map((doc) => doc.data());
+            setUsernameError("Fel användarnamn eller lösenord");
 
-          const userDocs = userNameSnapshot.docs.filter((doc) => doc.data().id);
+          } else {
 
-          if (userDocs.length > 0 && userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
-            const userId = userDocs[0].data().id;
+            const userDoc = querySnapshot.docs[0];
+            const userId = userDoc.data().id;
+
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ id: userId, username, loggedIn: true })
+            );
 
             setIsUserLoggedIn(true);
 
             navigate("/start");
-    
-            localStorage.setItem(
-              localStorageUser,
-              JSON.stringify({ id: userId, username: username, loggedIn: true })
-            );
 
-          } else {
-            setUsernameError("Fel användarnamn eller lösenord");
-            return;
           }
-
         } catch (error) {
-          console.error("Error getting documents: ", error);
+          console.error("Error getting documents:", error);
+          setUsernameError("Ett fel inträffade, försök igen senare.");
         }
+      };
       }
     }
-  };
 
-  
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
