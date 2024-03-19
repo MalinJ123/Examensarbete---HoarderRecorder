@@ -9,7 +9,6 @@ import "../styles/authentication.css";
 
 export const Authentication = () => {
 
-  // const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -21,11 +20,16 @@ export const Authentication = () => {
     setAuthenticationView,
     setChangeButtonsOnView,
     setIsUserLoggedIn,
+    isUserLoggedIn
   } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("authentication");
-  }, [])
+
+    if(isUserLoggedIn) {
+      navigate("/start");
+    }
+  }, [isUserLoggedIn])
 
   const navigate = useNavigate();
 
@@ -106,6 +110,8 @@ export const Authentication = () => {
         }
 
       } else if (authenticationView === "login") {
+        // TODO: När man loggar ut och loggar in med ett annat konto, så visas det gamla kontots data istället!
+        // Fixar sig när man uppdaterar sidan
 
         const matchUsername = query(dbRef, where("username", "==", username));
         const matchPassword = query(dbRef, where("password", "==", userPassword));
