@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDocs, addDoc, collection, where, query } from "firebase/firestore";
+import { v4 } from "uuid";
 
 import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import "../styles/authentication.css";
 
 export const Authentication = () => {
+
   // const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -24,69 +26,146 @@ export const Authentication = () => {
 
   useEffect(() => {
     setChangeButtonsOnView("authentication");
-  }, []);
+  }, [])
 
   const navigate = useNavigate();
 
-  const dbref = collection(db, "users");
+ 
+  const dbRef = collection(db, "users");
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
- // Validera användarnamn och lösenord
- if (!username) {
-  setUsernameError("Du måste fylla i användarnamn");
-} else if (!/^[a-zA-Z0-9]+$/.test(username)) {
-  setUsernameError("Användarnamnet får bara innehålla bokstäver och siffror");
-} else {
-  setUsernameError("");
-}
 
-if (!userPassword) {
-  setPasswordError("Du måste fylla i lösenord");
-} else if (!/^[a-zA-Z0-9]+$/.test(userPassword)) {
-  setPasswordError("Lösenordet får bara innehålla bokstäver och siffror");
-} else {
-  setPasswordError("");
-}
-
-// Om valideringen passerar, fortsätt med registrering eller inloggning
-if (!usernameError && !passwordError && userPassword !== "" && username !== "" ) {
-  if (authenticationView === "register") {
-    const matchUsername = query(dbref, where("username", "==", username));
-
-    try {
-      const snapshot = await getDocs(matchUsername);
-      const userMatchArray = snapshot.docs.map((doc) => doc.data());
-
-      if (userMatchArray.length > 0) {
-        setUsernameError("Användarnamnet är upptaget");
-        return;
-      } else {
-        await addDoc(dbref, {username: username, password: userPassword});
-        setIsUserLoggedIn(true);
-        navigate("/start");
-
-        localStorage.setItem(
-          localStorageUser,
-          JSON.stringify({ username, password: userPassword, loggedIn: true })
-        );
-      }
-
-    } catch (error) {
-      console.error("Error getting documents: ", error);
+    if (!username) {
+      setUsernameError("Du måste fylla i användarnamn");
+    } else {
+      setUsernameError("");
     }
-  } else if (authenticationView === "login") {
-    const matchUsername = query(dbref, where("username", "==", username));
-    const matchPassword = query(dbref, where("password", "==", userPassword));
 
-    try {
-      const userNameSnapshot = await getDocs(matchUsername);
-      const userNameMatchArray = userNameSnapshot.docs.map((doc) => doc.data());
+    if (!userPassword) {
+      setPasswordError("Du måste fylla i lösenord");
+    } else {
+      setPasswordError("");
+    }
 
-      const userPasswordSnapshot = await getDocs(matchPassword);
-      const userPasswordMatchArray = userPasswordSnapshot.docs.map((doc) => doc.data());
+    if (username && userPassword) {
+      console.log("Username and password are filled in!")
+      console.log("Authentication view is: ", authenticationView)
+      if (authenticationView === "register") {
+        console.log("Authentication view is register!")
 
-      if (userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
+        // If the username is already taken, display an error message
+        const matchUsername = query(dbRef, where("username", "==", username));
+
+        try {
+
+          const snapshot = await getDocs(matchUsername);
+          const userMatchArray = snapshot.docs.map((doc) => doc.data());
+
+          if (userMatchArray.length > 0) {
+            setUsernameError("Användarnamnet är upptaget");
+            return;
+
+          } else {
+
+            const generateUserId = async (dbRef) => {
+              // Generate an user id
+              let userId = v4();
+
+              let checkIfUserIdExists = true;
+              while (checkIfUserIdExists) {
+                const matchUserId = query(dbRef, where("userId", "==", userId));
+                const snapshot = await getDocs(matchUserId);
+
+                if (snapshot.empty) {
+                  checkIfUserIdExists = false;
+                } else {
+                  userId = v4();
+                }
+              }
+
+              return userId;
+
+            }
+
+            const userId = await generateUserId(dbRef);
+
+            await addDoc(dbRef, {id: userId, username: username, password: userPassword});
+
+            setIsUserLoggedIn(true);
+
+            navigate("/start");
+
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ id: userId, username: username, password: userPassword, loggedIn: true })
+            );
+          }
+
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
+
+      } else if (authenticationView === "login") {
+
+        const matchUsername = query(dbRef, where("username", "==", username));
+        const matchPassword = query(dbRef, where("password", "==", userPassword));
+
+
+        try {
+
+          const userNameSnapshot = await getDocs(matchUsername);
+          const userNameMatchArray = userNameSnapshot.docs.map((doc) => doc.data());
+
+          const userPasswordSnapshot = await getDocs(matchPassword);
+          const userPasswordMatchArray = userPasswordSnapshot.docs.map((doc) => doc.data());
+
+          if (userNameMatchArray.length > 0 && userPasswordMatchArray.length > 0) {
+
+            setIsUserLoggedIn(true);
+
+            navigate("/start");
+    
+            localStorage.setItem(
+              localStorageUser,
+              JSON.stringify({ username, password: userPassword, loggedIn: true })
+            );
+
+          } else {
+            setUsernameError("Fel användarnamn eller lösenord");
+            return;
+          }
+
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
+      }
+    }
+  };
+
+  // Hantera valideringen för registrera konto 
+
+  const onHandleRegister = (e) => {
+    e.preventDefault();
+
+    if (!username) {
+      setUsernameError("Du måste fylla i användarnamn");
+    } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
+      setUsernameError("Användarnamnet får bara innehålla bokstäver och siffror");
+    } else {
+      setUsernameError("");
+    }
+
+    if (!userPassword) {
+      setPasswordError("Du måste fylla i lösenord");
+    } else if (!/^[a-zA-Z0-9]+$/.test(userPassword)) {
+      setPasswordError("Lösenordet får bara innehålla bokstäver och siffror");
+    } else {
+      setPasswordError("");
+    }
+
+    if (username && userPassword && !usernameError && !passwordError) {
+      if (username === "Malin" && userPassword === "12345") {
         setIsUserLoggedIn(true);
         navigate("/start");
 
@@ -96,71 +175,21 @@ if (!usernameError && !passwordError && userPassword !== "" && username !== "" )
         );
       } else {
         setUsernameError("Fel användarnamn eller lösenord");
-        return;
       }
-
-    } catch (error) {
-      console.error("Error getting documents: ", error);
     }
-  }
-}
-};
-  // Hantera valideringen för registrera konto
-
-  // const onHandleRegister = (e) => {
-  //   e.preventDefault();
-
-  //   if (!username) {
-  //     setUsernameError("Du måste fylla i användarnamn");
-  //   } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
-  //     setUsernameError(
-  //       "Användarnamnet får bara innehålla bokstäver och siffror"
-  //     );
-  //   } else {
-  //     setUsernameError("");
-  //   }
-
-  //   if (!userPassword) {
-  //     setPasswordError("Du måste fylla i lösenord");
-  //   } else if (!/^[a-zA-Z0-9]+$/.test(userPassword)) {
-  //     setPasswordError("Lösenordet får bara innehålla bokstäver och siffror");
-  //   } else {
-  //     setPasswordError("");
-  //   }
-
-  //   if (username && userPassword && !usernameError && !passwordError) {
-  //     if (username === "Malin" && userPassword === "12345") {
-  //       setIsUserLoggedIn(true);
-  //       navigate("/start");
-
-  //       localStorage.setItem(
-  //         localStorageUser,
-  //         JSON.stringify({ username, password: userPassword, loggedIn: true })
-  //       );
-  //     } else {
-  //       setUsernameError("Fel användarnamn eller lösenord");
-  //     }
-  //   }
-  // };
+  };
   return (
     <section className="auth__splashscreen">
       {authenticationView === "register" ? (
-        <Register
-          setAuthenticationView={setAuthenticationView}
-          onHandleSubmit={onHandleSubmit}
-          usernameError={usernameError}
-          setUsernameError={setUsernameError}
-          setPasswordError={setPasswordError}
-          passwordError={passwordError}
-        />
+        <Register setAuthenticationView={setAuthenticationView} onHandleSubmit={onHandleSubmit} usernameError={usernameError} setUsernameError={setUsernameError} setPasswordError={setPasswordError}
+        passwordError={passwordError} />
       ) : (
         <Login
           setAuthenticationView={setAuthenticationView}
           usernameError={usernameError}
           passwordError={passwordError}
           onHandleSubmit={onHandleSubmit}
-          setUsernameError={setUsernameError}
-          setPasswordError={setPasswordError}
+          setUsernameError={setUsernameError} setPasswordError={setPasswordError}
         />
       )}
     </section>
@@ -173,7 +202,7 @@ const Login = ({
   onHandleSubmit,
   setAuthenticationView,
   setUsernameError,
-  setPasswordError,
+  setPasswordError
 }) => {
   const { username, userPassword, setUsername, setUserPassword } =
     useContext(AppContext);
@@ -272,8 +301,9 @@ const Register = ({
   usernameError,
   setUsernameError,
   passwordError,
-  setPasswordError,
+  setPasswordError
 }) => {
+
   const { username, userPassword, setUsername, setUserPassword } =
     useContext(AppContext);
 

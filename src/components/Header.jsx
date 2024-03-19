@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, NavLink} from "react-router-dom";
 
 import { AppContext } from '../ContextRoot';
@@ -49,7 +49,7 @@ export const Header = () => {
       ) : (
         <NavLink to="/user">
           {
-            userProfilePicture !== "" ? (
+            userProfilePicture ? (
               <img src={userProfilePicture} alt="Profile" className="header__profile-picture" />
             ) : (
               <span className="material-symbols-outlined header__icon">person</span>
@@ -60,5 +60,6 @@ export const Header = () => {
     </header>
   );
 };
+
 
 export default Header;

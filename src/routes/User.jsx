@@ -19,6 +19,7 @@ export const User = () => {
     userProfilePicture,
     setUserProfilePicture,
     username,
+    userId,
     localStorageUser
   } = useContext(AppContext);
 
@@ -48,9 +49,9 @@ export const User = () => {
           const url = await getDownloadURL(snapshot.ref);
           console.log("Image URL:", url);
 
-          const dbref = collection(db, "users");
-          const matchUsername = query(dbref, where("username", "==", username));
-          const userSnapshot = await getDocs(matchUsername);
+          const dbRef = collection(db, "users");
+          const matchUsernameId = query(dbRef, where("id", "==", userId));
+          const userSnapshot = await getDocs(matchUsernameId);
           const userDocs = userSnapshot.docs;
 
           if (userDocs.length === 1) {
