@@ -59,7 +59,7 @@ export const Router = createHashRouter([
         element: <Object />,
       },
       {
-        path: "/add-object/:id",
+        path: "/add-object/",
         element: <AddObject />,
       },
       {

@@ -22,6 +22,8 @@ export const ContextRoot = ({ children }) => {
 
     const [userCategories, setUserCategories] = useState([]);
 
+    const [currentCategory, setCurrentCategory] = useState('');
+
     const handleLSUserData = async () => {
       try {
         const lsUser = localStorage.getItem(localStorageUser);
@@ -84,7 +86,7 @@ export const ContextRoot = ({ children }) => {
     }
 
   return (
-    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userId, setUserId, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, userCategories, setUserCategories, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
+    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userId, setUserId, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, userCategories, setUserCategories, currentCategory, setCurrentCategory, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
       {children}
     </AppContext.Provider>
   );

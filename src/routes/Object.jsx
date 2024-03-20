@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { db } from "../firebaseConfig";
@@ -8,16 +8,52 @@ import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/object.css";
 
 import book from "../images/book.png";
-import storm from "../images/storm.png";
 
 export const Object = () => {
+
+  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory } = useContext(AppContext);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    
+  setCurrentCategory(id);
+  
+  }, [id]);
+  
   // firebase
   const [objects, setObjects] = useState([]);
   const navigate = useNavigate();
-  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId } =
-    useContext(AppContext);
 
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+      // Försök för att hämta "objekt/dokument" från databasen för att sedan mappa ut dem på objekt sidan
+
+  useEffect(() => {
+    const fetchObjects = async () => {
+      try {
+        const objectsRef = collection(db, "objects");
+        const matchObjectsByLinkedCategory = query(objectsRef, where("linkedCategory", "==", id));
+        const querySnapshot = await getDocs(matchObjectsByLinkedCategory);
+
+        const objectsData = [];
+        querySnapshot.forEach((doc) => {
+          objectsData.push({ id: doc.id, ...doc.data() });
+        });
+
+        console.log("Objects fetched:", objectsData);
+        setObjects(objectsData);
+        setLoading(false); // Sätt loading till false när data har hämtats
+      } catch (error) {
+        console.error("Error getting objects:", error);
+        setLoading(false); // Sätt loading till false även om det uppstår fel
+      }
+    };
+
+    fetchObjects();
+  }, [userId]);
+
+
   // Dialog
   const deleteCategoryDialogRef = useRef();
   const stateDeleteCategoryDialog = (state) => {
@@ -44,32 +80,6 @@ export const Object = () => {
   const goToNewObjectView = () => {
     navigate("/add-object");
   };
-
-  // Försök för att hämta "objekt/dokument" från databasen för att sedan mappa ut dem på objekt sidan
-  // --------------------------------------------------------
-  useEffect(() => {
-    const fetchObjects = async () => {
-      try {
-        const objectsRef = collection(db, "objects");
-        const q = query(objectsRef, where("userId", "==", userId));
-        const querySnapshot = await getDocs(q);
-
-        const objectsData = [];
-        querySnapshot.forEach((doc) => {
-          objectsData.push({ id: doc.id, ...doc.data() });
-        });
-
-        console.log("Objects fetched:", objectsData);
-        setObjects(objectsData);
-        setLoading(false); // Sätt loading till false när data har hämtats
-      } catch (error) {
-        console.error("Error getting objects:", error);
-        setLoading(false); // Sätt loading till false även om det uppstår fel
-      }
-    };
-
-    fetchObjects();
-  }, [userId]);
 
   if (loading) {
     return <p>Loading...</p>; // Visa laddningsindikator medan data hämtas

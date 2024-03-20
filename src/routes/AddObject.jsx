@@ -6,24 +6,24 @@ import "../styles/addObject.css";
 import "../styles/object.css";
 
 // För firebase
-import { db as firestoreDb } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { v4 } from "uuid";
 import { getStorage, ref as storageRef, uploadBytes as storageUploadBytes, getDownloadURL as storageGetDownloadURL } from "firebase/storage";
 import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
 
 export const AddObject = () => {
+  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn, currentCategory } = useContext(AppContext);
+
   const navigate = useNavigate();
   const storage = getStorage();
-  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn } = useContext(AppContext);
+
 
   const [objectName, setObjectName] = useState("");
   const [objectProducer, setObjectProducer] = useState("");
   const [objectValue, setObjectValue] = useState("");
   const [objectNote, setObjectNote] = useState("");
 
-  const [previewSelectedImageOne, setPreviewSelectedImageOne] = useState(null);
-  const [selectedImageNameOne, setSelectedImageNameOne] = useState("");
-  const [hasSelectedImageOne, setHasSelectedImageOne] = useState(false);
+  const [selectedImageOne, setSelectedImageOne] = useState(null);
 
   const [previewSelectedImageTwo, setPreviewSelectedImageTwo] = useState(null);
   const [selectedImageNameTwo, setSelectedImageNameTwo] = useState("");
@@ -35,75 +35,24 @@ export const AddObject = () => {
   }, [setChangeButtonsOnView]);
 
   const handleImageChangeOne = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewSelectedImageOne(reader.result);
-      };
-      reader.readAsDataURL(file);
-
-      setSelectedImageNameOne(file.name);
-      setHasSelectedImageOne(true);
-    } else {
-      setPreviewSelectedImageOne(null);
-      setSelectedImageNameOne("");
-      setHasSelectedImageOne(false);
-    }
+    setSelectedImageOne(e.target.files[0]);
   };
 
-  // const handleImageChangeTwo = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewSelectedImageTwo(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     setSelectedImageNameTwo(file.name);
-  //   } else {
-  //     setPreviewSelectedImageTwo(null);
-  //     setSelectedImageNameTwo("");
-  //   }
-  // };
-
-  // const handleImageChangeThree = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewSelectedImageThree(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     setSelectedImageNameThree(file.name);
-  //   } else {
-  //     setPreviewSelectedImageThree(null);
-  //     setSelectedImageNameThree("");
-  //   }
-  // };
-
-  const GoToCompletedObject = () => {
-    navigate("/object");
-  };
-
-  const areObjectRequirementsEmpty = objectName.trim() === "" || !hasSelectedImageOne;
+  const areObjectRequirementsEmpty = objectName.trim() === "" || !selectedImageOne;
  // Funktion för att ladda upp objekt till Firebase
  const uploadObject = async () => {
-  if (hasSelectedImageOne && objectName.trim() !== "") {
+  if (selectedImageOne && objectName.trim() !== "") {
     try {
       const imgRef = storageRef(storage, `objects/${v4()}`); // Använd storageRef från Firebase Storage
-      const snapshot = await storageUploadBytes(imgRef, previewSelectedImageOne, { // Använd storageUploadBytes från Firebase Storage
+      const snapshot = await storageUploadBytes(imgRef, selectedImageOne, { // Använd storageUploadBytes från Firebase Storage
         contentType: "image/jpeg",
       });
       console.log("Image uploaded:", snapshot);
 
-      const url = await storageGetDownloadURL(snapshot.ref); // Använd storageGetDownloadURL från Firebase Storage
-      console.log("Image URL:", url);
+      const imageUrl = await storageGetDownloadURL(snapshot.ref); // Använd storageGetDownloadURL från Firebase Storage
+      console.log("Image URL:", imageUrl);
 
-      const dbRef = collection(firestoreDb, "objects"); // Använd firestoreDb för Firestore
-
+      const dbRef = collection(db, "objects");
 
         const generateObjectId = async (dbRef) => {
           let objectId = v4();
@@ -126,29 +75,20 @@ export const AddObject = () => {
 
         await addDoc(dbRef, {
           id: objectId,
+          linkedCategory: currentCategory,
           name: objectName,
           producer: objectProducer,
           value: objectValue,
           note: objectNote,
-          image: url,
+          image: imageUrl,
         });
-        navigate("/object"); // Navigera till objektvyn när objektet är tillagt
+        navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
       } catch (error) {
         console.error("Error:", error);
         // Hantera fel här
       }
     }
   };
-
-  useEffect(() => {
-    uploadObject(); // Anropa funktionen för att ladda upp objekt när någon av objektreferenserna ändras
-  }, [
-    hasSelectedImageOne,
-    objectName,
-    objectProducer,
-    objectValue,
-    objectNote,
-  ]);
 
   return (
     <section className="add-object__section section--spacer">
@@ -254,14 +194,6 @@ export const AddObject = () => {
               </span>
               <p className="upload__text">Välj bild</p>
             </label>
-
-            <label
-              className="form__selected-file__label"
-              htmlFor="category-image-upload__input-one"
-            >
-              {selectedImageNameOne}
-            </label>
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -293,12 +225,6 @@ export const AddObject = () => {
               <p className="upload__text">Välj bild</p>
             </label>
 
-            <label
-              className="form__selected-file__label"
-              htmlFor="category-image-upload__input-two"
-            >
-              {selectedImageNameTwo}
-            </label>
             <span className="material-symbols-outlined trash">delete</span>
           </div>
 
@@ -308,7 +234,6 @@ export const AddObject = () => {
             id="category-image-upload__input-two"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => handleImageChangeTwo(e)}
           />
         </div>
 
@@ -330,13 +255,6 @@ export const AddObject = () => {
               </span>
               <p className="upload__text">Välj bild</p>
             </label>
-
-            <label
-              className="form__selected-file__label"
-              htmlFor="category-image-upload__input-three"
-            >
-              {selectedImageNameThree}
-            </label>
             <span className="material-symbols-outlined trash">delete</span>
           </div>
 
@@ -346,16 +264,15 @@ export const AddObject = () => {
             id="category-image-upload__input-three"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => handleImageChangeThree(e)}
           />
         </div>
       </form>
 
       <div className="add-object-image__container">
-        {previewSelectedImageOne && (
+        {selectedImageOne && (
           <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageOne}
+              src={URL.createObjectURL(selectedImageOne)}
               alt="Preview"
               className="add-object-image__preview"
             />
@@ -389,7 +306,7 @@ export const AddObject = () => {
       <button
         type="button"
         className="fixed__button"
-        onClick={() => GoToCompletedObject()}
+        onClick={() => uploadObject()}
         disabled={areObjectRequirementsEmpty}
         title="Slutför"
       >
