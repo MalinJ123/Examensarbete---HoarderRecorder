@@ -55,11 +55,11 @@ export const Router = createHashRouter([
         element: <EditCategory />,
       },
       {
-        path: "/object",
+        path: "/object/:id",
         element: <Object />,
       },
       {
-        path: "/add-object",
+        path: "/add-object/:id",
         element: <AddObject />,
       },
       {

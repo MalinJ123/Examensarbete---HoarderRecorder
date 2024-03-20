@@ -140,7 +140,7 @@ export const Start = () => {
             userCategories.map((category) => (
               <div className="category__container" key={category.id}>
 
-                <div className="category__box" onClick={() => navigate("/object")}>
+                <div className="category__box" onClick={() => navigate(`/object/${category.id}`)}>
 
                     <img className="category__image" src={category.image} alt="kategori bild" />
 
