@@ -6,7 +6,6 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { db, imageDb } from "../firebaseConfig";
 
-
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
@@ -18,7 +17,6 @@ export const AddCategory = () => {
   const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
     setChangeButtonsOnView("add-category");
@@ -28,94 +26,66 @@ export const AddCategory = () => {
     setSelectedImage(e.target.files[0]);
   }
   
-  const GoToCompletedCategory = () => {
-    navigate("/start");
-  }
-
-  useEffect(() => {
-
-    // TODO: User doesn't need to click on the button to upload the category. This needs to be fixed.
-
-    const uploadCategory = async () => {
-      if (selectedImage && categoryName.trim() !== "") {
-        try {
-
-          // Upload the image to the storage
-          const imgRef = ref(imageDb, `categories/${v4()}`);
-          const snapshot = await uploadBytes(imgRef, selectedImage, {
-            contentType: "image/jpeg",
-          });
-          console.log("Image uploaded:", snapshot);
-
-          const imageUrl = await getDownloadURL(snapshot.ref);
-
-          setPreviewImage(imageUrl);
-
-          // Upload the category to the database
-          const dbRef = collection(db, "categories");
-
-          const generateCategoryId = async (dbRef) => {
-            // Generate a category id
-            let categoryId = v4();
-
-            let checkIfCategoryIdExists = true;
-            while (checkIfCategoryIdExists) {
-              const matchCategoryId = query(dbRef, where("id", "==", categoryId));
-              const snapshot = await getDocs(matchCategoryId);
-
-              if (snapshot.empty) {
-                checkIfCategoryIdExists = false;
-              } else {
-                categoryId = v4();
-              }
-            }
-
-            return categoryId;
-
-          }
-
-          const generateObjectsContainerId = async (dbRef) => {
-            // Generate a category id
-            let objectsContainerId = v4();
-
-            let checkIfObjectsContainerIdExists = true;
-            while (checkIfObjectsContainerIdExists) {
-              const matchObjectsContainerId = query(dbRef, where("id", "==", objectsContainerId));
-              const snapshot = await getDocs(matchObjectsContainerId);
-
-              if (snapshot.empty) {
-                checkIfObjectsContainerIdExists = false;
-              } else {
-                objectsContainerId = v4();
-              }
-            }
-
-            return objectsContainerId;
-
-          }
-
-          const categoryId = await generateCategoryId(dbRef);
-          const idForObjectsContainer = await generateObjectsContainerId(dbRef);
-
-          const categoryData = {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: imageUrl, userId: userId};
-
-          await addDoc(dbRef, categoryData)
-
-          // Update the user categories
-          setUserCategories([...userCategories, categoryData]);
-
-        } catch (error) {
-          console.error("Error:", error);
-          // Handle error
-        }
-      }
-    };
-
-    uploadCategory();
-  }, [selectedImage, userId, categoryName]);
-
 
   const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !selectedImage);
+
+    const uploadCategory = async () => {
+      if (!areCategoryRequirementsEmpty) {
+        if (selectedImage && categoryName.trim() !== "") {
+          try {
+  
+            // Upload the image to the storage
+            const imgRef = ref(imageDb, `categories/${v4()}`);
+            const snapshot = await uploadBytes(imgRef, selectedImage, {
+              contentType: "image/jpeg",
+            });
+            console.log("Image uploaded:", snapshot);
+  
+            const imageUrl = await getDownloadURL(snapshot.ref);
+  
+            // Upload the category to the database
+            const dbRef = collection(db, "categories");
+  
+            const generateCategoryId = async (dbRef) => {
+              // Generate a category id
+              let categoryId = v4();
+  
+              let checkIfCategoryIdExists = true;
+              while (checkIfCategoryIdExists) {
+                const matchCategoryId = query(dbRef, where("id", "==", categoryId));
+                const snapshot = await getDocs(matchCategoryId);
+  
+                if (snapshot.empty) {
+                  checkIfCategoryIdExists = false;
+                } else {
+                  categoryId = v4();
+                }
+              }
+  
+              return categoryId;
+  
+            }
+  
+            const categoryId = await generateCategoryId(dbRef);
+  
+            const categoryData = {id: categoryId, name: categoryName, image: imageUrl, userId: userId};
+  
+            await addDoc(dbRef, categoryData)
+  
+            // Update the user categories
+            setUserCategories([...userCategories, categoryData]);
+
+            console.log("Category uploaded:", categoryData);
+
+            navigate("/start")
+  
+          } catch (error) {
+            console.error("Error:", error);
+            // Handle error
+          }
+        }
+      };
+      }
 
   return (
     <section className="add-category__section">
@@ -159,7 +129,6 @@ export const AddCategory = () => {
             <p className="upload__text">Välj bild</p>
           </label>
 
-          <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -177,13 +146,13 @@ export const AddCategory = () => {
 
       <div className="add-category-image__container">
 
-        {previewImage && (
-          <img src={previewImage} alt="Preview" className="add-category-image__preview" />
+        {selectedImage && (
+          <img src={URL.createObjectURL(selectedImage)} alt="Preview" className="add-category-image__preview" />
         )}
 
       </div>
 
-      <button type="button" className="fixed__button" onClick={() => GoToCompletedCategory()} disabled={areCategoryRequirementsEmpty} title="Slutför">
+      <button type="button" className="fixed__button" onClick={() => uploadCategory()} disabled={areCategoryRequirementsEmpty} title="Slutför">
 
         <span className="material-symbols-outlined round__button-icon">done</span>
 

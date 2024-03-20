@@ -13,31 +13,38 @@ import { DisallowUserAccess } from "../components/DisallowUserAccess";
 export const EditCategory = () => {
 
   const { setChangeButtonsOnView, userCategories, setUserCategories } = useContext(AppContext);
-  
 
   const { id } = useParams();
+
   const selectCategory = userCategories.find((category) => category.id === id);
+
+  const oldCategory = {...selectCategory};
 
   const navigate = useNavigate();
 
   const [categoryName, setCategoryName] = useState("");
 
-  const [selectedOldImage, setOldSelectedImage] = useState(selectCategory.image);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const [selectedNewImage, setSelectedNewImage] = useState(null);
+  const [isSomethingChanged, setIsSomethingChanged] = useState(true);
 
   useEffect(() => {
     setChangeButtonsOnView("edit-category");
   });
 
   const handleImageChange = (e) => {
-    setSelectedNewImage(e.target.files[0]);
+    setSelectedImage(e.target.files[0]);
+    setIsSomethingChanged(false);
   };
+
+  const handleCategoryNameChange = (e) => {
+    setCategoryName(e.target.value);
+    setIsSomethingChanged(false);
+  }
 
   const updateCategory = async () => {
     try {
-      if (categoryName.trim() !== "" && selectedOldImage !== null) {
-        console.log("Category name and image are there!");
+      if (categoryName.trim() !== "" || oldCategory.name) {
 
         const dbRef = collection(db, "categories");
         const matchCategoryById = query(dbRef, where("id", "==", id));
@@ -48,74 +55,50 @@ export const EditCategory = () => {
           const categoryDoc = categoryDocs[0];
           const categoryDocRef = doc(db, "categories", categoryDoc.id);
   
+          if (!selectedImage) {
+            console.log("No new image selected, updating only the name of the category");
   
-          if (selectedOldImage === selectCategory.image) {
-            console.log("Selected image is the same as the current image");
+            await updateDoc(categoryDocRef, {
+              name: categoryName || oldCategory.name,
+            });
   
-          await updateDoc(categoryDocRef, {
-            name: categoryName,
-          });
+          } else {
+            console.log("Selected image is different from the current image");
   
-        } else if (selectedOldImage !== selectedNewImage) {
-          console.log("Selected image is different from the current image");
+            const imgRef = ref(imageDb, `categories/${v4()}`);
   
-          const imgRef = ref(imageDb, `categories/${v4()}`);
+            const snapshot = await uploadBytes(imgRef, selectedImage, {
+              contentType: "image/jpeg",
+            });
   
-          const snapshot = await uploadBytes(imgRef, selectedNewImage, {
-            contentType: "image/jpeg",
-          });
+            console.log("Image uploaded:", snapshot);
   
-          console.log("Image uploaded:", snapshot);
+            const imageUrl = await getDownloadURL(snapshot.ref);
   
-          const imageUrl = await getDownloadURL(snapshot.ref);
+            await updateDoc(categoryDocRef, {
+              name: categoryName || oldCategory.name,
+              image: imageUrl,
+            });
   
-          await updateDoc(categoryDocRef, {
-            name: categoryName,
-            image: imageUrl,
-          });
-  
-          const storageRef = ref(imageDb, selectedOldImage);
-          await deleteObject(storageRef);
-          console.log("Image deleted successfully");
-  
-        } else if (categoryName === selectCategory.name && selectedOldImage != selectedNewImage) {
-          console.log("Category name is the same as the current name but the image is different");
-
-          const imgRef = ref(imageDb, `categories/${v4()}`);
-  
-          const snapshot = await uploadBytes(imgRef, selectedOldImage, {
-            contentType: "image/jpeg",
-          });
-  
-          console.log("Image uploaded:", snapshot);
-  
-          const imageUrl = await getDownloadURL(snapshot.ref);
-  
-          await updateDoc(categoryDocRef, {
-            image: imageUrl,
-          });
-  
-          const storageRef = ref(imageDb, selectCategory.image);
-          await deleteObject(storageRef);
-          console.log("Image deleted successfully");
-        }
-  
-          const updatedCategories = userCategories.filter((category) => category.id !== selectCategory.id);
-          setUserCategories([]);
-          setUserCategories(updatedCategories, categoryDoc);
-  
-          if (userCategories.includes(categoryDoc)) {
-            navigate("/start");
+            const storageRef = ref(imageDb, oldCategory.image);
+            await deleteObject(storageRef);
+            console.log("Image deleted successfully");
           }
   
-          console.log("Category updated successfully!");
+          const filteredCategories = userCategories.filter((category) => category.id !== oldCategory.id);
+          setUserCategories(filteredCategories, categoryDoc);
   
+          navigate("/start");
+  
+          console.log("Category updated successfully!");
         }
+      } else if (categoryName.trim() === "" && !selectedImage) {
+        
       }
     } catch (error) {
       console.error("Error updating category:", error);
     }
-  }
+  };
 
   return (
     <section className="add-category__section">
@@ -125,7 +108,7 @@ export const EditCategory = () => {
       <div className="add-object__text-container">
         <h1 className="add-object__title">Redigera kategori</h1>
         <p className="add-object__info">
-          Redigerar kategorin: {selectCategory.name}
+          Redigerar kategorin: {oldCategory.name}
         </p>
       </div>
 
@@ -142,9 +125,9 @@ export const EditCategory = () => {
           type="text"
           id="category-name__input"
           className="form__input-text"
-          placeholder={selectCategory.name}
+          placeholder={oldCategory.name}
           value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
+          onChange={(e) => handleCategoryNameChange(e)}
         />
 
       </div>
@@ -161,8 +144,7 @@ export const EditCategory = () => {
           <span className="material-symbols-outlined upload">cloud_upload</span>
           <p className="upload__text">Välj bild</p>
         </label>
-
-        <span className="material-symbols-outlined trash">delete</span>
+        
         </div>
 
         {/* Hide the default file input and made a custom one */}
@@ -180,17 +162,14 @@ export const EditCategory = () => {
 
     <div className="add-category-image__container">
 
-      {selectedOldImage ? (
-        <img src={selectedOldImage} alt="Preview" className="add-category-image__preview" />
-      ) : (
-        <img src={selectedNewImage} alt="Preview" className="add-category-image__preview" />
-      )}
+      <img src={selectedImage ? URL.createObjectURL(selectedImage) : oldCategory.image} alt="Bild" className="add-category-image__preview" />
 
     </div>
 
       <button
         className="fixed__button" type="button"
         onClick={() => updateCategory()}
+        disabled={isSomethingChanged}
         title="Slutför"
       >
         <span className="material-symbols-outlined round__button-icon">
