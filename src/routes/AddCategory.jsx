@@ -15,7 +15,7 @@ import "../styles/addCategory.css";
 export const AddCategory = () => {
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, userId } = useContext(AppContext);
+  const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
@@ -72,8 +72,6 @@ export const AddCategory = () => {
 
           }
 
-
-
           const generateObjectsContainerId = async (dbRef) => {
             // Generate a category id
             let objectsContainerId = v4();
@@ -97,9 +95,14 @@ export const AddCategory = () => {
           const categoryId = await generateCategoryId(dbRef);
           const idForObjectsContainer = await generateObjectsContainerId(dbRef);
 
-          await addDoc(dbRef, {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: url, userId: userId})
+          const categoryData = {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: url, userId: userId};
 
-          // TODO: If someone changes their mind and changes category name, it won't take effect
+          await addDoc(dbRef, categoryData)
+
+
+
+          // Update the user categories
+          setUserCategories([...userCategories, categoryData]);
 
         } catch (error) {
           console.error("Error:", error);
@@ -109,7 +112,7 @@ export const AddCategory = () => {
     };
 
     uploadCategory();
-  }, [selectedImage, userId]);
+  }, [selectedImage, userId, categoryName]);
 
 
   const areCategoryRequirementsEmpty = (categoryName.trim() === "" || !selectedImage);
