@@ -1,20 +1,25 @@
-import { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+import { db } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/object.css";
-
-// för databasen
-import { db } from "../firebaseConfig";
 
 import book from "../images/book.png";
 import storm from "../images/storm.png";
 
 export const Object = () => {
+  // firebase
+  const [objects, setObjects] = useState([]);
+  const navigate = useNavigate();
+  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId } =
+    useContext(AppContext);
+
+    const [loading, setLoading] = useState(true);
   // Dialog
   const deleteCategoryDialogRef = useRef();
-
   const stateDeleteCategoryDialog = (state) => {
     if (state) {
       deleteCategoryDialogRef.current.showModal();
@@ -22,9 +27,7 @@ export const Object = () => {
       deleteCategoryDialogRef.current.close();
     }
   };
-
   const dialogContextMenuRef = useRef();
-
   const stateDialogContextMenu = (state) => {
     if (state) {
       dialogContextMenuRef.current.showModal();
@@ -32,11 +35,6 @@ export const Object = () => {
       dialogContextMenuRef.current.close();
     }
   };
-
-  const navigate = useNavigate();
-
-  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn } =
-    useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("object");
@@ -49,38 +47,33 @@ export const Object = () => {
 
   // Försök för att hämta "objekt/dokument" från databasen för att sedan mappa ut dem på objekt sidan
   // --------------------------------------------------------
-
   useEffect(() => {
-    const dbRef = doc(db, "objects", userId); // Skapar en referens till ett specifikt dokument baserat på användar-ID.
-
-    
-
-    const fetchObject = async () => {
+    const fetchObjects = async () => {
       try {
+        const objectsRef = collection(db, "objects");
+        const q = query(objectsRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
 
-        const matchObjectsByUserId = query(dbRef, where("userId", "==", userId));
-        const userSnapshot = await getDocs(matchObjectsByUserId);
+        const objectsData = [];
+        querySnapshot.forEach((doc) => {
+          objectsData.push({ id: doc.id, ...doc.data() });
+        });
 
-        const objectArray = [];
-
-
-        const objectSnapshot = await getObj(dbRef); // Hämtar dokumentet från databasen.
-
-        if (objectSnapshot.exists()) {
-          // Kontrollerar om dokumentet existerar.
-          const objectData = objectSnapshot.data(); // Hämtar data från dokumentet.
-          setObject(ObjectData); // Uppdaterar tillståndsvariabeln med datan från dokumentet.
-        } else {
-          console.log("No such document!"); // Loggar ett meddelande om dokumentet inte finns.
-        }
+        console.log("Objects fetched:", objectsData);
+        setObjects(objectsData);
+        setLoading(false); // Sätt loading till false när data har hämtats
       } catch (error) {
-        console.error("Error getting objects:", error); // Loggar eventuella felmeddelanden.
+        console.error("Error getting objects:", error);
+        setLoading(false); // Sätt loading till false även om det uppstår fel
       }
     };
 
-    fetchObject(); // Anropar funktionen för att hämta kategoridata.
+    fetchObjects();
   }, [userId]);
 
+  if (loading) {
+    return <p>Loading...</p>; // Visa laddningsindikator medan data hämtas
+  }
   return (
     <section className="object__section section--spacer">
       <DisallowUserAccess />
@@ -88,7 +81,9 @@ export const Object = () => {
       <img className="hero__image" src={book} alt="Objektsidans bild" />
 
       <div className="start__container">
-        <p className="quantity-categories__text">Du har 3 objekt</p>
+        <p className="quantity-categories__text">
+          Du har {objects.length} objekt
+        </p>
 
         <div className="search-input-with-icon__box">
           <label htmlFor="search__input" className="search__label">
@@ -102,44 +97,42 @@ export const Object = () => {
             placeholder="Sök efter objekt"
           />
         </div>
-
+        
         <section className="objects__section">
-          {objects.map((object, index) => (
-            <div className="object__container" key={object.id}>
-              <div
-                className="object__box"
-                onClick={() => navigate("/show-object")}
-              >
-                <img
-                  className="object__image"
-                  src={object.image}
-                  alt="Objekt bild"
-                />
-              </div>
-
-              <div className="object__info-container">
-                <div
-                  className="object__info"
-                  onClick={() => navigate("/show-object")}
-                >
-                  <p className="object-info__title">{object.title}</p>
-                  <p className="object-info__details">{object.author}</p>
-                  <p className="object-info__details">{object.price}</p>
-                </div>
-
-                <div className="category__kebab-icon">
-                  <button
-                    className="ghost__button ghost__button--kebab"
-                    onClick={() => stateDialogContextMenu(true)}
-                  >
-                    <span className="material-symbols-outlined kebab__icon">
-                      more_vert
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+        {objects.map(object => (
+  <div className="object__container" key={object.id}>
+    <div
+      className="object__box"
+      onClick={() => navigate("/show-object")}
+    >
+      <img
+        className="object__image"
+        src={object.image}
+        alt="Objekt bild"
+      />
+    </div>
+    <div className="object__info-container">
+      <div
+        className="object__info"
+        onClick={() => navigate("/show-object")}
+      >
+        <p className="object-info__title">{object.name}</p>
+        <p className="object-info__details">{object.producer}</p>
+        <p className="object-info__details">{object.value}</p>
+      </div>
+      <div className="category__kebab-icon">
+        <button
+          className="ghost__button ghost__button--kebab"
+          onClick={() => stateDialogContextMenu(true)}
+        >
+          <span className="material-symbols-outlined kebab__icon">
+            more_vert
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+))}
         </section>
       </div>
 
