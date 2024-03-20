@@ -1,19 +1,20 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 
-import { db } from "../firebaseConfig";
+import { db, imageDb } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 import "../styles/start.css";
 
 import start from "../images/start.png";
-import book from "../images/book.png";
 
 export const Start = () => {
 
-  const [categories, setCategories] = useState([]);
+  const [sendToContextMenu, setSendToContextMenu] = useState({});
+  const [categoryCount, setCategoryCount] = useState(0);
 
     // Dialog
     const deleteCategoryDialogRef = useRef();
@@ -38,7 +39,7 @@ export const Start = () => {
 
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, userId } = useContext(AppContext);
+  const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
 
   useEffect(() => {
     setChangeButtonsOnView("start");
@@ -63,7 +64,9 @@ export const Start = () => {
                 categoriesArray.push(categoryData);
             });
 
-            setCategories(categoriesArray);
+            setUserCategories(categoriesArray);
+
+            setCategoryCount(categoriesArray.length);
 
         } catch (error) {
             console.error("Error getting categories:", error);
@@ -72,8 +75,37 @@ export const Start = () => {
 
     fetchCategories();
 
-}, [userId]);
+  }, [userId]);
 
+  const deleteCategory = async () => {
+
+    try {
+
+      const dbRef = collection(db, "categories");
+      const matchCategory = query(dbRef, where("id", "==", sendToContextMenu.id));
+      const categorySnapshot = await getDocs(matchCategory);
+
+      if (categorySnapshot.empty) {
+        return;
+      }
+
+      const storageRef = ref(imageDb, sendToContextMenu.image);
+  
+      // Delete the image from Firebase Storage
+      await deleteObject(storageRef);
+
+      await deleteDoc(doc(db, "categories", categorySnapshot.docs[0].id));
+
+      const updatedCategories = userCategories.filter((category) => category.id !== sendToContextMenu.id);
+      setUserCategories([]);
+      setUserCategories(updatedCategories);
+
+      console.log("Category deleted successfully");
+
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
 
   return (
     <section className="start__section section--spacer">
@@ -85,7 +117,9 @@ export const Start = () => {
 
       <div className="start__container">
         
-        <p className="quantity-categories__text">Du har 3 kategorier</p>
+        <p className="quantity-categories__text">
+          {categoryCount === 0 || categoryCount > 1 ? `Du har ${categoryCount} kategorier` : "Du har 1 kategori"}
+        </p>
 
 
         <div className="search-input-with-icon__box">
@@ -103,10 +137,10 @@ export const Start = () => {
         <section className="categories__section">
 
           {
-            categories.map((category) => (
+            userCategories.map((category) => (
               <div className="category__container" key={category.id}>
 
-                <div className="category__box" onClick={() => navigate("/object")}>
+                <div className="category__box" onClick={() => navigate(`/object/${category.id}`)}>
 
                     <img className="category__image" src={category.image} alt="kategori bild" />
 
@@ -123,7 +157,7 @@ export const Start = () => {
 
                   <div className="category__kebab-icon">
 
-                  <button className="ghost__button ghost__button--kebab" onClick={() => stateDialogContextMenu(true)}>
+                  <button className="ghost__button ghost__button--kebab" onClick={() => {setSendToContextMenu(category), stateDialogContextMenu(true)}}>
 
                     <span className="material-symbols-outlined kebab__icon">
                     more_vert
@@ -145,13 +179,13 @@ export const Start = () => {
 
       <dialog className="dialog__context-menu" ref={dialogContextMenuRef}>
 
-        <section className="clickable__overlay clickable__overlay--menu" onClick={() => stateDialogContextMenu(false)}>
+        <section className="clickable__overlay clickable__overlay--menu" onClick={() => {stateDialogContextMenu(false), setSendToContextMenu({});}}>
 
           <div className="dialog__container" onClick={(event) => (event.stopPropagation())}>
 
             <div className="dialog__action-bar">
 
-              <button className="ghost__button" type="button" onClick={() => stateDialogContextMenu(false)} title="Stäng dialog">
+              <button className="ghost__button" type="button" onClick={() => {stateDialogContextMenu(false), setSendToContextMenu({});}} title="Stäng dialog">
 
                 <span className="material-symbols-outlined">close</span>
 
@@ -159,14 +193,14 @@ export const Start = () => {
 
             </div>
 
-              <h1 className="dialog__title dialog__title--menu"><span className="material-symbols-outlined">folder</span> <span>Böcker</span></h1>
+              <h1 className="dialog__title dialog__title--menu"><span className="material-symbols-outlined">folder</span> <span>{sendToContextMenu.name}</span></h1>
 
               <ul className="dialog__list dialog__list--menu">
 
                 <li className="dialog__list-element">
                   
                   <button className="ghost__button ghost__button--menu" onClick={() => {
-                    navigate("/object"), stateDialogContextMenu(false)
+                    navigate(`/object/${sendToContextMenu.id}`), stateDialogContextMenu(false), setSendToContextMenu({});
                   }}>
                   
                   <span className="material-symbols-outlined menu__icon">open_in_browser</span><span className="button__span">Öppna</span></button>
@@ -176,7 +210,7 @@ export const Start = () => {
                   <li className="dialog__list-element">
                   
                   <button className="ghost__button ghost__button--menu"  onClick={() => {
-                    navigate("/edit-category"), stateDialogContextMenu(false)
+                    navigate(`/edit-category/${sendToContextMenu.id}`), stateDialogContextMenu(false), setSendToContextMenu({});
                   }}>
                   
                   <span className="material-symbols-outlined menu__icon">edit</span><span className="button__span">Redigera</span></button>
@@ -221,22 +255,11 @@ export const Start = () => {
         <h1 className="dialog__title standard__title">Vill du radera kategorin?</h1>
 
         <p className="dialog-info__text overlay-text">
-       <em>   Kategorin och dess innehåll kommer att raderas permanent.</em>
+       <em>Kategorin och dess innehåll kommer att raderas permanent.</em>
         </p>
-
-        <div className="dialog-center__box">
-      <p className="dialog-info__title">Detta kommer bli raderat:</p>
-
-
-      <ul className="dialog__list">
-
-        <li className="dialog__list-element"><span className="bold__span">kategorin</span> och <span className="bold__span">3 objekt</span> </li>
-      </ul>
-
-
-    </div>
+        
       <button className="secondary__button big" onClick={() => {
-        stateDeleteCategoryDialog(false), stateDialogContextMenu(false);
+        stateDeleteCategoryDialog(false), stateDialogContextMenu(false), deleteCategory();
       }}>Bekräfta
       </button>
 

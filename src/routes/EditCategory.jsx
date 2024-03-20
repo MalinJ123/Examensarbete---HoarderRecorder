@@ -1,47 +1,114 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { v4 } from "uuid";
+
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+
+import { db, imageDb } from "../firebaseConfig";
+
 import { AppContext } from "../ContextRoot";
+import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 export const EditCategory = () => {
 
+  const { setChangeButtonsOnView, userCategories, setUserCategories } = useContext(AppContext);
+
+  const { id } = useParams();
+
+  const selectCategory = userCategories.find((category) => category.id === id);
+
+  const oldCategory = {...selectCategory};
+
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView } = useContext(AppContext);
-
   const [categoryName, setCategoryName] = useState("");
-  const [previewSelectedImage, setPreviewSelectedImage] = useState(null);
-  const [selectedImageName, setSelectedImageName] = useState("");
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const [isSomethingChanged, setIsSomethingChanged] = useState(true);
 
   useEffect(() => {
     setChangeButtonsOnView("edit-category");
   });
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+    setSelectedImage(e.target.files[0]);
+    setIsSomethingChanged(false);
+  };
 
-      setSelectedImageName(file.name);
+  const handleCategoryNameChange = (e) => {
+    setCategoryName(e.target.value);
+    setIsSomethingChanged(false);
+  }
+
+  const updateCategory = async () => {
+    try {
+      if (categoryName.trim() !== "" || oldCategory.name) {
+
+        const dbRef = collection(db, "categories");
+        const matchCategoryById = query(dbRef, where("id", "==", id));
+        const categorySnapshot = await getDocs(matchCategoryById);
+        const categoryDocs = categorySnapshot.docs;
+  
+        if (categoryDocs.length === 1) {
+          const categoryDoc = categoryDocs[0];
+          const categoryDocRef = doc(db, "categories", categoryDoc.id);
+  
+          if (!selectedImage) {
+            console.log("No new image selected, updating only the name of the category");
+  
+            await updateDoc(categoryDocRef, {
+              name: categoryName || oldCategory.name,
+            });
+  
+          } else {
+            console.log("Selected image is different from the current image");
+  
+            const imgRef = ref(imageDb, `categories/${v4()}`);
+  
+            const snapshot = await uploadBytes(imgRef, selectedImage, {
+              contentType: "image/jpeg",
+            });
+  
+            console.log("Image uploaded:", snapshot);
+  
+            const imageUrl = await getDownloadURL(snapshot.ref);
+  
+            await updateDoc(categoryDocRef, {
+              name: categoryName || oldCategory.name,
+              image: imageUrl,
+            });
+  
+            const storageRef = ref(imageDb, oldCategory.image);
+            await deleteObject(storageRef);
+            console.log("Image deleted successfully");
+          }
+  
+          const filteredCategories = userCategories.filter((category) => category.id !== oldCategory.id);
+          setUserCategories(filteredCategories, categoryDoc);
+  
+          navigate("/start");
+  
+          console.log("Category updated successfully!");
+        }
+      } else if (categoryName.trim() === "" && !selectedImage) {
+        
+      }
+    } catch (error) {
+      console.error("Error updating category:", error);
     }
   };
-
-  const GoToCompletedCategory = () => {
-    navigate("/start");
-  };
-
-  const isCategoryNameEmpty = categoryName === "";
 
   return (
     <section className="add-category__section">
 
+    <DisallowUserAccess />
+
       <div className="add-object__text-container">
         <h1 className="add-object__title">Redigera kategori</h1>
         <p className="add-object__info">
-          Redigerar kategorin: Böcker
+          Redigerar kategorin: {oldCategory.name}
         </p>
       </div>
 
@@ -58,9 +125,9 @@ export const EditCategory = () => {
           type="text"
           id="category-name__input"
           className="form__input-text"
-          placeholder="Pokémon kort"
+          placeholder={oldCategory.name}
           value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
+          onChange={(e) => handleCategoryNameChange(e)}
         />
 
       </div>
@@ -77,11 +144,7 @@ export const EditCategory = () => {
           <span className="material-symbols-outlined upload">cloud_upload</span>
           <p className="upload__text">Välj bild</p>
         </label>
-
-        <label className="form__selected-file__label" htmlFor="category-image-upload__input">
-          {selectedImageName}
-        </label>
-        <span className="material-symbols-outlined trash">delete</span>
+        
         </div>
 
         {/* Hide the default file input and made a custom one */}
@@ -99,15 +162,14 @@ export const EditCategory = () => {
 
     <div className="add-category-image__container">
 
-      {previewSelectedImage && (
-        <img src={previewSelectedImage} alt="Preview" className="add-category-image__preview" />
-      )}
+      <img src={selectedImage ? URL.createObjectURL(selectedImage) : oldCategory.image} alt="Bild" className="add-category-image__preview" />
 
     </div>
 
       <button
         className="fixed__button" type="button"
-        onClick={() => GoToCompletedCategory()} disabled={isCategoryNameEmpty}
+        onClick={() => updateCategory()}
+        disabled={isSomethingChanged}
         title="Slutför"
       >
         <span className="material-symbols-outlined round__button-icon">
