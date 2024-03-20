@@ -51,7 +51,7 @@ export const Router = createHashRouter([
         element: <AddCategory />,
       },
       {
-        path: "/edit-category",
+        path: "/edit-category/:id",
         element: <EditCategory />,
       },
       {

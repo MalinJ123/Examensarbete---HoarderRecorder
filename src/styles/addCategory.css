@@ -4,7 +4,7 @@
     height: calc(100dvh - 60px);
     width: 100%;
     padding: 0px var(--spacing-standard);
-    grid-template-rows: 1fr 1fr 1fr 1fr 200px;
+    grid-template-rows: 104px 1fr 1fr 1fr 200px;
 }
 
 .add-category-image__preview {

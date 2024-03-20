@@ -46,8 +46,8 @@ export const User = () => {
           });
           console.log("Image uploaded:", snapshot);
   
-          const url = await getDownloadURL(snapshot.ref);
-          console.log("Image URL:", url);
+          const imageUrl = await getDownloadURL(snapshot.ref);
+          console.log("Image URL:", imageUrl);
   
           const dbRef = collection(db, "users");
           const matchUsernameId = query(dbRef, where("id", "==", userId));
@@ -58,11 +58,11 @@ export const User = () => {
             const userDoc = userDocs[0];
             const userDocRef = doc(db, "users", userDoc.id);
   
-            await updateDoc(userDocRef, { userProfilePicture: url });
-            setUserProfilePicture(url);
+            await updateDoc(userDocRef, { userProfilePicture: imageUrl });
+            setUserProfilePicture(imageUrl);
   
             // Update local storage with the new profile picture URL
-            existingDataInUserLS.userProfilePicture = url;
+            existingDataInUserLS.userProfilePicture = imageUrl;
             localStorage.setItem(localStorageUser, JSON.stringify(existingDataInUserLS));
   
             console.log("User profile picture updated successfully");

@@ -33,6 +33,9 @@ export const AddCategory = () => {
   }
 
   useEffect(() => {
+
+    // TODO: User doesn't need to click on the button to upload the category. This needs to be fixed.
+
     const uploadCategory = async () => {
       if (selectedImage && categoryName.trim() !== "") {
         try {
@@ -44,10 +47,9 @@ export const AddCategory = () => {
           });
           console.log("Image uploaded:", snapshot);
 
-          const url = await getDownloadURL(snapshot.ref);
-          console.log("Image URL:", url);
+          const imageUrl = await getDownloadURL(snapshot.ref);
 
-          setPreviewImage(url);
+          setPreviewImage(imageUrl);
 
           // Upload the category to the database
           const dbRef = collection(db, "categories");
@@ -95,11 +97,9 @@ export const AddCategory = () => {
           const categoryId = await generateCategoryId(dbRef);
           const idForObjectsContainer = await generateObjectsContainerId(dbRef);
 
-          const categoryData = {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: url, userId: userId};
+          const categoryData = {id: categoryId, objectsContainer: idForObjectsContainer, name: categoryName, image: imageUrl, userId: userId};
 
           await addDoc(dbRef, categoryData)
-
-
 
           // Update the user categories
           setUserCategories([...userCategories, categoryData]);
