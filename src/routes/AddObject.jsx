@@ -24,11 +24,9 @@ export const AddObject = () => {
   const [objectNote, setObjectNote] = useState("");
 
   const [selectedImageOne, setSelectedImageOne] = useState(null);
+  const [selectedImageTwo, setSelectedImageTwo] = useState(null);
+  const [selectedImageThree, setSelectedImageThree] = useState(null);
 
-  const [previewSelectedImageTwo, setPreviewSelectedImageTwo] = useState(null);
-  const [selectedImageNameTwo, setSelectedImageNameTwo] = useState("");
-  const [previewSelectedImageThree, setPreviewSelectedImageThree] = useState(null);
-  const [selectedImageNameThree, setSelectedImageNameThree] = useState("");
 
   useEffect(() => {
     setChangeButtonsOnView("add-object");
@@ -36,6 +34,14 @@ export const AddObject = () => {
 
   const handleImageChangeOne = (e) => {
     setSelectedImageOne(e.target.files[0]);
+  };
+
+  const handleImageChangeTwo = (e) => {
+    setSelectedImageTwo(e.target.files[0]);
+  };
+
+  const handleImageChangeThree = (e) => {
+    setSelectedImageThree(e.target.files[0]);
   };
 
   const areObjectRequirementsEmpty = objectName.trim() === "" || !selectedImageOne;
@@ -51,6 +57,10 @@ export const AddObject = () => {
 
       const imageUrl = await storageGetDownloadURL(snapshot.ref); // Använd storageGetDownloadURL från Firebase Storage
       console.log("Image URL:", imageUrl);
+
+      // TODO: Gör en if sats för att kolla om selectedImageTwo och selectedImageThree finns och ladda upp dem också
+      let imageUrl2 = "";
+      let imageUrl3 = "";
 
       const dbRef = collection(db, "objects");
 
@@ -80,7 +90,7 @@ export const AddObject = () => {
           producer: objectProducer,
           value: objectValue,
           note: objectNote,
-          image: imageUrl,
+          images: [imageUrl, imageUrl2, imageUrl3], // TODO: Lägg till variablerna för bild 2 och 3 här
         });
         navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
       } catch (error) {
@@ -234,6 +244,7 @@ export const AddObject = () => {
             id="category-image-upload__input-two"
             className="form__input-upload"
             accept="image/*"
+            onChange={(e) => handleImageChangeTwo(e)}
           />
         </div>
 
@@ -264,6 +275,7 @@ export const AddObject = () => {
             id="category-image-upload__input-three"
             className="form__input-upload"
             accept="image/*"
+            onChange={(e) => handleImageChangeThree(e)}
           />
         </div>
       </form>
@@ -280,10 +292,10 @@ export const AddObject = () => {
           </div>
         )}
 
-        {previewSelectedImageTwo && (
+        {selectedImageTwo && (
           <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageTwo}
+              src={URL.createObjectURL(selectedImageTwo)}
               alt="Preview"
               className="add-object-image__preview"
             />
@@ -291,10 +303,10 @@ export const AddObject = () => {
           </div>
         )}
 
-        {previewSelectedImageThree && (
+        {selectedImageThree && (
           <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageThree}
+              src={URL.createObjectURL(selectedImageThree)}
               alt="Preview"
               className="add-object-image__preview"
             />

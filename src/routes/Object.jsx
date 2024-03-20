@@ -84,6 +84,7 @@ export const Object = () => {
   if (loading) {
     return <p>Loading...</p>; // Visa laddningsindikator medan data hämtas
   }
+
   return (
     <section className="object__section section--spacer">
       <DisallowUserAccess />
@@ -117,7 +118,7 @@ export const Object = () => {
     >
       <img
         className="object__image"
-        src={object.image}
+        src={object.images[0]}
         alt="Objekt bild"
       />
     </div>
