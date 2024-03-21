@@ -12,7 +12,7 @@ export const ShowObject = () => {
   
   const { objectId } = useParams(); // Hämta objektets ID från URL:en
   const [objectData, setObjectData] = useState(null);
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
 // Tillbaka knapp i headern 
     const { setChangeButtonsOnView } = useContext(AppContext);
@@ -47,37 +47,16 @@ export const ShowObject = () => {
     // För att navigera till redigeringssidan med objektets ID
   const editLink = `/edit-object/${objectId}`;
 
-
-  // Funktion för att hantera objektradering
   const handleDelete = () => {
     // Implementera logik för att radera objektet
   };
 
-  const handleBackClick = () => {
-    // Handle empty images array or missing currentImage
-    if (!objectData.images || !currentImage) {
-      return; // Or handle the situation (e.g., display a placeholder image)
-    }
-  
-    // Get the index of the current image
-    const currentIndex = objectData.images.indexOf(currentImage);
-  
-    // Calculate the previous image index (handling edge case)
-    const previousIndex = (currentIndex - 1 + objectData.images.length) % objectData.images.length;
-  
-    // Update currentImage using the previous index
-    setCurrentImage(objectData.images[previousIndex]);
-  };
-  
   const handleForwardClick = () => {
-    // Handle empty images array or missing currentImage
-    if (!objectData.images || !currentImage) {
-      return; // Or handle the situation (e.g., display a placeholder image)
-    }
-  
-    // Similar logic to handleForwardClick (see explanation above)
-    const nextIndex = (objectData.images.indexOf(currentImage) + 1) % objectData.images.length;
-    setCurrentImage(objectData.images[nextIndex]);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const handleBackClick = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
   
     return (
@@ -93,7 +72,7 @@ export const ShowObject = () => {
           <span className="material-symbols-outlined back-arrow" onClick={handleBackClick}>
             arrow_back_ios
           </span>
-          <img className="big-img" src={currentImage} alt="Objekt bild" />
+          <img className="big-img" src={images[currentIndex]} alt="Objekt bild" />
           <span className="material-symbols-outlined forward-arrow" onClick={handleForwardClick}>
             arrow_forward_ios
           </span>
