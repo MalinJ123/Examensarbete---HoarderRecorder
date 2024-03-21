@@ -59,7 +59,6 @@ export const AddObject = () => {
       const imageUrl = await storageGetDownloadURL(snapshot.ref); // Använd storageGetDownloadURL från Firebase Storage
       console.log("Image URL:", imageUrl);
 
-      // TODO: Gör en if sats för att kolla om selectedImageTwo och selectedImageThree finns och ladda upp dem också
       let imageUrl2 = "";
       let imageUrl3 = ""; 
       

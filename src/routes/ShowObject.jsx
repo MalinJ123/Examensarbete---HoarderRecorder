@@ -4,7 +4,7 @@ import { useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 import { useState } from "react";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 
@@ -12,6 +12,8 @@ export const ShowObject = () => {
   
   const { objectId } = useParams(); // Hämta objektets ID från URL:en
   const [objectData, setObjectData] = useState(null);
+  const [currentImage, setCurrentImage] = useState(null);
+
 // Tillbaka knapp i headern 
     const { setChangeButtonsOnView } = useContext(AppContext);
     useEffect(() => {
@@ -19,16 +21,17 @@ export const ShowObject = () => {
       
       const fetchObjectData = async () => {
         try {
-          const docRef = doc(db, "objects", objectId); // Skapa referens till objektet med objektets ID
-          const docSnap = await getDoc(docRef); // Hämta dokumentet från databasen
-          if (docSnap.exists()) {
-            setObjectData(docSnap.data()); // Sätt objektets data i state
-          } else {
-            console.log("Objektet finns inte.");
-          }
+          const objectRef = collection(db, "objects");
+          const matchObject = query(objectRef, where("id", "==", objectId));
+          const querySnapshot = await getDocs(matchObject);
+
+          querySnapshot.forEach((doc) => {
+            setObjectData({ id: doc.id, ...doc.data() });
+          });
         } catch (error) {
-          console.error("Error:", error);
-        }
+          console.error("Error fetching object:", error);
+          // Handle error (e.g., display an error message)
+        };
       };
   
       fetchObjectData(); // Kör funktionen för att hämta objektets data
@@ -40,9 +43,7 @@ export const ShowObject = () => {
     }
 
   const { name, producer, value, note, images } = objectData;
-  const currentImage = images[currentImageIndex]; 
 
- 
     // För att navigera till redigeringssidan med objektets ID
   const editLink = `/edit-object/${objectId}`;
 
@@ -52,19 +53,32 @@ export const ShowObject = () => {
     // Implementera logik för att radera objektet
   };
 
-
-
-    const handleBackClick = () => {
-      const currentIndex = images.indexOf(currentImage);
-      const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-      setCurrentImage(images[newIndex]);
-    };
+  const handleBackClick = () => {
+    // Handle empty images array or missing currentImage
+    if (!objectData.images || !currentImage) {
+      return; // Or handle the situation (e.g., display a placeholder image)
+    }
   
-    const handleForwardClick = () => {
-      const currentIndex = images.indexOf(currentImage);
-      const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-      setCurrentImage(images[newIndex]);
-    };
+    // Get the index of the current image
+    const currentIndex = objectData.images.indexOf(currentImage);
+  
+    // Calculate the previous image index (handling edge case)
+    const previousIndex = (currentIndex - 1 + objectData.images.length) % objectData.images.length;
+  
+    // Update currentImage using the previous index
+    setCurrentImage(objectData.images[previousIndex]);
+  };
+  
+  const handleForwardClick = () => {
+    // Handle empty images array or missing currentImage
+    if (!objectData.images || !currentImage) {
+      return; // Or handle the situation (e.g., display a placeholder image)
+    }
+  
+    // Similar logic to handleForwardClick (see explanation above)
+    const nextIndex = (objectData.images.indexOf(currentImage) + 1) % objectData.images.length;
+    setCurrentImage(objectData.images[nextIndex]);
+  };
   
     return (
       <>
@@ -79,10 +93,8 @@ export const ShowObject = () => {
           <span className="material-symbols-outlined back-arrow" onClick={handleBackClick}>
             arrow_back_ios
           </span>
-            {images.map((image, index) => (
-              <img key={index} className="small-img" src={currentImage} alt="Bild på ditt objekt" />
-            ))}
-             <span className="material-symbols-outlined forward-arrow" onClick={handleForwardClick}>
+          <img className="big-img" src={currentImage} alt="Objekt bild" />
+          <span className="material-symbols-outlined forward-arrow" onClick={handleForwardClick}>
             arrow_forward_ios
           </span>
           </div>
