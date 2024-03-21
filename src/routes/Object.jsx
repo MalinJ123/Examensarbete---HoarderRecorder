@@ -114,7 +114,7 @@ export const Object = () => {
   <div className="object__container" key={object.id}>
     <div
       className="object__box"
-      onClick={() => navigate("/show-object")}
+      onClick={() => navigate(`/show-object/${object.id}`)}
     >
       <img
         className="object__image"
@@ -125,7 +125,7 @@ export const Object = () => {
     <div className="object__info-container">
       <div
         className="object__info"
-        onClick={() => navigate("/show-object")}
+        onClick={() => navigate(`/show-object/${object.id}`)}
       >
         <p className="object-info__title">{object.name}</p>
         <p className="object-info__details">{object.producer}</p>
