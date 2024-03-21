@@ -116,7 +116,7 @@ export const AddObject = () => {
         });
 
         // navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
-        navigate(`/show-object/${objectId}`);
+        navigate(`/object/${currentCategory}`);
       } catch (error) {
         console.error("Error:", error);
         // Hantera fel här
