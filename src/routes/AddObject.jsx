@@ -60,8 +60,30 @@ export const AddObject = () => {
 
       // TODO: Gör en if sats för att kolla om selectedImageTwo och selectedImageThree finns och ladda upp dem också
       let imageUrl2 = "";
-      let imageUrl3 = "";
-
+      let imageUrl3 = ""; 
+      
+      if(selectedImageTwo){
+        const imgRef2 = storageRef(storage,`objects/${v4()}` );
+        const snapshot2 = await storageUploadBytes(imgRef2, selectedImageTwo, {
+          contentType: "image/jpeg",
+        });
+        console.log("Image 2 uploaded:", snapshot2);
+      
+        imageUrl2 = await storageGetDownloadURL(snapshot2.ref)
+        console.log("image URL 2:", imageUrl2); 
+      }
+      
+      if(selectedImageThree){
+        const imgRef3 = storageRef(storage,`objects/${v4()}` );
+        const snapshot3 = await storageUploadBytes(imgRef3, selectedImageThree, {
+          contentType: "image/jpeg",
+        });
+        console.log("Image 3 uploaded:", snapshot3);
+      
+        imageUrl3 = await storageGetDownloadURL(snapshot3.ref)
+        console.log("image URL 3:", imageUrl3); 
+      }
+      
       const dbRef = collection(db, "objects");
 
         const generateObjectId = async (dbRef) => {
@@ -91,6 +113,7 @@ export const AddObject = () => {
           value: objectValue,
           note: objectNote,
           images: [imageUrl, imageUrl2, imageUrl3], // TODO: Lägg till variablerna för bild 2 och 3 här
+          // images: [imageUrl, imageUrl2, imageUrl3].filter(url => url), // Filter out empty URLs
         });
         navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
       } catch (error) {
