@@ -96,10 +96,6 @@ export const Object = () => {
     setChangeButtonsOnView("object");
   });
 
-  const goToNewObjectView = () => {
-    navigate("/add-object");
-  };
-
   if (loading) {
     return <p>Loading...</p>; // Visa laddningsindikator medan data hämtas
   }
@@ -144,7 +140,7 @@ export const Object = () => {
   <div className="object__container" key={object.id}>
     <div
       className="object__box"
-      onClick={() => navigate("/show-object")}
+      onClick={() => navigate(`show-object/${object.id}`)}
     >
       <img
         className="object__image"
@@ -155,7 +151,7 @@ export const Object = () => {
     <div className="object__info-container">
       <div
         className="object__info"
-        onClick={() => navigate("/show-object")}
+        onClick={() => navigate(`show-object/${object.id}`)}
       >
         <p className="object-info__title">{object.name}</p>
         <p className="object-info__details">{object.producer}</p>
@@ -294,7 +290,7 @@ export const Object = () => {
         type="button"
         className="fixed__button"
         title="Lägg till objekt"
-        onClick={() => goToNewObjectView()}
+        onClick={() => navigate("add-object")}
       >
         <span className="material-symbols-outlined">add</span>
       </button>

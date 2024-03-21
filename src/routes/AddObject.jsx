@@ -5,6 +5,7 @@ import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/addObject.css";
 import "../styles/object.css";
 
+
 // För firebase
 import { db } from "../firebaseConfig";
 import { v4 } from "uuid";
@@ -46,7 +47,7 @@ export const AddObject = () => {
 
   const areObjectRequirementsEmpty = objectName.trim() === "" || !selectedImageOne;
  // Funktion för att ladda upp objekt till Firebase
- const uploadObject = async () => {
+ const uploadObject = async (objectId) => { 
   if (selectedImageOne && objectName.trim() !== "") {
     try {
       const imgRef = storageRef(storage, `objects/${v4()}`); // Använd storageRef från Firebase Storage
@@ -58,7 +59,6 @@ export const AddObject = () => {
       const imageUrl = await storageGetDownloadURL(snapshot.ref); // Använd storageGetDownloadURL från Firebase Storage
       console.log("Image URL:", imageUrl);
 
-      // TODO: Gör en if sats för att kolla om selectedImageTwo och selectedImageThree finns och ladda upp dem också
       let imageUrl2 = "";
       let imageUrl3 = ""; 
       
@@ -112,10 +112,11 @@ export const AddObject = () => {
           producer: objectProducer,
           value: objectValue,
           note: objectNote,
-          images: [imageUrl, imageUrl2, imageUrl3], // TODO: Lägg till variablerna för bild 2 och 3 här
-          // images: [imageUrl, imageUrl2, imageUrl3].filter(url => url), // Filter out empty URLs
+          images: [imageUrl, imageUrl2, imageUrl3],
         });
-        navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
+
+        // navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
+        navigate(`/show-object/${objectId}`);
       } catch (error) {
         console.error("Error:", error);
         // Hantera fel här
