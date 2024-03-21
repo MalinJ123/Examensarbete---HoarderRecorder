@@ -7,11 +7,9 @@ import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/object.css";
 
-import book from "../images/book.png";
-
 export const Object = () => {
 
-  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory } = useContext(AppContext);
+  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory, userObjects, setUserObjects } = useContext(AppContext);
 
   const { id } = useParams();
 
@@ -22,8 +20,8 @@ export const Object = () => {
   }, [id]);
   
   // firebase
-  const [objects, setObjects] = useState([]);
   const navigate = useNavigate();
+  const [currentHeroImage, setCurrentHeroImage] = useState("");
 
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +30,8 @@ export const Object = () => {
   useEffect(() => {
     const fetchObjects = async () => {
       try {
+
+        // Get objects from the database from collection categories to objects
         const objectsRef = collection(db, "objects");
         const matchObjectsByLinkedCategory = query(objectsRef, where("linkedCategory", "==", id));
         const querySnapshot = await getDocs(matchObjectsByLinkedCategory);
@@ -42,8 +42,29 @@ export const Object = () => {
         });
 
         console.log("Objects fetched:", objectsData);
-        setObjects(objectsData);
-        setLoading(false); // Sätt loading till false när data har hämtats
+
+        // Get the main category image, name and userID
+        const getMainCategoryRef = collection(db, "categories");
+        const matchMainCategory = query(getMainCategoryRef, where("id", "==", id));
+        const mainCategorySnapshot = await getDocs(matchMainCategory);
+        mainCategorySnapshot.forEach((doc) => {
+
+          setCurrentHeroImage(doc.data().image);
+          setCheckWhatCategoryIsUserOn(doc.data().name);
+
+          // Check if the user owns the category
+          if (doc.data().userId === userId) {
+            console.log("User owns this category");
+          } else {
+            navigate("/start");
+          }
+
+        });
+
+        setUserObjects(objectsData);
+        // Sätt loading till false när data har hämtats
+        setLoading(false); 
+        
       } catch (error) {
         console.error("Error getting objects:", error);
         setLoading(false); // Sätt loading till false även om det uppstår fel
@@ -52,7 +73,6 @@ export const Object = () => {
 
     fetchObjects();
   }, [userId]);
-
 
   // Dialog
   const deleteCategoryDialogRef = useRef();
@@ -74,7 +94,6 @@ export const Object = () => {
 
   useEffect(() => {
     setChangeButtonsOnView("object");
-    setCheckWhatCategoryIsUserOn("Böcker");
   });
 
   const goToNewObjectView = () => {
@@ -89,11 +108,11 @@ export const Object = () => {
     <section className="object__section section--spacer">
       <DisallowUserAccess />
 
-      <img className="hero__image" src={book} alt="Objektsidans bild" />
+      <img className="hero__image" src={currentHeroImage} alt="Objektsidans bild" />
 
       <div className="start__container">
         <p className="quantity-categories__text">
-          Du har {objects.length} objekt
+          Du har {userObjects.length} objekt
         </p>
 
         <div className="search-input-with-icon__box">
@@ -110,7 +129,18 @@ export const Object = () => {
         </div>
         
         <section className="objects__section">
-        {objects.map(object => (
+          
+        {userObjects.length === 0 ? (
+           <div className="information__box information__box--lighter">
+           <p>
+             <span className="bold__span">Du har inte gjort några objekt ännu!</span>
+           </p>
+           <p>
+             Börja med att lägga till några. 
+             Tryck på pluset och börja skapa.
+           </p>
+         </div>
+          ) : userObjects.map(object => (
   <div className="object__container" key={object.id}>
     <div
       className="object__box"

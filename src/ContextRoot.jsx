@@ -22,6 +22,9 @@ export const ContextRoot = ({ children }) => {
 
     const [userCategories, setUserCategories] = useState([]);
 
+    const [userObjects, setUserObjects] = useState([]);
+
+    // Collects the id from the main category the user was when they clicked on a category box from the start page
     const [currentCategory, setCurrentCategory] = useState('');
 
     const handleLSUserData = async () => {
@@ -66,9 +69,11 @@ export const ContextRoot = ({ children }) => {
       handleLSUserData();
     }, [isUserLoggedIn]);
 
+    // Authentication view - login or register
     const [authenticationView, setAuthenticationView] = useState('login');
 
     // Check what category the user is currently on with the help of the database
+    // Makes it so object related stuff knows what category the user is currently on
     const [checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn] = useState('');
 
     // Change the behavior the header's buttons depending on which view the user is currently on
@@ -86,7 +91,7 @@ export const ContextRoot = ({ children }) => {
     }
 
   return (
-    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userId, setUserId, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, userCategories, setUserCategories, currentCategory, setCurrentCategory, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
+    <AppContext.Provider value={{ username, setUsername, userPassword, setUserPassword, userId, setUserId, userProfilePicture, setUserProfilePicture, isUserLoggedIn, setIsUserLoggedIn, userCategories, setUserCategories, userObjects, setUserObjects, currentCategory, setCurrentCategory, authenticationView, setAuthenticationView, checkWhatCategoryIsUserOn, setCheckWhatCategoryIsUserOn, changeButtonsOnView, setChangeButtonsOnView, localStorageUser, userNotLoggedInDialogRef, stateUserNotLoggedInDialog}}>
       {children}
     </AppContext.Provider>
   );
