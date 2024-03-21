@@ -212,7 +212,7 @@
     resize: vertical;
 }
   
-.form-input-with-label__box .form__input-text::placeholder, .form-input-with-label__box .form__input-textarea {
+.form-input-with-label__box .form__input-text::placeholder, .form-input-with-label__box .form__input-textarea::placeholder {
     color: var(--color-input-placeholder-text);
 }
   

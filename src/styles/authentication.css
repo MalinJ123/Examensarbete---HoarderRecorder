@@ -20,6 +20,10 @@
   margin-bottom: var(--spacing-standard);
 }
 
+.information__box--lighter {
+  background-color: var(--color-box);
+}
+
 .information__box p {
   font-family: "Lato light", sans-serif;
   font-weight: 100;

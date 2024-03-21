@@ -71,6 +71,11 @@
   width: calc(100vw - var(--spacing-standard) * 2);
 }
 
+.categories__section:has(.information__box) {
+  justify-content: center;
+  grid-template-columns: none;
+}
+
 .category__image {
   object-fit: fill;
   width: 100%;

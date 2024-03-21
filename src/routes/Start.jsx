@@ -14,7 +14,6 @@ import start from "../images/start.png";
 export const Start = () => {
 
   const [sendToContextMenu, setSendToContextMenu] = useState({});
-  const [categoryCount, setCategoryCount] = useState(0);
 
     // Dialog
     const deleteCategoryDialogRef = useRef();
@@ -66,8 +65,6 @@ export const Start = () => {
 
             setUserCategories(categoriesArray);
 
-            setCategoryCount(categoriesArray.length);
-
         } catch (error) {
             console.error("Error getting categories:", error);
         }
@@ -77,31 +74,60 @@ export const Start = () => {
 
   }, [userId]);
 
-  const deleteCategory = async () => {
+  const deleteCategoryPlusObjects = async () => {
 
     try {
 
-      const dbRef = collection(db, "categories");
-      const matchCategory = query(dbRef, where("id", "==", sendToContextMenu.id));
+      const dbCategoriesRef = collection(db, "categories");
+      const matchCategory = query(dbCategoriesRef, where("id", "==", sendToContextMenu.id));
       const categorySnapshot = await getDocs(matchCategory);
+
+      const deleteCategory = async () => {
+
+        // Delete category image
+        const storageRef = ref(imageDb, sendToContextMenu.image);
+    
+        // Delete the image from Firebase Storage
+        await deleteObject(storageRef);
+  
+        await deleteDoc(categorySnapshot.docs[0].ref);
+  
+        const updatedCategories = userCategories.filter((category) => category.id !== sendToContextMenu.id);
+        setUserCategories([]);
+        setUserCategories(updatedCategories);
+  
+        console.log("Category deleted successfully");
+  
+        };
 
       if (categorySnapshot.empty) {
         return;
       }
 
-      const storageRef = ref(imageDb, sendToContextMenu.image);
+      const dbObjectsRef = collection(db, "objects");
+      const matchObjectsByLinkedCategory = query(dbObjectsRef, where("linkedCategory", "==", sendToContextMenu.id));
+      const objectsSnapshot = await getDocs(matchObjectsByLinkedCategory);
+
+      if (!objectsSnapshot.empty) {
+        objectsSnapshot.forEach(async (doc) => {
+
+          const storageRef = ref(imageDb, doc.data().images);
   
-      // Delete the image from Firebase Storage
-      await deleteObject(storageRef);
+          await deleteObject(storageRef);
+  
+          await deleteDoc(doc.ref);
+  
+          console.log("Object deleted successfully");
 
-      await deleteDoc(doc(db, "categories", categorySnapshot.docs[0].id));
+          deleteCategory();
+  
+        });
+      } else {
+        console.log("No objects found in this category");
 
-      const updatedCategories = userCategories.filter((category) => category.id !== sendToContextMenu.id);
-      setUserCategories([]);
-      setUserCategories(updatedCategories);
-
-      console.log("Category deleted successfully");
-
+        deleteCategory();
+        return;
+      }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
@@ -118,7 +144,7 @@ export const Start = () => {
       <div className="start__container">
         
         <p className="quantity-categories__text">
-          {categoryCount === 0 || categoryCount > 1 ? `Du har ${categoryCount} kategorier` : "Du har 1 kategori"}
+          {userCategories.length === 0 || userCategories.length > 1 ? `Du har ${userCategories.length} kategorier` : "Du har 1 kategori"}
         </p>
 
 
@@ -135,43 +161,59 @@ export const Start = () => {
         </div>
 
         <section className="categories__section">
-
           {
-            userCategories.map((category) => (
-              <div className="category__container" key={category.id}>
+            userCategories.length === 0 ? (
+              <div className="information__box information__box--lighter">
+                <p>
+                  <span className="bold__span">Du har inte gjort några kategorier ännu!</span>
+                </p>
+                <p>
+                  Börja med att lägga till några. 
+                  Tryck på pluset och börja skapa.
+                </p>
 
-                <div className="category__box" onClick={() => navigate(`/object/${category.id}`)}>
-
-                    <img className="category__image" src={category.image} alt="kategori bild" />
-
-                </div>
-
-                <div className="category__info-container">
-
-                  <div className="category__info" onClick={() => navigate("/object")}>
-
-                    <p className="category-info__title">{category.name}
-                    </p>
-
-                  </div>
-
-                  <div className="category__kebab-icon">
-
-                  <button className="ghost__button ghost__button--kebab" onClick={() => {setSendToContextMenu(category), stateDialogContextMenu(true)}}>
-
-                    <span className="material-symbols-outlined kebab__icon">
-                    more_vert
-                    </span>
-
-                  </button>
-
-                </div>
-
-                </div>
 
               </div>
-
-            ))}
+            ) : (
+              userCategories.map((category) => (
+                <div className="category__container" key={category.id}>
+  
+                  <div className="category__box" onClick={() => navigate(`/object/${category.id}`)}>
+  
+                      <img className="category__image" src={category.image} alt="kategori bild" />
+  
+                  </div>
+  
+                  <div className="category__info-container">
+  
+                    <div className="category__info" onClick={() => navigate("/object")}>
+  
+                      <p className="category-info__title">{category.name}
+                      </p>
+  
+                    </div>
+  
+                    <div className="category__kebab-icon">
+  
+                    <button className="ghost__button ghost__button--kebab" onClick={() => {setSendToContextMenu(category), stateDialogContextMenu(true)}}>
+  
+                      <span className="material-symbols-outlined kebab__icon">
+                      more_vert
+                      </span>
+  
+                    </button>
+  
+                  </div>
+  
+                  </div>
+  
+                </div>
+  
+              ))
+            )
+          }
+          {
+            }
 
         </section>
 
@@ -259,7 +301,7 @@ export const Start = () => {
         </p>
         
       <button className="secondary__button big" onClick={() => {
-        stateDeleteCategoryDialog(false), stateDialogContextMenu(false), deleteCategory();
+        stateDeleteCategoryDialog(false), stateDialogContextMenu(false), deleteCategoryPlusObjects();
       }}>Bekräfta
       </button>
 
