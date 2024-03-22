@@ -12,8 +12,12 @@ import "../styles/start.css";
 import start from "../images/start.png";
 
 export const Start = () => {
+  const navigate = useNavigate();
+
+  const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
 
   const [sendToContextMenu, setSendToContextMenu] = useState({});
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
     // Dialog
     const deleteCategoryDialogRef = useRef();
@@ -36,17 +40,9 @@ export const Start = () => {
     }
   }
 
-  const navigate = useNavigate();
-
-  const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
-
   useEffect(() => {
     setChangeButtonsOnView("start");
   });
-
-  const goToNewCategoryView = () => {
-    navigate("/add-category");
-  }
 
   useEffect(() => {
     const dbRef = collection(db, "categories");
@@ -110,27 +106,52 @@ export const Start = () => {
 
       if (!objectsSnapshot.empty) {
         objectsSnapshot.forEach(async (doc) => {
+          const objectData = doc.data();
 
-          const storageRef = ref(imageDb, doc.data().images);
+          const imageUrls = objectData.images;
+
+          for (const imageUrl of imageUrls) {
+            const imageRef = ref(imageDb, imageUrl);
   
-          await deleteObject(storageRef);
-  
+            await deleteObject(imageRef);
+
+            console.log("Image deleted successfully");
+
+          }
+
           await deleteDoc(doc.ref);
   
           console.log("Object deleted successfully");
 
           deleteCategory();
-  
+
         });
+
       } else {
         console.log("No objects found in this category");
 
         deleteCategory();
-        return;
       }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
+  };
+
+  // Search
+  useEffect(() => {
+    if (userCategories.length > 0) {
+      setFilteredCategories(userCategories);
+    }
+  }, [userCategories]);
+
+  const handleSearchInput = (e) => {
+      if (e.target.value !== null) {
+        const searchInput = e.target.value.toLowerCase();
+        const filteredResults = userCategories.filter((category) => category.name.toLowerCase().includes(searchInput));
+        setFilteredCategories(filteredResults);  
+      } else {
+        setFilteredCategories(userCategories);
+      }
   };
 
   return (
@@ -156,7 +177,7 @@ export const Start = () => {
 
           </label>
 
-          <input id="search__input" className="search__input-text" type="text" placeholder="Sök efter kategori" />
+          <input id="search__input" className="search__input-text" type="text" placeholder="Sök efter kategori" onChange={handleSearchInput} />
 
         </div>
 
@@ -175,7 +196,7 @@ export const Start = () => {
 
               </div>
             ) : (
-              userCategories.map((category) => (
+              filteredCategories.map((category) => (
                 <div className="category__container" key={category.id}>
   
                   <div className="category__box" onClick={() => navigate(`/object/${category.id}`)}>
@@ -311,7 +332,7 @@ export const Start = () => {
 
 </dialog>
 
-      <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => goToNewCategoryView()}> 
+      <button type="button" className="fixed__button" title="Lägg till kategori" onClick={() => navigate("/add-category")}> 
           <span className="material-symbols-outlined">add</span>
       </button>
     </section>

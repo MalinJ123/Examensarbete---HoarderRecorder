@@ -14,7 +14,7 @@ import "../styles/addCategory.css";
 export const AddCategory = () => {
   const navigate = useNavigate();
 
-  const { setChangeButtonsOnView, userId, userCategories, setUserCategories } = useContext(AppContext);
+  const { setChangeButtonsOnView, userId, userCategories, setUserCategories, username } = useContext(AppContext);
   const [categoryName, setCategoryName] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -35,7 +35,7 @@ export const AddCategory = () => {
           try {
   
             // Upload the image to the storage
-            const imgRef = ref(imageDb, `categories/${v4()}`);
+            const imgRef = ref(imageDb, `categories/${username}-${categoryName}-${v4()}`);
             const snapshot = await uploadBytes(imgRef, selectedImage, {
               contentType: "image/jpeg",
             });

@@ -13,7 +13,7 @@ import { getStorage, ref as storageRef, uploadBytes as storageUploadBytes, getDo
 import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
 
 export const AddObject = () => {
-  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn, currentCategory } = useContext(AppContext);
+  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn, currentCategory, username } = useContext(AppContext);
 
   const navigate = useNavigate();
   const storage = getStorage();
@@ -50,7 +50,7 @@ export const AddObject = () => {
  const uploadObject = async (objectId) => { 
   if (selectedImageOne && objectName.trim() !== "") {
     try {
-      const imgRef = storageRef(storage, `objects/${v4()}`); // Använd storageRef från Firebase Storage
+      const imgRef = storageRef(storage,`objects/${username}-${objectName}-${v4()}`); // Använd storageRef från Firebase Storage
       const snapshot = await storageUploadBytes(imgRef, selectedImageOne, { // Använd storageUploadBytes från Firebase Storage
         contentType: "image/jpeg",
       });
@@ -63,7 +63,7 @@ export const AddObject = () => {
       let imageUrl3 = ""; 
       
       if(selectedImageTwo){
-        const imgRef2 = storageRef(storage,`objects/${v4()}` );
+        const imgRef2 = storageRef(storage,`objects/${username}-${objectName}-${v4()}`);
         const snapshot2 = await storageUploadBytes(imgRef2, selectedImageTwo, {
           contentType: "image/jpeg",
         });
@@ -74,7 +74,7 @@ export const AddObject = () => {
       }
       
       if(selectedImageThree){
-        const imgRef3 = storageRef(storage,`objects/${v4()}` );
+        const imgRef3 = storageRef(storage,`objects/${username}-${objectName}-${v4()}`);
         const snapshot3 = await storageUploadBytes(imgRef3, selectedImageThree, {
           contentType: "image/jpeg",
         });
@@ -105,6 +105,8 @@ export const AddObject = () => {
         };
         const objectId = await generateObjectId(dbRef);
 
+
+        if (imageUrl && !imageUrl2 && !imageUrl3) {
         await addDoc(dbRef, {
           id: objectId,
           linkedCategory: currentCategory,
@@ -112,11 +114,33 @@ export const AddObject = () => {
           producer: objectProducer,
           value: objectValue,
           note: objectNote,
-          images: [imageUrl, imageUrl2, imageUrl3],
-        });
+          images: [imageUrl],
+        })
+       } else if (imageUrl && imageUrl2 && !imageUrl3) {
+        await addDoc(dbRef, {
+          id: objectId,
+          linkedCategory: currentCategory,
+          name: objectName,
+          producer: objectProducer,
+          value: objectValue,
+          note: objectNote,
+          images: [imageUrl, imageUrl2],
+        })
+        } else {
+          await addDoc(dbRef, {
+            id: objectId,
+            linkedCategory: currentCategory,
+            name: objectName,
+            producer: objectProducer,
+            value: objectValue,
+            note: objectNote,
+            images: [imageUrl, imageUrl2, imageUrl3],
+          })
+        }
 
+        
         // navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
-        navigate(`/object/${currentCategory}`);
+        navigate(-1, `show-object/${objectId}`);
       } catch (error) {
         console.error("Error:", error);
         // Hantera fel här
