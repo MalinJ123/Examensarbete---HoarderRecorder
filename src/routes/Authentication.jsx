@@ -175,7 +175,7 @@ const Login = ({
 
   const handleUsernameChange = (e) => {
     const value = e.target.value;
-    setUsername(value);
+    setUsername(value.trim());
 
     if (!value) {
       setUsernameError("Du måste fylla i användarnamn");
@@ -186,7 +186,7 @@ const Login = ({
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
-    setUserPassword(value);
+    setUserPassword(value.trim());
 
     if (!value) {
       setPasswordError("Du måste fylla i lösenord");
@@ -276,7 +276,7 @@ const Register = ({
 
   const handleUsernameChange = (e) => {
     const value = e.target.value;
-    setUsername(value);
+    setUsername(value.trim());
     if (!value) {
       setUsernameError("Du måste fylla i användarnamn");
     } else {
@@ -286,7 +286,7 @@ const Register = ({
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
-    setUserPassword(value);
+    setUserPassword(value.trim());
     if (!value) {
       setPasswordError("Du måste fylla i lösenord");
     } else {
