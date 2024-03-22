@@ -40,7 +40,7 @@ export const User = () => {
     const uploadImage = async () => {
       if (selectedImage) {
         try {
-          const imgRef = ref(imageDb, `profiles/${v4()}`);
+          const imgRef = ref(imageDb, `profiles/${username}-${v4()}`);
           const snapshot = await uploadBytes(imgRef, selectedImage, {
             contentType: "image/jpeg",
           });
@@ -168,7 +168,7 @@ export const User = () => {
             onChange={(e) => handleImageChange(e)}
           />
         </div>
-        {userProfilePicture && (
+        {userProfilePicture ? (
           <section className="profile-picture__spacer">
             <img
               className="user-profile-picture__image"
@@ -176,6 +176,12 @@ export const User = () => {
               alt="Profilbild"
             />
           </section>
+        ) : selectedImage && (
+          <img
+          className="user-profile-picture__image"
+          src={URL.createObjectURL(selectedImage)}
+          alt="Profilbild"
+        />
         )}
         <div className="form-button__group">
           <button

@@ -14,7 +14,7 @@ export const DeleteAccount = () => {
 
     const navigate = useNavigate();
 
-    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword, setUserProfilePicture, setUserId, localStorageUser, userId } = useContext(AppContext);
+    const { setAuthenticationView, setChangeButtonsOnView, setIsUserLoggedIn, setUsername, setUserPassword, setUserProfilePicture, setUserId, localStorageUser, userId, setUserCategories, setUserObjects } = useContext(AppContext);
 
     // Change the behavior the header's buttons depending on which view the user is currently on
     useEffect(() => {
@@ -24,27 +24,98 @@ export const DeleteAccount = () => {
     // If user actually deletes their account
     const confirmedDeletionOfAccount = async () => {
       try {
-
-        const dbRef = collection(db, "users");
-        const matchUserId = query(dbRef, where("id", "==", userId));
+    
+        // Find the user in the database
+        const dbUserRef = collection(db, "users");
+        const matchUserId = query(dbUserRef, where("id", "==", userId));
         const snapshot = await getDocs(matchUserId);
     
-        if (snapshot.empty) {
-          return; 
-        }
+        const dbCategoriesRef = collection(db, "categories");
+        const matchCategories = query(dbCategoriesRef, where("userId", "==", userId));
+        const categoriesSnapshot = await getDocs(matchCategories);
     
         const userDoc = snapshot.docs[0];
-    
         const userData = userDoc.data();
         if (userData.userProfilePicture) {
-          const storageRef = ref(imageDb, userData.userProfilePicture);
-          await deleteObject(storageRef);
-          console.log("Image deleted successfully");
+          const userImageRef = ref(imageDb, userData.userProfilePicture);
+          await deleteObject(userImageRef);
+          console.log("User profile picture deleted successfully");
         }
     
+        if (categoriesSnapshot.empty) {
+          console.log("User has no categories, proceeding with deletion.");
+          await deleteDoc(snapshot.docs[0].ref);
+          setUsername('');
+          setUserCategories([]);
+          setUserObjects([]);
+          setUserId('');
+          setUserProfilePicture('');
+          setUserPassword('');
+          setIsUserLoggedIn(false);
+          localStorage.removeItem(localStorageUser);
+          setAuthenticationView('register');
+          navigate('/');
+          console.log("User account successfully deleted!");
+          return;
+        }
+    
+        const deleteCategories = async () => {
+    
+          // Delete category image
+          if (categoriesData.image) {
+            const storageRef = ref(imageDb, categoriesData.image);
+            try {
+              await deleteObject(storageRef);
+              console.log("Category image deleted successfully");
+            } catch (error) {
+              if (error.code === "storage/object-not-found") {
+                console.error("Category image not found, continuing deletion.");
+              } else {
+                // Handle other errors
+                console.error("Error deleting category image:", error);
+              }
+            }
+          }
+    
+          // Access category ID from first document
+          const categoryId = categoriesSnapshot.docs[0].data().id;
+    
+          await deleteDoc(collection(db, "categories").doc(categoryId));
+          console.log("Category deleted successfully");
+        };
+    
+        const dbObjectsRef = collection(db, "objects");
+        const matchObjectsByLinkedCategory = query(dbObjectsRef, where("linkedCategory", "==", categoryId));
+        const objectsSnapshot = await getDocs(matchObjectsByLinkedCategory);
+    
+        if (!objectsSnapshot.empty) {
+          objectsSnapshot.forEach(async (doc) => {
+            const objectData = doc.data();
+    
+            const imageUrls = objectData.images;
+    
+            for (const imageUrl of imageUrls) {
+              const imageRef = ref(imageDb, imageUrl);
+              await deleteObject(imageRef);
+              console.log("Image deleted successfully");
+            }
+    
+            await deleteDoc(doc.ref);
+            console.log("Object deleted successfully");
+    
+            deleteCategories();
+          });
+        } else {
+          console.log("No objects found in this category");
+          deleteCategories();
+        }
+    
+        // Delete the user document
         await deleteDoc(userDoc.ref);
-
+    
         setUsername('');
+        setUserCategories([]);
+        setUserObjects([]);
         setUserId('');
         setUserProfilePicture('');
         setUserPassword('');
@@ -52,15 +123,14 @@ export const DeleteAccount = () => {
         localStorage.removeItem(localStorageUser);
         setAuthenticationView('register');
         navigate('/');
-
-        // TODO: Delete documents from collections "categories" and "objects" where the user id matches the user id of the user that is being deleted. Also remove all the images from the storage that are connected to the user that is being deleted.
     
         console.log("User account successfully deleted!");
       } catch (error) {
         console.error("Error deleting user data:", error);
       }
     };
-
+    
+    
     return (
 
         <section className="delete-account__section">
@@ -78,18 +148,6 @@ export const DeleteAccount = () => {
             </p>
 
             <div className="delete-account-center__box">
-
-                <p className="delete-account-info__title">Detta konto bli raderat:
-                </p>
-
-                <ul className="standard__list">
-
-                  <li className="standard__list-element"><span className="bold__span">ditt konto</span> och <span className="bold__span">din data</span>,</li>
-
-                  <li className="standard__list-element"><span className="bold__span">3</span> objekt inom <span className="bold__span">3</span> kategorier.</li>
-
-                </ul>
-
                 <button className="secondary__button user-btn" onClick={() => confirmedDeletionOfAccount()}>Bekräfta
                 </button>
 

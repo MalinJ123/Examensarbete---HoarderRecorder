@@ -29,6 +29,9 @@ export const Object = () => {
 
   useEffect(() => {
     const fetchObjects = async () => {
+      if (!userId) { 
+        return; 
+      }
       try {
 
         // Get objects from the database from collection categories to objects
@@ -43,23 +46,29 @@ export const Object = () => {
 
         console.log("Objects fetched:", objectsData);
 
-        // Get the main category image, name and userID
+        // Get the main category image, name, and user ID
         const getMainCategoryRef = collection(db, "categories");
         const matchMainCategory = query(getMainCategoryRef, where("id", "==", id));
         const mainCategorySnapshot = await getDocs(matchMainCategory);
-        mainCategorySnapshot.forEach((doc) => {
 
-          setCurrentHeroImage(doc.data().image);
-          setCheckWhatCategoryIsUserOn(doc.data().name);
+        if (mainCategorySnapshot.empty) {
+          console.error("Main category document not found");
+          navigate("/start");
+        } else {
+          const mainCategoryDoc = mainCategorySnapshot.docs[0];
 
-          // Check if the user owns the category
-          if (doc.data().userId === userId) {
-            console.log("User owns this category");
-          } else {
-            navigate("/start");
-          }
+            const mainCategoryData = mainCategoryDoc.data();
+            setCurrentHeroImage(mainCategoryData.image);
+            setCheckWhatCategoryIsUserOn(mainCategoryData.name);
 
-        });
+            // Check ownership using the fetched data
+            if (mainCategoryData.userId === userId) {
+              console.log("User owns this category");
+            } else {
+              console.log("User does not own this category");
+              navigate("/start");
+            }
+        }
 
         setUserObjects(objectsData);
         // Sätt loading till false när data har hämtats

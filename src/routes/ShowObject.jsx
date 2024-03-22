@@ -88,10 +88,6 @@ export const ShowObject = () => {
               <span className="material-symbols-outlined">edit</span>
             </Link>
           </button>
-  
-          <button className="fixed__button fixed__button--second" type="button" onClick={handleDelete}>
-            <span className="material-symbols-outlined trash__btn">delete</span>
-          </button>
         </section>
       </>
     );
