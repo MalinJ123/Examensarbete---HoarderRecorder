@@ -154,6 +154,8 @@ export const Start = () => {
       }
   };
 
+
+
   return (
     <section className="start__section section--spacer">
 

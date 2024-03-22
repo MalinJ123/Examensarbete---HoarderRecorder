@@ -287,7 +287,6 @@ export const AddObject = () => {
               <p className="upload__text">Välj bild</p>
             </label>
 
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
@@ -318,7 +317,6 @@ export const AddObject = () => {
               </span>
               <p className="upload__text">Välj bild</p>
             </label>
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
