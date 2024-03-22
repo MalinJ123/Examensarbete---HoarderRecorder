@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
@@ -13,7 +13,7 @@ import { getStorage, ref as storageRef, uploadBytes as storageUploadBytes, getDo
 import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
 
 export const AddObject = () => {
-  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn, currentCategory, username } = useContext(AppContext);
+  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn, currentCategory, username, setUserObjects, userObjects } = useContext(AppContext);
 
   const navigate = useNavigate();
   const storage = getStorage();
@@ -110,42 +110,41 @@ export const AddObject = () => {
         };
         const objectId = await generateObjectId(dbRef);
 
+        let objectData = {
+          id: objectId,
+          linkedCategory: currentCategory,
+          name: objectName,
+          producer: objectProducer,
+          value: objectValue,
+          note: objectNote,
+        };
 
         if (imageUrl && !imageUrl2 && !imageUrl3) {
-        await addDoc(dbRef, {
-          id: objectId,
-          linkedCategory: currentCategory,
-          name: objectName,
-          producer: objectProducer,
-          value: objectValue,
-          note: objectNote,
-          images: [imageUrl],
-        })
-       } else if (imageUrl && imageUrl2 && !imageUrl3) {
-        await addDoc(dbRef, {
-          id: objectId,
-          linkedCategory: currentCategory,
-          name: objectName,
-          producer: objectProducer,
-          value: objectValue,
-          note: objectNote,
-          images: [imageUrl, imageUrl2],
-        })
-        } else {
-          await addDoc(dbRef, {
-            id: objectId,
-            linkedCategory: currentCategory,
-            name: objectName,
-            producer: objectProducer,
-            value: objectValue,
-            note: objectNote,
-            images: [imageUrl, imageUrl2, imageUrl3],
-          })
+          objectData = {
+            ...objectData,
+            images: [imageUrl],
+          }
         }
 
-        
-        // navigate(`/object/${currentCategory}`); // Navigera till objektvyn när objektet är tillagt
-        navigate(-1, `show-object/${objectId}`);
+        if (imageUrl && imageUrl2 && !imageUrl3) {
+          objectData = {
+            ...objectData,
+            images: [imageUrl, imageUrl2],
+          }
+        }
+
+        if (imageUrl && imageUrl2 && imageUrl3) {
+          objectData = {
+            ...objectData,
+            images: [imageUrl, imageUrl2, imageUrl3],
+          }
+        }
+
+        await addDoc(dbRef, objectData);
+
+        setUserObjects([...userObjects, objectData]);
+
+        navigate(-1);
       } catch (error) {
         console.error("Error:", error);
         // Hantera fel här
