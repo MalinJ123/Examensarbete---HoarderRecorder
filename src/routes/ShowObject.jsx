@@ -83,11 +83,7 @@ export const ShowObject = () => {
             <p className="standard__text">{note}</p>
           </div>
   
-          <button className="fixed__button" type="button" title="Redigera">
-            <Link to={editLink}>
-              <span className="material-symbols-outlined">edit</span>
-            </Link>
-          </button>
+        
         </section>
       </>
     );
