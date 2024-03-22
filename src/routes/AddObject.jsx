@@ -27,6 +27,7 @@ export const AddObject = () => {
   const [selectedImageOne, setSelectedImageOne] = useState(null);
   const [selectedImageTwo, setSelectedImageTwo] = useState(null);
   const [selectedImageThree, setSelectedImageThree] = useState(null);
+  const [isUploadEnabled, setIsUploadEnabled] = useState(false);
 
 
   useEffect(() => {
@@ -46,10 +47,14 @@ export const AddObject = () => {
   };
 
   const areObjectRequirementsEmpty = objectName.trim() === "" || !selectedImageOne;
+
  // Funktion för att ladda upp objekt till Firebase
  const uploadObject = async (objectId) => { 
   if (selectedImageOne && objectName.trim() !== "") {
     try {
+
+      setIsUploadEnabled(true);
+
       const imgRef = storageRef(storage,`objects/${username}-${objectName}-${v4()}`); // Använd storageRef från Firebase Storage
       const snapshot = await storageUploadBytes(imgRef, selectedImageOne, { // Använd storageUploadBytes från Firebase Storage
         contentType: "image/jpeg",
@@ -362,18 +367,33 @@ export const AddObject = () => {
           </div>
         )}
       </div>
-
-      <button
-        type="button"
-        className="fixed__button"
-        onClick={() => uploadObject()}
-        disabled={areObjectRequirementsEmpty}
-        title="Slutför"
-      >
-        <span className="material-symbols-outlined round__button-icon">
-          done
-        </span>
-      </button>
+      {
+        isUploadEnabled ? (
+          <button
+            type="button"
+            className="fixed__button"
+            onClick={() => uploadObject()}
+            disabled={isUploadEnabled}
+            title="Slutför"
+          >
+          <span className="material-symbols-outlined round__button-icon">
+            done
+          </span>
+        </button>
+        ) : (
+          <button
+            type="button"
+            className="fixed__button"
+            onClick={() => uploadObject()}
+            disabled={areObjectRequirementsEmpty}
+            title="Slutför"
+          >
+          <span className="material-symbols-outlined round__button-icon">
+            done
+          </span>
+        </button>
+        )
+      }
     </section>
   );
 };
