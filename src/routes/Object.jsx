@@ -1,17 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 
-import { db } from "../firebaseConfig";
+import { db, imageDb } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/object.css";
 
 export const Object = () => {
 
-  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory, userObjects, setUserObjects } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const { id } = useParams();
+
+  const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory, userObjects, setUserObjects } = useContext(AppContext);
+
+  const [sendToContextMenu, setSendToContextMenu] = useState({});
+  const [currentHeroImage, setCurrentHeroImage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     
@@ -19,13 +26,7 @@ export const Object = () => {
   
   }, [id]);
   
-  // firebase
-  const navigate = useNavigate();
-  const [currentHeroImage, setCurrentHeroImage] = useState("");
-
-  const [loading, setLoading] = useState(true);
-
-      // Försök för att hämta "objekt/dokument" från databasen för att sedan mappa ut dem på objekt sidan
+  // Firebase query to get objects
 
   useEffect(() => {
     const fetchObjects = async () => {
@@ -83,6 +84,49 @@ export const Object = () => {
     fetchObjects();
   }, [userId]);
 
+  const deleteSpecificObject = async () => {
+
+    try {
+
+      const dbObjectsRef = collection(db, "objects");
+      const matchObjectsById = query(dbObjectsRef, where("id", "==", sendToContextMenu.id));
+      const objectsSnapshot = await getDocs(matchObjectsById);
+
+      if (!objectsSnapshot.empty) {
+        objectsSnapshot.forEach(async (doc) => {
+          const objectData = doc.data();
+
+          const imageUrls = objectData.images;
+
+          for (const imageUrl of imageUrls) {
+            const imageRef = ref(imageDb, imageUrl);
+  
+            await deleteObject(imageRef);
+
+            console.log("Image deleted successfully");
+
+          }
+
+          await deleteDoc(doc.ref);
+  
+          console.log("Object deleted successfully");
+
+
+
+          const updatedObjects = userObjects.filter((object) => object.id !== sendToContextMenu.id);
+          setUserObjects([]);
+          setUserObjects(updatedObjects);
+
+        });
+
+      } else {
+        console.log("No objects found");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
   // Dialog
   const deleteCategoryDialogRef = useRef();
   const stateDeleteCategoryDialog = (state) => {
@@ -106,7 +150,7 @@ export const Object = () => {
   });
 
   if (loading) {
-    return <p>Loading...</p>; // Visa laddningsindikator medan data hämtas
+    return <p>Hämtar data...</p>; // Visa laddningsindikator medan data hämtas
   }
 
   return (
@@ -146,39 +190,39 @@ export const Object = () => {
            </p>
          </div>
           ) : userObjects.map(object => (
-  <div className="object__container" key={object.id}>
-    <div
-      className="object__box"
-      onClick={() => navigate(`show-object/${object.id}`)}
-    >
-      <img
-        className="object__image"
-        src={object.images[0]}
-        alt="Objekt bild"
-      />
-    </div>
-    <div className="object__info-container">
-      <div
-        className="object__info"
-        onClick={() => navigate(`show-object/${object.id}`)}
-      >
-        <p className="object-info__title">{object.name}</p>
-        <p className="object-info__details">{object.producer}</p>
-        <p className="object-info__details">{object.value}</p>
-      </div>
-      <div className="category__kebab-icon">
-        <button
-          className="ghost__button ghost__button--kebab"
-          onClick={() => stateDialogContextMenu(true)}
-        >
-          <span className="material-symbols-outlined kebab__icon">
-            more_vert
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-))}
+            <div className="object__container" key={object.id}>
+              <div
+                className="object__box"
+                onClick={() => navigate(`show-object/${object.id}`)}
+              >
+                <img
+                  className="object__image"
+                  src={object.images[0]}
+                  alt="Objekt bild"
+                />
+              </div>
+              <div className="object__info-container">
+                <div
+                  className="object__info"
+                  onClick={() => navigate(`show-object/${object.id}`)}
+                >
+                  <p className="object-info__title">{object.name}</p>
+                  <p className="object-info__details">{object.producer}</p>
+                  <p className="object-info__details">{object.value}</p>
+                </div>
+                <div className="category__kebab-icon">
+                  <button
+                    className="ghost__button ghost__button--kebab"
+                    onClick={() => {setSendToContextMenu(object), stateDialogContextMenu(true)}}
+                  >
+                    <span className="material-symbols-outlined kebab__icon">
+                      more_vert
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </section>
       </div>
 
@@ -204,7 +248,7 @@ export const Object = () => {
 
             <h1 className="dialog__title dialog__title--menu">
               <span className="material-symbols-outlined">emoji_objects</span>{" "}
-              <span>Storms</span>
+              <span>{sendToContextMenu.name}</span>
             </h1>
 
             <ul className="dialog__list dialog__list--menu">
@@ -212,7 +256,7 @@ export const Object = () => {
                 <button
                   className="ghost__button ghost__button--menu"
                   onClick={() => {
-                    navigate("/show-object"), stateDialogContextMenu(false);
+                    navigate(`show-object/${sendToContextMenu.id}`), stateDialogContextMenu(false), setSendToContextMenu({});
                   }}
                 >
                   <span className="material-symbols-outlined menu__icon">
@@ -226,7 +270,7 @@ export const Object = () => {
                 <button
                   className="ghost__button ghost__button--menu"
                   onClick={() => {
-                    navigate("/edit-object"), stateDialogContextMenu(false);
+                    navigate(`edit-object/${sendToContextMenu.id}`), stateDialogContextMenu(false), setSendToContextMenu({});
                   }}
                 >
                   <span className="material-symbols-outlined menu__icon">
@@ -239,7 +283,7 @@ export const Object = () => {
               <li className="dialog__list-element">
                 <button
                   className="ghost__button ghost__button--menu"
-                  onClick={() => stateDeleteCategoryDialog(true)}
+                  onClick={() => {stateDeleteCategoryDialog(true)}}
                 >
                   <span className="material-symbols-outlined menu__icon">
                     folder_delete
@@ -285,7 +329,8 @@ export const Object = () => {
                 className="secondary__button"
                 onClick={() => {
                   stateDeleteCategoryDialog(false),
-                    stateDialogContextMenu(false);
+                  deleteSpecificObject(),
+                  stateDialogContextMenu(false);
                 }}
               >
                 Bekräfta

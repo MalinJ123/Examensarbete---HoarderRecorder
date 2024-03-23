@@ -1,7 +1,7 @@
 /* Object */
 .objects__section {
   display: grid;
-  grid-template-columns: repeat(2, 180px);
+  grid-template-columns: repeat(2, calc(34vw + 16px));
   row-gap: var(--spacing-small);
   column-gap: var(--spacing-smaller);
   justify-content: space-between;
@@ -10,13 +10,13 @@
 
 .object__image {
   object-fit: cover;
-  width: 100%;
+  width: 34vw;
   height: 178px;
 }
 
 .object__info-container {
   display: grid;
-  grid-template-columns: 127px 20px;
+  grid-template-columns: 92px 20px;
   padding: var(--spacing-small);
   gap: var(--spacing-smaller);
 }
@@ -59,7 +59,7 @@
 
   .object__image {
     width: 114px;
-    height: 160px;
+    height: 178px;
   }
 
   .object__info-container {
@@ -67,6 +67,7 @@
   }
 
   .object__info {
+    grid-template-rows: repeat(3, 18px);
     width: 92px;
   }
 
@@ -92,7 +93,7 @@
   .object__image {
     object-fit: fill;
     width: 37vw;
-  height: 178px;
+    height: 178px;
   }
 }
 
@@ -119,8 +120,9 @@
 }
 
 .object__info {
-  display: flex;
-  flex-flow: column wrap;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 18px);
   gap: var(--spacing-smallest);
 }
 

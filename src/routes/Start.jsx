@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
 import { db, imageDb } from "../firebaseConfig";

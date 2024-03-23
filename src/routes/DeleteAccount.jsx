@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { ref, deleteObject } from "firebase/storage";
-import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import { db } from "../firebaseConfig";
@@ -33,6 +33,9 @@ export const DeleteAccount = () => {
         const dbCategoriesRef = collection(db, "categories");
         const matchCategories = query(dbCategoriesRef, where("userId", "==", userId));
         const categoriesSnapshot = await getDocs(matchCategories);
+
+        let categoryId;
+        let categoriesData;
     
         const userDoc = snapshot.docs[0];
         const userData = userDoc.data();
@@ -57,6 +60,10 @@ export const DeleteAccount = () => {
           navigate('/');
           console.log("User account successfully deleted!");
           return;
+        } else {
+            const categoryDoc = categoriesSnapshot.docs[0];
+            categoriesData = categoryDoc.data();
+            categoryId = categoriesSnapshot.docs[0].data().id;
         }
     
         const deleteCategories = async () => {
@@ -76,17 +83,16 @@ export const DeleteAccount = () => {
               }
             }
           }
-    
-          // Access category ID from first document
-          const categoryId = categoriesSnapshot.docs[0].data().id;
-    
-          await deleteDoc(collection(db, "categories").doc(categoryId));
+        
+          await deleteDoc(doc(db, "categories", categoryId));
           console.log("Category deleted successfully");
         };
     
         const dbObjectsRef = collection(db, "objects");
         const matchObjectsByLinkedCategory = query(dbObjectsRef, where("linkedCategory", "==", categoryId));
         const objectsSnapshot = await getDocs(matchObjectsByLinkedCategory);
+
+        const deletePromises = [];
     
         if (!objectsSnapshot.empty) {
           objectsSnapshot.forEach(async (doc) => {
@@ -102,13 +108,20 @@ export const DeleteAccount = () => {
     
             await deleteDoc(doc.ref);
             console.log("Object deleted successfully");
+
+            deletePromises.push(deleteCategories());
     
             deleteCategories();
           });
         } else {
           console.log("No objects found in this category");
+
+          deletePromises.push(deleteCategories());
+
           deleteCategories();
         }
+
+        await Promise.all(deletePromises);
     
         // Delete the user document
         await deleteDoc(userDoc.ref);
