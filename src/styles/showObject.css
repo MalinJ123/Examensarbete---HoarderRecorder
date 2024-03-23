@@ -10,71 +10,65 @@
 .object-title-p {
   text-align: left;
   padding: 0px var(--spacing-small);
+  margin-bottom: 1em;
 }
-.standard__text.title{
-    margin: 1em 0em;
-    font-family: "Lato light", sans-serif;
-    font-size: var(--font-size-title);
-    font-weight: 70;
+.standard__text.title {
+  margin: 1em 0em;
+  font-family: "Lato light", sans-serif;
+  font-size: var(--font-size-title);
+  font-weight: 70;
 }
 
 /* Bilderna */
 .object-all-images {
   display: flex;
   justify-content: center;
-  margin-top: 1em;
-  gap:0.5em;
-
 }
 .big-img {
-  width: 100%;
-  max-width: 270px;
+  width: 270px;
+  height: 15em;
+  border:2px solid var(--color-header);
 }
 
-.small-images{
-    display: flex;
-    flex-direction: column;
-  gap:0.5em;
-    
+.small-images {
+  display: flex;
+  flex-direction: column;
 }
-.small-img{
-    width: 100px; 
-    height: auto; 
+.small-img {
+  width: 100%;
+  height: 100%;
+  border:2px solid var(--color-header);
 }
 /* Manövrerings pilar */
-.material-symbols-outlined.back-arrow{
-    position:absolute;
-    top:15em;
-    left:1.3em;
-    cursor:pointer; 
+.material-symbols-outlined.back-arrow {
+  position: absolute;
+  top: 13em;
+  left: 1.3em;
+  cursor: pointer;
 }
-.material-symbols-outlined.forward-arrow{
-    position:absolute;
-    top:15em;
-    right: 5.5em;
-    cursor:pointer; 
+.material-symbols-outlined.forward-arrow {
+  position: absolute;
+  top: 13em;
+  right: 5.5em;
+  cursor: pointer;
 }
 
 /* Anteckning + p-tagg */
 .description-content.section--spacer {
   margin-top: 1em;
   padding: 0px var(--spacing-small);
-
 }
-
 
 @media screen and (max-width: 350px) {
-    .show-object-wrapper {
-  margin: 0.3em;
-}
-.material-symbols-outlined.back-arrow{
-    left:0.5em;
-}
-.material-symbols-outlined.forward-arrow{
+  .show-object-wrapper {
+    margin: 0.3em;
+  }
+  .material-symbols-outlined.back-arrow {
+    left: 0.5em;
+  }
+  .material-symbols-outlined.forward-arrow {
     right: 5em;
-}
-    
+  }
 }
 
 /* knapparna finns i app.css */
-
