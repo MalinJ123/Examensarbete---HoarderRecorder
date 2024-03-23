@@ -1,10 +1,10 @@
 import "../styles/showObject.css";
 
 import { useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AppContext } from "../ContextRoot";
 import { useState } from "react";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 
@@ -33,7 +33,7 @@ export const ShowObject = () => {
           // Handle error (e.g., display an error message)
         };
       };
-  
+
       fetchObjectData(); // Kör funktionen för att hämta objektets data
     }, [objectId, setChangeButtonsOnView]);
   
@@ -52,32 +52,32 @@ export const ShowObject = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
   
-    return (
-      <>
-        <section className="show-object-wrapper section--spacer">
-          <div className="object-title-p">
-            <p className="standard__text title">{name}</p>
-            <p className="standard__text">Författare: {producer}</p>
-            <p className="standard__text">Pris: {value}</p>
-          </div>
+  return (
+    <>
+      <section className="show-object-wrapper section--spacer">
+        <div className="object-title-p">
+          <p className="standard__text title">{name}</p>
+          <p className="standard__text">Författare: {producer}</p>
+          <p className="standard__text">Pris: {value}</p>
+        </div>
   
+        {images && (
           <div className="object-all-images">
-          <span className="material-symbols-outlined back-arrow" onClick={handleBackClick}>
-            arrow_back_ios
-          </span>
-          <img className="big-img" src={images[currentIndex]} alt="Objekt bild" />
-          <span className="material-symbols-outlined forward-arrow" onClick={handleForwardClick}>
-            arrow_forward_ios
-          </span>
+            <span className="material-symbols-outlined back-arrow" onClick={() => handleBackClick()}>
+              arrow_back_ios
+            </span>
+            <img className="big-img" src={images[currentIndex]} alt="Objekt bild" />
+            <span className="material-symbols-outlined forward-arrow" onClick={() => handleForwardClick()}>
+              arrow_forward_ios
+            </span>
           </div>
+        )}
   
-          <div className="description-content section--spacer">
-            <p className="standard__text-title">Anteckning</p>
-            <p className="standard__text">{note}</p>
-          </div>
-  
-        
-        </section>
-      </>
-    );
+        <div className="description-content section--spacer">
+          <p className="standard__text-title">Anteckning</p>
+          <p className="standard__text">{note}</p>
+        </div>
+      </section>
+    </>
+  );
   };

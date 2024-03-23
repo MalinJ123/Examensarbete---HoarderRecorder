@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc, endAt } from "firebase/firestore";
 
 import { db, imageDb } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
@@ -52,6 +52,21 @@ export const EditObject = () => {
   const handleObjectNoteChange = (e) => {
     setObjectNote(e.target.value);
     setIsSomethingChanged(false)
+  }
+
+  const handleImageOneChange = (e) => {
+    setSelectedImageOne(e.target.files[0]);
+    setIsSomethingChanged(false);
+  }
+
+  const handleImageTwoChange = (e) => {
+    setSelectedImageTwo(e.target.files[0]);
+    setIsSomethingChanged(false);
+  }
+
+  const handleImageThreeChange = (e) => {
+    setSelectedImageThree(e.target.files[0]);
+    setIsSomethingChanged(false);
   }
 
   const updateObject = async () => {
@@ -322,7 +337,7 @@ export const EditObject = () => {
             id="category-image-upload__input-one"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => setSelectedImageOne(e.target.files[0])}
+            onChange={(e) => handleImageOneChange(e)}
           />
         </div>
 
@@ -360,7 +375,7 @@ export const EditObject = () => {
             id="category-image-upload__input-two"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => setSelectedImageTwo(e.target.files[0])}
+            onChange={(e) => handleImageTwoChange(e)}
           />
         </div>
 
@@ -399,7 +414,7 @@ export const EditObject = () => {
             id="category-image-upload__input-three"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => setSelectedImageThree(e.target.files[0])}
+            onChange={(e) => handleImageThreeChange(e)}
           />
         </div>
       </form>
