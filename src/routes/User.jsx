@@ -60,6 +60,7 @@ export const User = () => {
   
             await updateDoc(userDocRef, { userProfilePicture: imageUrl });
             setUserProfilePicture(imageUrl);
+            setSelectedImage(null);
   
             // Update local storage with the new profile picture URL
             existingDataInUserLS.userProfilePicture = imageUrl;
@@ -104,8 +105,8 @@ export const User = () => {
           await deleteObject(storageRef);
   
           // Update userProfilePicture state and local storage
-  
           setUserProfilePicture(null);
+          setSelectedImage(null);
           localStorage.setItem(localStorageUser, JSON.stringify({
             ...userData,
             userProfilePicture: null
@@ -168,14 +169,13 @@ export const User = () => {
             onChange={(e) => handleImageChange(e)}
           />
         </div>
+        <section className="profile-picture__spacer">
         {userProfilePicture ? (
-          <section className="profile-picture__spacer">
             <img
               className="user-profile-picture__image"
               src={userProfilePicture}
               alt="Profilbild"
             />
-          </section>
         ) : selectedImage && (
           <img
           className="user-profile-picture__image"
@@ -183,6 +183,7 @@ export const User = () => {
           alt="Profilbild"
         />
         )}
+        </section>
         <div className="form-button__group">
           <button
             type="button"

@@ -18,9 +18,15 @@ export const Start = () => {
 
   const [sendToContextMenu, setSendToContextMenu] = useState({});
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [categoriesImages, setCategoriesImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    // Dialog
-    const deleteCategoryDialogRef = useRef();
+
+  // Get an image from the user's categories
+  let imageUrl = "";
+
+  // Dialog
+  const deleteCategoryDialogRef = useRef();
 
     const stateDeleteCategoryDialog = (state) => {
       if (state) {
@@ -28,7 +34,7 @@ export const Start = () => {
       } else {
         deleteCategoryDialogRef.current.close();
       }
-    }
+  }
 
   const dialogContextMenuRef = useRef();
 
@@ -41,10 +47,9 @@ export const Start = () => {
   }
 
   useEffect(() => {
-    setChangeButtonsOnView("start");
-  });
 
-  useEffect(() => {
+    setChangeButtonsOnView("start");
+
     const dbRef = collection(db, "categories");
 
     const fetchCategories = async () => {
@@ -67,75 +72,99 @@ export const Start = () => {
     };
 
     fetchCategories();
-
   }, [userId]);
 
+  useEffect(() => {
+    const fetchCategoriesImages = async () => {
+      if (userCategories.length > 0) {
+        const images = userCategories.map(category => category.image).filter(image => image);
+        setCategoriesImages(images);
+        console.log("Categories images:", images);
+      }
+    };
+  
+    fetchCategoriesImages();
+  
+  }, [userCategories]);
+  
+  const changeImage = () => {
+    if (categoriesImages.length === 0) {
+      // Reset to the beginning if categoriesImages is empty
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % categoriesImages.length);
+    }
+  };
+
   const deleteCategoryPlusObjects = async () => {
-
     try {
-
       const dbCategoriesRef = collection(db, "categories");
       const matchCategory = query(dbCategoriesRef, where("id", "==", sendToContextMenu.id));
       const categorySnapshot = await getDocs(matchCategory);
-
+  
       const deleteCategory = async () => {
-
         // Delete category image
         const storageRef = ref(imageDb, sendToContextMenu.image);
-    
-        // Delete the image from Firebase Storage
         await deleteObject(storageRef);
   
         await deleteDoc(categorySnapshot.docs[0].ref);
   
         const updatedCategories = userCategories.filter((category) => category.id !== sendToContextMenu.id);
-        setUserCategories([]);
         setUserCategories(updatedCategories);
   
-        console.log("Category deleted successfully");
+        const updatedCategoriesImages = categoriesImages.filter((image) => image !== sendToContextMenu.image);
+        setCategoriesImages(updatedCategoriesImages);
   
-        };
-
+        console.log("Category deleted successfully");
+      };
+  
       if (categorySnapshot.empty) {
         return;
       }
-
+  
       const dbObjectsRef = collection(db, "objects");
       const matchObjectsByLinkedCategory = query(dbObjectsRef, where("linkedCategory", "==", sendToContextMenu.id));
       const objectsSnapshot = await getDocs(matchObjectsByLinkedCategory);
-
+  
       if (!objectsSnapshot.empty) {
         objectsSnapshot.forEach(async (doc) => {
           const objectData = doc.data();
-
+  
           const imageUrls = objectData.images;
-
+  
           for (const imageUrl of imageUrls) {
             const imageRef = ref(imageDb, imageUrl);
-  
             await deleteObject(imageRef);
-
             console.log("Image deleted successfully");
-
           }
-
-          await deleteDoc(doc.ref);
   
+          await deleteDoc(doc.ref);
           console.log("Object deleted successfully");
-
-          deleteCategory();
-
         });
-
       } else {
         console.log("No objects found in this category");
-
-        deleteCategory();
       }
+  
+      // After deleting objects, delete the category
+      deleteCategory();
     } catch (error) {
       console.error("Error deleting category:", error);
     }
   };
+
+  useEffect(() => {
+    changeImage();
+  }, [categoriesImages])
+  
+  useEffect(() => {
+    if (categoriesImages.length > 0) {
+      const imageInterval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % categoriesImages.length);
+      }, 7000);
+  
+      return () => clearInterval(imageInterval);
+    }
+  }, [categoriesImages]);
 
   // Search
   useEffect(() => {
@@ -155,14 +184,19 @@ export const Start = () => {
   };
 
 
-
   return (
     <section className="start__section section--spacer">
 
       {/* DisallowUserAccess is a component that checks if the user is really logged in. If not, the user will be redirected to root path. */}
       <DisallowUserAccess />
-      
-      <img className="hero__image" src={start} alt="Startsidans bild" />
+
+      {
+        userCategories.length === 0 ? (
+          <img className="hero__image" src={start} alt="Startsidans bild" />
+        ) : (
+          <img className="hero__image" src={categoriesImages[currentImageIndex]} alt="Startsidans bild" />
+        )
+      }
 
       <div className="start__container">
         
