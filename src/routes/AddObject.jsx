@@ -147,7 +147,6 @@ export const AddObject = () => {
         navigate(-1);
       } catch (error) {
         console.error("Error:", error);
-        // Hantera fel här
       }
     }
   };

@@ -3,204 +3,216 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
 import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db, imageDb } from "../firebaseConfig";
 
+import { db, imageDb } from "../firebaseConfig";
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/editObject.css";
 
 
 
-export const EditObject = () => { 
-  // Tillbaka knapp i headern från den här sidan 
+export const EditObject = () => {
   const navigate = useNavigate();
-  const { setChangeButtonsOnView, checkWhatCategoryIsUserOn,  userObjects, setUserObjects } = useContext(AppContext);
-  const { id } = useParams();
+  const { objectId } = useParams();
 
+  const { username, setChangeButtonsOnView, checkWhatCategoryIsUserOn,  userObjects, setUserObjects } = useContext(AppContext);
 
-    // Fetching object data
-    const selectObject = userObjects.find((object) => object.id === id);
-    const oldObject = {...selectObject};
+  useEffect(() => {
+    setChangeButtonsOnView("edit-object");
+  }, []);
+
+  const selectObject = userObjects.find((object) => object.id === objectId);
+  const oldObject = {...selectObject};
 
   // State variables
   const [objectName, setObjectName] = useState(oldObject.name || "");
   const [objectProducer, setObjectProducer] = useState(oldObject.producer || "");
   const [objectValue, setObjectValue] = useState(oldObject.value || "");
   const [objectNote, setObjectNote] = useState(oldObject.note || "");
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImageOne, setSelectedImageOne] = useState(null);
+  const [selectedImageTwo, setSelectedImageTwo] = useState(null);
+  const [selectedImageThree, setSelectedImageThree] = useState(null);
+
   const [isSomethingChanged, setIsSomethingChanged] = useState(true);
 
-  const [previewSelectedImageOne, setPreviewSelectedImageOne] = useState(null);
-  const [selectedImageNameOne, setSelectedImageNameOne] = useState("");
-  const [hasSelectedImageOne, setHasSelectedImageOne] = useState(false);
+  const handleObjectNameChange = (e) => {
+    setObjectName(e.target.value);
+  }
 
-  const [previewSelectedImageTwo, setPreviewSelectedImageTwo] = useState(null);
-  const [selectedImageNameTwo, setSelectedImageNameTwo] = useState("");
-  const [hasSelectedImageTwo, setHasSelectedImageTwo] = useState(false);
+  const handleObjectProducerChange = (e) => {
+    setObjectProducer(e.target.value);
+    setIsSomethingChanged(false)
+  }
 
-  const [previewSelectedImageThree, setPreviewSelectedImageThree] =
-    useState(null);
-  const [selectedImageNameThree, setSelectedImageNameThree] = useState("");
-  const [hasSelectedImageThree, setHasSelectedImageThree] = useState(false);
+  const handleObjectValueChange = (e) => {
+    setObjectValue(e.target.value);
+    setIsSomethingChanged(false)
+  }
 
-  const [selectedObject, setSelectedObject] = useState(null);
+  const handleObjectNoteChange = (e) => {
+    setObjectNote(e.target.value);
+    setIsSomethingChanged(false)
+  }
 
-useEffect(() => {
-  console.log("ID från useParams():", id);
-  console.log("Userobjekt:", userObjects);
-  const objectId = parseInt(id);
+  const updateObject = async () => {
 
-  // Här filtrerar vi userObjects baserat på ID från useParams()
- const selectObject = userObjects.find((object) => object.id === objectId);
+    try {
 
-  console.log("Selected Object:", selectObject); // Loggar det valda objektet
- 
+      if (objectName.trim() !== "" || oldObject.name) {
+        const dbRef = collection(db, "objects");
+        const matchObjectById = query(dbRef, where("id", "==", objectId));
+        const objectSnapshot = await getDocs(matchObjectById);
+        const objectDocs = objectSnapshot.docs;
 
+        if (objectDocs.length === 1) {
 
-  if (selectObject) {
-    console.log("Setting objectName:", selectObject.name);
-    console.log("Setting objectProducer:", selectObject.producer);
-    console.log("Setting objectValue:", selectObject.value);
-    console.log("Setting objectNote:", selectObject.note);
-    console.log("Setting selectedImages:", selectObject.images);
-    
-    setObjectName(selectObject.name || "");
-    setObjectProducer(selectObject.producer || "");
-    setObjectValue(selectObject.value || "");
-    setObjectNote(selectObject.note || "");
-    setSelectedImages(selectObject.images || []);
-    setSelectedObject(selectObject);
-   } else {
-     
-      console.log("Objektet med ID", objectId, "hittades inte.");
-    }
-  }, [id, userObjects]);
+          const objectDoc = objectDocs[0];
+          const objectDocRef = doc(db, "objects", objectDoc.id);
 
+          let editedObjectData = {
+            name: objectName || oldObject.name,
+            producer: objectProducer  || oldObject.producer,
+            value: objectValue || oldObject.value,
+            note: objectNote  || oldObject.note,
+            images: oldObject.images,
+          };
 
-      // Function to handle changes in form fields
-      const handleInputChange = (e, setterFunction) => {
-        setterFunction(e.target.value);
-        setIsSomethingChanged(false);
-      };
-    // Function to handle image uploads
-    const handleImageChange = (e, imageIndex) => {
-      const files = e.target.files;
-      const urls = [];
-      for (const file of files) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          urls.push(reader.result);
-          if (urls.length === files.length) {
-            setSelectedImages(prevImages => {
-              const updatedImages = [...prevImages];
-              updatedImages[imageIndex] = urls[0];
-              return updatedImages;
+          if (!selectedImageOne && !selectedImageTwo && !selectedImageThree) {
+
+            console.log("No new images selected, updating only the object data");
+
+          } else if (selectedImageOne && !selectedImageTwo && !selectedImageThree) {
+
+            const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+            await uploadBytes(imageOneRef, selectedImageOne);
+
+            const snapshot = await uploadBytes(imageOneRef, selectedImageOne, {
+              contentType: "image/jpeg",
             });
-            setIsSomethingChanged(false);
+            
+            const imageOneUrl = await getDownloadURL(snapshot.ref);
+
+            const imageOneDelRef = ref(imageDb, oldObject.images[0]);
+            await deleteObject(imageOneDelRef);
+            console.log("Image deleted successfully");
+
+            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0]);
+
+            editedObjectData.images = [...filteredObjectImages, imageOneUrl];
+
+          } else if (selectedImageOne && selectedImageTwo && !selectedImageThree) {
+
+            const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+            await uploadBytes(imageOneRef, selectedImageOne);
+
+            const snapshotOne = await uploadBytes(imageOneRef, selectedImageOne, {
+              contentType: "image/jpeg",
+            });
+
+            const imageOneUrl = await getDownloadURL(snapshotOne.ref);
+
+            const imageOneDelRef = ref(imageDb, oldObject.images[0]);
+
+            await deleteObject(imageOneDelRef);
+            console.log("Image deleted successfully");
+
+            const imageTwoRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+            await uploadBytes(imageTwoRef, selectedImageTwo);
+
+            const snapshotTwo = await uploadBytes(imageTwoRef, selectedImageTwo, {
+              contentType: "image/jpeg",
+            });
+
+            const imageTwoUrl = await getDownloadURL(snapshotTwo.ref);
+            const imageTwoDelRef = ref(imageDb, oldObject.images[1]);
+
+            await deleteObject(imageTwoDelRef);
+            console.log("Image deleted successfully");
+
+            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0] && image !== oldObject.images[1]);
+
+            editedObjectData.images = [...filteredObjectImages, imageOneUrl, imageTwoUrl];
+
+          } else if (selectedImageOne && selectedImageTwo && selectedImageThree) {
+
+            const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+            await uploadBytes(imageOneRef, selectedImageOne);
+
+            const snapshotOne = await uploadBytes(imageOneRef, selectedImageOne, {
+              contentType: "image/jpeg",
+            });
+
+            const imageOneUrl = await getDownloadURL(snapshotOne.ref);
+
+            const imageOneDelRef = ref(imageDb, oldObject.images[0]);
+
+            await deleteObject(imageOneDelRef);
+
+            console.log("Image deleted successfully");
+
+            const imageTwoRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+
+            await uploadBytes(imageTwoRef, selectedImageTwo);
+
+            const snapshotTwo = await uploadBytes(imageTwoRef, selectedImageTwo, {
+              contentType: "image/jpeg",
+            });
+
+            const imageTwoUrl = await getDownloadURL(snapshotTwo.ref);
+
+            const imageTwoDelRef = ref(imageDb, oldObject.images[1]);
+
+            await deleteObject(imageTwoDelRef);
+
+            console.log("Image deleted successfully");
+
+            const imageThreeRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+
+            await uploadBytes(imageThreeRef, selectedImageThree);
+
+            const snapshotThree = await uploadBytes(imageThreeRef, selectedImageThree, {
+              contentType: "image/jpeg",
+            });
+
+            const imageThreeUrl = await getDownloadURL(snapshotThree.ref);
+
+            const imageThreeDelRef = ref(imageDb, oldObject.images[2]);
+
+            await deleteObject(imageThreeDelRef);
+
+            console.log("Image deleted successfully");
+
+            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0] && image !== oldObject.images[1] && image !== oldObject.images[2]);
+
+            editedObjectData.images = [...filteredObjectImages, imageOneUrl, imageTwoUrl, imageThreeUrl];
+
           }
-        };
-        reader.readAsDataURL(file);
+
+          await updateDoc(objectDocRef, editedObjectData);
+
+          const filteredObjects = userObjects.filter((object) => object.id !== oldObject.id);
+          setUserObjects([...filteredObjects, editedObjectData]);
+
+          navigate(`/object/${oldObject.categoryId}/show-object/${objectId}`);
+
+        } else {
+          console.error("No object with that id found");
+        }
       }
-    };
-
-     // Function to update the object
-     const updateObject = async () => {
-      try {
-        navigate("/object");
-      } catch (error) {
-        console.error("Error updating object:", error);
-      }
-    };
-
-    const handleImageChangeOne = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviewSelectedImageOne(reader.result);
-        };
-        reader.readAsDataURL(file);
-  
-        setSelectedImageNameOne(file.name);
-        setHasSelectedImageOne(true);
-      } else {
-        setPreviewSelectedImageOne(null);
-        setSelectedImageNameOne("");
-        setHasSelectedImageOne(false);
-      }
-    };
-
-  // const handleImageChangeOne = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewSelectedImageOne(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     setSelectedImageNameOne(file.name);
-  //     setHasSelectedImageOne(true);
-  //   } else {
-  //     setPreviewSelectedImageOne(null);
-  //     setSelectedImageNameOne("");
-  //     setHasSelectedImageOne(false);
-  //   }
-  // };
-
-  // const handleImageChangeTwo = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewSelectedImageTwo(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     setSelectedImageNameTwo(file.name);
-  //   } else {
-  //     setPreviewSelectedImageTwo(null);
-  //     setSelectedImageNameTwo("");
-  //   }
-  // };
-
-  // const handleImageChangeThree = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setPreviewSelectedImageThree(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     setSelectedImageNameThree(file.name);
-  //     setHasSelectedImageThree(true);
-  //   } else {
-  //     setPreviewSelectedImageThree(null);
-  //     setSelectedImageNameThree("");
-  //     setHasSelectedImageThree(false);
-  //   }
-  // };
-
-  const GoToCompletedObject = () => {
-    navigate("/object");
-  };
-
-
+    }
+    catch (error) {
+      console.error("Error updating object:", error);
+    }
+  }
 
   return (
     <section className="add-object__section section--spacer">
       <DisallowUserAccess />
       <div className="add-object__text-container">
         <h1 className="add-object__title">Redigera objekt</h1>
-        {/* <p className="add-object__info">
-          Är i kategorin:{checkWhatCategoryIsUserOn}
-        </p> */}
         <p className="add-object__info">
-          Är i kategorin:{oldObject.name}
-
+          Är i kategorin: {checkWhatCategoryIsUserOn}
         </p>
-
       </div>
 
       <form
@@ -212,13 +224,12 @@ useEffect(() => {
             <label className="form__label" htmlFor="object-name__input">
               Namnge objektet*
             </label>
-
             <input
           type="text"
           className="form__input-text"
-          placeholder="Object Name"
+          placeholder="Heir of Fire"
+          onChange={(e) => handleObjectNameChange(e)}
           value={objectName}
-          onChange={(e) => handleInputChange(e, setObjectName)}
         />
           </div>
 
@@ -230,14 +241,13 @@ useEffect(() => {
             <label className="form__label" htmlFor="object-producer__input">
               Producent
             </label>
-
-<input
+            <input
               type="text"
               id="object-producer__input"
               className="form__input-text"
               placeholder="Sara J Maas"
+              onChange={(e) => handleObjectProducerChange(e)}
               value={objectProducer}
-              onChange={(e) => handleInputChange(e, setObjectProducer)}
             />
           </div>
 
@@ -256,8 +266,8 @@ useEffect(() => {
             id="object-value__input"
             className="form__input-text"
             placeholder="249"
+            onChange={(e) => handleObjectValueChange(e)}
             value={objectValue}
-            onChange={(e) => handleInputChange(e, setObjectValue)}
           />
         </div>
 
@@ -271,8 +281,8 @@ useEffect(() => {
             className="form__input-textarea"
             placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             value={objectNote}
+            onChange={(e) => handleObjectNoteChange(e)}
             rows={4}
-            onChange={(e) => handleInputChange(e, setObjectNote)}
           />
         </div>
 
@@ -304,18 +314,15 @@ useEffect(() => {
               className="form__selected-file__label"
               htmlFor="category-image-upload__input-one"
             >
-              {selectedImageNameOne}
             </label>
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
-      
           <input
             type="file"
             id="category-image-upload__input-one"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => handleImageChange(e, 0)}
+            onChange={(e) => setSelectedImageOne(e.target.files[0])}
           />
         </div>
 
@@ -343,7 +350,6 @@ useEffect(() => {
               className="form__selected-file__label"
               htmlFor="category-image-upload__input-two"
             >
-              {selectedImageNameTwo}
             </label>
             <span className="material-symbols-outlined trash">delete</span>
           </div>
@@ -354,7 +360,7 @@ useEffect(() => {
             id="category-image-upload__input-two"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => handleImageChange(e, 1)}
+            onChange={(e) => setSelectedImageTwo(e.target.files[0])}
           />
         </div>
 
@@ -383,7 +389,6 @@ useEffect(() => {
               className="form__selected-file__label"
               htmlFor="category-image-upload__input-three"
             >
-              {selectedImageNameThree}
             </label>
             <span className="material-symbols-outlined trash">delete</span>
           </div>
@@ -394,57 +399,55 @@ useEffect(() => {
             id="category-image-upload__input-three"
             className="form__input-upload"
             accept="image/*"
-            onChange={(e) => handleImageChange(e, 2)}
+            onChange={(e) => setSelectedImageThree(e.target.files[0])}
           />
         </div>
       </form>
 
-
-        {/* Display selected images */}
-        <div className="edit-object__image-preview">
-        {selectedImages.map((image, index) => (
-          <img key={index} src={image} alt={`Image ${index}`} />
-        ))}
-      </div>
-
-      <div className="images-content">
-        <div className="add-category-image__container">
-          {previewSelectedImageOne && (
+      <div className="add-object-image__container">
+        { oldObject.images && (
+          <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageOne}
               alt="Preview"
-              className="add-category-image__preview smallpic"
+              src={selectedImageOne ? URL.createObjectURL(selectedImageOne) : oldObject.images[0]}
+              className="add-object-image__preview"
             />
-          )}
-        </div>
+            <p className="add-object-image__text">Bild 1</p>
+          </div>
+          )
+        }
 
-        <div className="add-category-image__container">
-          {previewSelectedImageTwo && (
+        { oldObject.images && oldObject.images[1] && (
+          <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageTwo}
               alt="Preview"
-              className="add-category-image__preview smallpic"
+              src={selectedImageTwo ? URL.createObjectURL(selectedImageTwo) : oldObject.images[1]}
+              className="add-object-image__preview"
             />
-          )}
-        </div>
+            <p className="add-object-image__text">Bild 2</p>
+          </div>
+          )
+        }
 
-        <div className="add-category-image__container">
-          {previewSelectedImageThree && (
+        { oldObject.images && oldObject.images[2] && (
+          <div className="add-object-image-text__container">
             <img
-              src={previewSelectedImageThree}
               alt="Preview"
-              className="add-category-image__preview smallpic"
-            />
-          )}
-        </div>
+              src={selectedImageThree ? URL.createObjectURL(selectedImageThree) : oldObject.images[2]}
+              className="add-object-image__preview"
+                />
+                    <p className="add-object-image__text">Bild 3</p>
+                  </div>
+          )
+        }
       </div>
 
       <button
         className="fixed__button"
         type="button"
+        title="Slutför"
         onClick={() => updateObject()}
         disabled={isSomethingChanged}
-        title="Slutför"
       >
         <span className="material-symbols-outlined round__button-icon">
           done
