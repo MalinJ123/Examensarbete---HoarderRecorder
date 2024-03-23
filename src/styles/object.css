@@ -1,7 +1,7 @@
 /* Object */
 .objects__section {
   display: grid;
-  grid-template-columns: repeat(2, calc(34vw + 16px));
+  grid-template-columns: repeat(2, calc(34vw + 36px));
   row-gap: var(--spacing-small);
   column-gap: var(--spacing-smaller);
   justify-content: space-between;
