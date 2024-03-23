@@ -44,13 +44,6 @@ export const ShowObject = () => {
 
   const { name, producer, value, note, images } = objectData;
 
-    // För att navigera till redigeringssidan med objektets ID
-  const editLink = `/edit-object/${objectId}`;
-
-  const handleDelete = () => {
-    // Implementera logik för att radera objektet
-  };
-
   const handleForwardClick = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
