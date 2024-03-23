@@ -22,7 +22,7 @@ export const EditCategory = () => {
 
   const navigate = useNavigate();
 
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryName, setCategoryName] = useState(oldCategory.name || "");
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -65,7 +65,7 @@ export const EditCategory = () => {
           } else {
             console.log("Selected image is different from the current image");
   
-            const imgRef = ref(imageDb, `categories/${v4()}`);
+            const imgRef = ref(imageDb, `categories/${username}-${categoryName}-${v4()}`);
   
             const snapshot = await uploadBytes(imgRef, selectedImage, {
               contentType: "image/jpeg",

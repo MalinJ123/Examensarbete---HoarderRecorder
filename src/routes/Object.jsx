@@ -11,12 +11,7 @@ import "../styles/object.css";
 export const Object = () => {
 
   const navigate = useNavigate();
-  const ObjectContext = createContext();
-
-  const handleEditObject = (object) => {
-    navigate(`edit-object/${object.id}`, { state: { object } });
-  };
-
+  
   const { id } = useParams();
 
   const { setChangeButtonsOnView, setCheckWhatCategoryIsUserOn, userId, setCurrentCategory, userObjects, setUserObjects } = useContext(AppContext);
@@ -198,8 +193,7 @@ export const Object = () => {
             <div className="object__container" key={object.id}>
               <div
                 className="object__box"
-                onClick={() => handleEditObject(object)}
-
+                onClick={() => navigate(`show-object/${object.id}`)}	
               >
                 <img
                   className="object__image"
