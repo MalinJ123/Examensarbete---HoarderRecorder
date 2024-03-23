@@ -79,7 +79,6 @@ export const Start = () => {
       if (userCategories.length > 0) {
         const images = userCategories.map(category => category.image).filter(image => image);
         setCategoriesImages(images);
-        console.log("Categories images:", images);
       }
     };
   
