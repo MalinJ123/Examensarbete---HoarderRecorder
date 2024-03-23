@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
@@ -11,6 +11,11 @@ import "../styles/object.css";
 export const Object = () => {
 
   const navigate = useNavigate();
+  const ObjectContext = createContext();
+
+  const handleEditObject = (object) => {
+    navigate(`edit-object/${object.id}`, { state: { object } });
+  };
 
   const { id } = useParams();
 
@@ -193,7 +198,8 @@ export const Object = () => {
             <div className="object__container" key={object.id}>
               <div
                 className="object__box"
-                onClick={() => navigate(`show-object/${object.id}`)}
+                onClick={() => handleEditObject(object)}
+
               >
                 <img
                   className="object__image"
