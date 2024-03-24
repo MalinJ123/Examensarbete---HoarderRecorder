@@ -4,17 +4,17 @@
     height: calc(100dvh - 60px);
     width: 100%;
     padding: 0px var(--spacing-standard);
-    grid-template-rows: 104px 1fr 1fr 1fr 200px;
+    grid-template-rows: 104px 148px calc(200px + var(--spacing-standard));
 }
 
 .add-category-image__preview {
     width: 200px;
     height: 200px;
-    margin-top: var(--spacing-standard);
     border-radius: var(--border-radius-standard);
 }
 
 .add-category-image__container {
+    margin-top: var(--spacing-standard);
     display: flex;
     justify-content: center;
 }

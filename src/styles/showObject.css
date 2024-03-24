@@ -1,7 +1,8 @@
 /* Container */
 .show-object-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 122px 240px 1fr;
+  gap: var(--spacing-small);
   margin: 0em 1.5em;
   height: calc(100% - 60px);
 }
@@ -21,36 +22,59 @@
 
 /* Bilderna */
 .object-all-images {
-  display: flex;
+  width: 100vw;
+  display: grid;
+  grid-template-areas: 
+  "big__image small__image"
+  "big__image small__image2";
+  grid-template-columns: 270px 100px;
+  height: 240px;
   justify-content: center;
-}
-.big-img {
-  width: 270px;
-  height: 15em;
-  border:2px solid var(--color-header);
+  gap: var(--spacing-smaller);
 }
 
-.small-images {
+.big__image-container {
+  grid-area: big__image;
+  width: calc(270px - var(--spacing-smaller));
+  height: 15em;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--border-radius-corner);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+.arrow {
+  width: 24px;
+}
+
 .small-img {
-  width: 100%;
-  height: 7.5em;
-  border:2px solid var(--color-header);
+  width: calc(100px - var(--spacing-smaller));
+  border-radius: var(--border-radius-corner);
+  height: calc(7.5em - var(--spacing-smaller));
+  grid-area: small__image;
+  object-fit: cover;
 }
-/* Manövrerings pilar */
-.material-symbols-outlined.back-arrow {
-  position: absolute;
-  top: 13em;
-  left: 1.3em;
-  cursor: pointer;
+
+.small-img:last-child {
+  grid-area: small__image2;
 }
-.material-symbols-outlined.forward-arrow {
-  position: absolute;
-  top: 13em;
-  right: 5.5em;
-  cursor: pointer;
+
+@media screen and (min-width: 320px) and (max-width: 350px) {
+  .object-all-images {
+    grid-template-columns: 70vw 30vw;
+  }
+
+  .big__image-container {
+    width: 70vw;
+  }
+
+  .small-img {
+    max-width: 30vw;
+  }
 }
 
 /* Anteckning + p-tagg */
@@ -62,12 +86,6 @@
 @media screen and (max-width: 350px) {
   .show-object-wrapper {
     margin: 0.3em;
-  }
-  .material-symbols-outlined.back-arrow {
-    left: 0.5em;
-  }
-  .material-symbols-outlined.forward-arrow {
-    right: 5em;
   }
 }
 

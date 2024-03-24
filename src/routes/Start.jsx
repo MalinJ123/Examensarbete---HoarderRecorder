@@ -19,11 +19,9 @@ export const Start = () => {
   const [sendToContextMenu, setSendToContextMenu] = useState({});
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [categoriesImages, setCategoriesImages] = useState([]);
+  const [categoriesNames, setCategoriesNames] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-
-  // Get an image from the user's categories
-  let imageUrl = "";
+  const [currentNameIndex, setCurrentNameIndex] = useState(0);
 
   // Dialog
   const deleteCategoryDialogRef = useRef();
@@ -75,23 +73,28 @@ export const Start = () => {
   }, [userId]);
 
   useEffect(() => {
-    const fetchCategoriesImages = async () => {
+    const fetchCategoriesImagesNames = async () => {
       if (userCategories.length > 0) {
         const images = userCategories.map(category => category.image).filter(image => image);
         setCategoriesImages(images);
+
+        const names = userCategories.map(category => category.name).filter(name => name);
+        setCategoriesNames(names);
       }
     };
   
-    fetchCategoriesImages();
+    fetchCategoriesImagesNames();
   
   }, [userCategories]);
   
-  const changeImage = () => {
+  const changeImageName = () => {
     if (categoriesImages.length === 0) {
       // Reset to the beginning if categoriesImages is empty
       setCurrentImageIndex(0);
+      setCurrentNameIndex(0);
     } else {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % categoriesImages.length);
+      setCurrentNameIndex((prevIndex) => (prevIndex + 1) % categoriesNames.length);
     }
   };
 
@@ -152,16 +155,17 @@ export const Start = () => {
   };
 
   useEffect(() => {
-    changeImage();
-  }, [categoriesImages])
+    changeImageName();
+  }, [categoriesImages, categoriesNames])
   
   useEffect(() => {
     if (categoriesImages.length > 0) {
-      const imageInterval = setInterval(() => {
+      const imageNameInterval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % categoriesImages.length);
+        setCurrentNameIndex((prevIndex) => (prevIndex + 1) % categoriesNames.length);
       }, 7000);
   
-      return () => clearInterval(imageInterval);
+      return () => clearInterval(imageNameInterval);
     }
   }, [categoriesImages]);
 
@@ -191,9 +195,12 @@ export const Start = () => {
 
       {
         userCategories.length === 0 ? (
-          <img className="hero__image" src={start} alt="Startsidans bild" />
+          <div className="hero__image-container" style={{backgroundImage: `url(${start})`}}>
+          </div>
         ) : (
-          <img className="hero__image" src={categoriesImages[currentImageIndex]} alt="Startsidans bild" />
+          <div className="hero__image-container" style={{backgroundImage: `url(${categoriesImages[currentImageIndex]})`}}>
+            <h1 className="hero__image-title"><span className="material-symbols-outlined">folder</span>{categoriesNames[currentNameIndex]}</h1>
+          </div>
         )
       }
 

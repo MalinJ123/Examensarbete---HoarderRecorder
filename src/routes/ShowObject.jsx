@@ -72,27 +72,20 @@ export const ShowObject = () => {
         </div>
         <div className="object-all-images">
           {images && (
-            <div className="object-all-images">
-              <span
-                className="material-symbols-outlined back-arrow"
-                onClick={() => handleBackClick()}
-              >
-                arrow_back_ios
-              </span>
-              <img
-                className="big-img"
-                src={images[currentIndex]}
-                alt="Objekt bild"
-              />
-              <span
-                className="material-symbols-outlined forward-arrow"
-                onClick={() => handleForwardClick()}
-              >
-                arrow_forward_ios
-              </span>
-            </div>
-          )}
-          <div className="preview-next-image">
+              <div className="big__image-container" style={{backgroundImage: `url(${images[currentIndex]})`}}>
+                <span
+                  className="material-symbols-outlined arrow"
+                  onClick={() => handleBackClick()}
+                >
+                  arrow_back_ios
+                </span>
+                <span
+                  className="material-symbols-outlined arrow"
+                  onClick={() => handleForwardClick()}>
+                  arrow_forward_ios
+                </span>
+              </div>
+            )}
             {images.length > 1 && (
               <img
                 className="small-img"
@@ -107,8 +100,6 @@ export const ShowObject = () => {
                 alt="Nästa bild"
               />
             )}
-          </div>
-         
         </div>
   
         <div className="description-content section--spacer">

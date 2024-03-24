@@ -53,7 +53,6 @@ export const Authentication = () => {
 
     if (username && userPassword) {
       console.log("Username and password are filled in!")
-      console.log("Authentication view is: ", authenticationView)
       if (authenticationView === "register") {
 
         // If the username is already taken, display an error message

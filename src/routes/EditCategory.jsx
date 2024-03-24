@@ -112,8 +112,7 @@ export const EditCategory = () => {
         </p>
       </div>
 
-    <form className="form__container 
-    form__container--margin-bottom">
+    <form className="form__container">
 
       <div className="form-input-with-label__box">
 

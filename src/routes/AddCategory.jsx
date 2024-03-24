@@ -94,8 +94,7 @@ export const AddCategory = () => {
 
       <h1 className="standard__title">Skapa kategori</h1>
 
-      <form className="form__container 
-      form__container--margin-bottom">
+      <form className="form__container">
 
         <div className="form-input-with-label__box">
 
@@ -113,8 +112,6 @@ export const AddCategory = () => {
           />
 
         </div>
-
-          <h2 className="standard__subtitle">Ladda upp bild</h2>
 
         <div className="form-input-with-label__box form-input-with-label__box--upload">
 
