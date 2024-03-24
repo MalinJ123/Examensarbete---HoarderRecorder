@@ -381,10 +381,10 @@ export const EditObject = () => {
 
         {/* bild 3 */}
 
-        <div className="form-input-with-label__box form-input-with-label__box--upload lastchild">
+        <div className="form-input-with-label__box form-input-with-label__box--upload">
           <label
             className="form__label"
-            htmlFor="category-image-upload__input-two"
+            htmlFor="category-image-upload__input-three"
           >
             Ladda upp bild 3
           </label>
@@ -405,7 +405,6 @@ export const EditObject = () => {
               htmlFor="category-image-upload__input-three"
             >
             </label>
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
