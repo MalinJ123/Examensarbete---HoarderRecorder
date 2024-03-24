@@ -52,6 +52,16 @@ export const ShowObject = () => {
     );
   };
 
+  let smallImageIndex = currentIndex - 1;
+  if (smallImageIndex < 0) {
+    smallImageIndex = images.length - 1;
+  }
+  
+  let smallImageIndex2 = currentIndex + 1;
+  if (smallImageIndex2 === images.length) {
+    smallImageIndex2 = 0;
+  }
+  
   return (
     <>
       <section className="show-object-wrapper section--spacer">
@@ -82,19 +92,25 @@ export const ShowObject = () => {
               </span>
             </div>
           )}
-         
-          <div className="small-images">
-            {images.slice(1).map((image, index) => (
+          <div className="preview-next-image">
+            {images.length > 1 && (
               <img
-                key={index}
                 className="small-img"
-                src={image}
-                alt="Objekt bild"
+                src={images[smallImageIndex2]}
+                alt="Föregående bild"
               />
-            ))}
+            )}
+            {images.length > 1 && (
+              <img
+                className="small-img"
+                src={images[smallImageIndex]}
+                alt="Nästa bild"
+              />
+            )}
           </div>
+         
         </div>
-
+  
         <div className="description-content section--spacer">
           <p className="standard__text-title">Anteckning</p>
           <p className="standard__text">{note}</p>
@@ -102,4 +118,4 @@ export const ShowObject = () => {
       </section>
     </>
   );
-};
+}
