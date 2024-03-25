@@ -29,8 +29,6 @@ export const Object = () => {
   const [currentHeroInfo, setCurrentHeroInfo] = useState("");
   const [loading, setLoading] = useState(true);
   const [filteredObjects, setFilteredObjects] = useState([]);
-  const deleteCategoryDialogRef = useRef();
-  const dialogContextMenuRef = useRef();
 
   useEffect(() => {
     setCurrentCategory(id);
@@ -140,6 +138,24 @@ export const Object = () => {
       console.error("Error deleting category:", error);
     }
   };
+
+    // Dialog
+    const deleteCategoryDialogRef = useRef();
+    const stateDeleteCategoryDialog = (state) => {
+      if (state) {
+        deleteCategoryDialogRef.current.showModal();
+      } else {
+        deleteCategoryDialogRef.current.close();
+      }
+    };
+    const dialogContextMenuRef = useRef();
+    const stateDialogContextMenu = (state) => {
+      if (state) {
+        dialogContextMenuRef.current.showModal();
+      } else {
+        dialogContextMenuRef.current.close();
+      }
+    };
 
   useEffect(() => {
     setChangeButtonsOnView("object");
