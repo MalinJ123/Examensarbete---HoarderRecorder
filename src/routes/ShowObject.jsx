@@ -80,7 +80,7 @@ export const ShowObject = () => {
           {images && (
               <div className="big__image-container" style={{backgroundImage: `url(${images[currentIndex]})`}}>
               {
-                images.length > 1 && (
+                images.length > 1 && (images[smallImageIndex] !== "" || images[smallImageIndex2] !== "") && (
                   <>
                     <span
                       className="material-symbols-outlined arrow"
@@ -96,14 +96,14 @@ export const ShowObject = () => {
               }
               </div>
             )}
-            {images.length > 1 && (
+            {images.length > 1 && (images[smallImageIndex2] !== "") && (
               <img
                 className="small-img"
                 src={images[smallImageIndex2]}
                 alt="Föregående bild"
               />
             )}
-            {images.length > 1 && (
+            {images.length > 1 && (images[smallImageIndex] !== "") && (
               <img
                 className="small-img"
                 src={images[smallImageIndex]}

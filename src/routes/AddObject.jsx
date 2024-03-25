@@ -122,7 +122,7 @@ export const AddObject = () => {
         if (imageUrl && !imageUrl2 && !imageUrl3) {
           objectData = {
             ...objectData,
-            images: [imageUrl],
+            images: [imageUrl, "", ""],
           }
         }
 

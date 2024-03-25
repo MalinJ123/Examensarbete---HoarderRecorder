@@ -70,8 +70,11 @@ export const EditObject = () => {
   }
 
   const updateObject = async () => {
+    console.log(Boolean(selectedImageOne), Boolean(selectedImageTwo), Boolean(selectedImageThree));
 
     try {
+
+      console.log("Updating object");
 
       if (objectName.trim() !== "" || oldObject.name) {
         const dbRef = collection(db, "objects");
@@ -92,11 +95,14 @@ export const EditObject = () => {
             images: oldObject.images,
           };
 
+          let filteredObjectImages;
+          const originalImages = oldObject.images;
+
           if (!selectedImageOne && !selectedImageTwo && !selectedImageThree) {
-
             console.log("No new images selected, updating only the object data");
-
-          } else if (selectedImageOne && !selectedImageTwo && !selectedImageThree) {
+          } 
+          
+          if (selectedImageOne) {
 
             const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
             await uploadBytes(imageOneRef, selectedImageOne);
@@ -109,98 +115,76 @@ export const EditObject = () => {
 
             const imageOneDelRef = ref(imageDb, oldObject.images[0]);
             await deleteObject(imageOneDelRef);
-            console.log("Image deleted successfully");
 
-            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0]);
+            filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0]);
+
+            console.log("Image deleted successfully");
 
             editedObjectData.images = [...filteredObjectImages, imageOneUrl];
 
-          } else if (selectedImageOne && selectedImageTwo && !selectedImageThree) {
 
-            const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
-            await uploadBytes(imageOneRef, selectedImageOne);
+          }
+          
+          if (selectedImageTwo) {
 
-            const snapshotOne = await uploadBytes(imageOneRef, selectedImageOne, {
-              contentType: "image/jpeg",
-            });
+            if (oldObject.images[1] !== "") {
 
-            const imageOneUrl = await getDownloadURL(snapshotOne.ref);
+              const imageTwoDelRef = ref(imageDb, oldObject.images[1]);
+  
+              await deleteObject(imageTwoDelRef);
+              console.log("Image deleted successfully");
 
-            const imageOneDelRef = ref(imageDb, oldObject.images[0]);
+              filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[1]);
 
-            await deleteObject(imageOneDelRef);
-            console.log("Image deleted successfully");
+              editedObjectData.images = [...filteredObjectImages];
 
-            const imageTwoRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
-            await uploadBytes(imageTwoRef, selectedImageTwo);
+              }
 
-            const snapshotTwo = await uploadBytes(imageTwoRef, selectedImageTwo, {
-              contentType: "image/jpeg",
-            });
+              console.log("The user wants to update image two");
 
-            const imageTwoUrl = await getDownloadURL(snapshotTwo.ref);
-            const imageTwoDelRef = ref(imageDb, oldObject.images[1]);
+              const imageTwoRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
+              await uploadBytes(imageTwoRef, selectedImageTwo);
 
-            await deleteObject(imageTwoDelRef);
-            console.log("Image deleted successfully");
+              const snapshotTwo = await uploadBytes(imageTwoRef, selectedImageTwo, {
+                contentType: "image/jpeg",
+              });
 
-            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0] && image !== oldObject.images[1]);
+              const imageTwoUrl = await getDownloadURL(snapshotTwo.ref);
 
-            editedObjectData.images = [...filteredObjectImages, imageOneUrl, imageTwoUrl];
+              originalImages[1] = imageTwoUrl;
 
-          } else if (selectedImageOne && selectedImageTwo && selectedImageThree) {
+              editedObjectData.images = [...originalImages.slice(0, 1), imageTwoUrl, ...originalImages.slice(2)];
+          } 
+          
+          if (selectedImageThree) {
 
-            const imageOneRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
-            await uploadBytes(imageOneRef, selectedImageOne);
+            console.log("The user wants to update image three");
 
-            const snapshotOne = await uploadBytes(imageOneRef, selectedImageOne, {
-              contentType: "image/jpeg",
-            });
-
-            const imageOneUrl = await getDownloadURL(snapshotOne.ref);
-
-            const imageOneDelRef = ref(imageDb, oldObject.images[0]);
-
-            await deleteObject(imageOneDelRef);
-
-            console.log("Image deleted successfully");
-
-            const imageTwoRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
-
-            await uploadBytes(imageTwoRef, selectedImageTwo);
-
-            const snapshotTwo = await uploadBytes(imageTwoRef, selectedImageTwo, {
-              contentType: "image/jpeg",
-            });
-
-            const imageTwoUrl = await getDownloadURL(snapshotTwo.ref);
-
-            const imageTwoDelRef = ref(imageDb, oldObject.images[1]);
-
-            await deleteObject(imageTwoDelRef);
-
-            console.log("Image deleted successfully");
-
-            const imageThreeRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
-
-            await uploadBytes(imageThreeRef, selectedImageThree);
-
-            const snapshotThree = await uploadBytes(imageThreeRef, selectedImageThree, {
-              contentType: "image/jpeg",
-            });
-
-            const imageThreeUrl = await getDownloadURL(snapshotThree.ref);
+            if (oldObject.images[2] !== "") {
 
             const imageThreeDelRef = ref(imageDb, oldObject.images[2]);
 
             await deleteObject(imageThreeDelRef);
 
+            filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[2]);
+
+            editedObjectData.images = [...filteredObjectImages];
+
             console.log("Image deleted successfully");
 
-            const filteredObjectImages = oldObject.images.filter((image) => image !== oldObject.images[0] && image !== oldObject.images[1] && image !== oldObject.images[2]);
+            }
 
-            editedObjectData.images = [...filteredObjectImages, imageOneUrl, imageTwoUrl, imageThreeUrl];
+              const imageThreeRef = ref(imageDb, `objects/${username}-${objectName}-${v4()}`);
 
+              await uploadBytes(imageThreeRef, selectedImageThree);
+
+              const snapshotThree = await uploadBytes(imageThreeRef, selectedImageThree, {
+                contentType: "image/jpeg",
+              });
+
+              const imageThreeUrl = await getDownloadURL(snapshotThree.ref);
+
+              editedObjectData.images = [...originalImages.slice(0, 2), imageThreeUrl];
           }
 
           await updateDoc(objectDocRef, editedObjectData);
@@ -418,41 +402,65 @@ export const EditObject = () => {
       </form>
 
       <div className="add-object-image__container">
-        { oldObject.images && (
+        {selectedImageOne ? (
           <div className="add-object-image-text__container">
             <img
               alt="Preview"
-              src={selectedImageOne ? URL.createObjectURL(selectedImageOne) : oldObject.images[0]}
+              src={URL.createObjectURL(selectedImageOne)}
               className="add-object-image__preview"
             />
             <p className="add-object-image__text">Bild 1</p>
           </div>
-          )
-        }
-
-        { oldObject.images && oldObject.images[1] && (
+        ) : (
           <div className="add-object-image-text__container">
             <img
               alt="Preview"
-              src={selectedImageTwo ? URL.createObjectURL(selectedImageTwo) : oldObject.images[1]}
+              src={oldObject.images[0]}
+              className="add-object-image__preview"
+            />
+            <p className="add-object-image__text">Bild 1</p>
+          </div>
+        )}
+
+        {selectedImageTwo ? (
+          <div className="add-object-image-text__container">
+            <img
+              alt="Preview"
+              src={URL.createObjectURL(selectedImageTwo)}
               className="add-object-image__preview"
             />
             <p className="add-object-image__text">Bild 2</p>
           </div>
-          )
-        }
-
-        { oldObject.images && oldObject.images[2] && (
+        ) : oldObject.images && oldObject.images[1] ? (
           <div className="add-object-image-text__container">
             <img
               alt="Preview"
-              src={selectedImageThree ? URL.createObjectURL(selectedImageThree) : oldObject.images[2]}
+              src={oldObject.images[1]}
               className="add-object-image__preview"
-                />
-                    <p className="add-object-image__text">Bild 3</p>
-                  </div>
-          )
-        }
+            />
+            <p className="add-object-image__text">Bild 2</p>
+          </div>
+        ) : null}
+
+        {selectedImageThree ? (
+          <div className="add-object-image-text__container">
+            <img
+              alt="Preview"
+              src={URL.createObjectURL(selectedImageThree)}
+              className="add-object-image__preview"
+            />
+            <p className="add-object-image__text">Bild 3</p>
+          </div>
+        ) : oldObject.images && oldObject.images[2] ? (
+          <div className="add-object-image-text__container">
+            <img
+              alt="Preview"
+              src={oldObject.images[2]}
+              className="add-object-image__preview"
+            />
+            <p className="add-object-image__text">Bild 3</p>
+          </div>
+        ) : null}
       </div>
 
       <button
