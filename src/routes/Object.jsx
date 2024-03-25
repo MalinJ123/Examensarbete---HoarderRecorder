@@ -26,7 +26,7 @@ export const Object = () => {
     setUserObjects,
   } = useContext(AppContext);
   const [sendToContextMenu, setSendToContextMenu] = useState({});
-  const [currentHeroImage, setCurrentHeroImage] = useState("");
+  const [currentHeroInfo, setCurrentHeroInfo] = useState("");
   const [loading, setLoading] = useState(true);
   const [filteredObjects, setFilteredObjects] = useState([]);
   const deleteCategoryDialogRef = useRef();
@@ -71,9 +71,9 @@ export const Object = () => {
         } else {
           const mainCategoryDoc = mainCategorySnapshot.docs[0];
 
-          const mainCategoryData = mainCategoryDoc.data();
-          setCurrentHeroImage(mainCategoryData.image);
-          setCheckWhatCategoryIsUserOn(mainCategoryData.name);
+            const mainCategoryData = mainCategoryDoc.data();
+            setCurrentHeroInfo(mainCategoryData);
+            setCheckWhatCategoryIsUserOn(mainCategoryData.name);
 
           // Check ownership using the fetched data
           if (mainCategoryData.userId === userId) {
@@ -170,11 +170,11 @@ export const Object = () => {
   return (
     <section className="object__section section--spacer">
       <DisallowUserAccess />
-      <img
-        className="hero__image"
-        src={currentHeroImage}
-        alt="Objektsidans bild"
-      />
+
+      <div className="hero__image-container" style={{backgroundImage: `url(${currentHeroInfo.image})`}}>
+        <h1 className="hero__image-title"><span className="material-symbols-outlined">folder</span>{currentHeroInfo.name}</h1>
+      </div>
+
       <div className="start__container">
         <p className="quantity-categories__text">
           Du har {userObjects.length} objekt
