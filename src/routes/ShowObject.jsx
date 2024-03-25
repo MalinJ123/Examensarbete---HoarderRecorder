@@ -79,17 +79,21 @@ export const ShowObject = () => {
         <div className="object-all-images">
           {images && (
               <div className="big__image-container" style={{backgroundImage: `url(${images[currentIndex]})`}}>
-                <span
-                  className="material-symbols-outlined arrow"
-                  onClick={() => handleBackClick()}
-                >
-                  arrow_back_ios
-                </span>
-                <span
-                  className="material-symbols-outlined arrow"
-                  onClick={() => handleForwardClick()}>
-                  arrow_forward_ios
-                </span>
+              {
+                images.length > 1 && (
+                  <>
+                    <span
+                      className="material-symbols-outlined arrow"
+                      onClick={() => handleBackClick()}
+                    >
+                      arrow_back_ios
+                    </span>
+                      <span className="material-symbols-outlined arrow" onClick={() => handleForwardClick()}>
+                        arrow_forward_ios
+                    </span>
+                  </>
+                )
+              }
               </div>
             )}
             {images.length > 1 && (

@@ -25,6 +25,7 @@ export const User = () => {
 
   // State to store the selected image
   const [selectedImage, setSelectedImage] = useState(null);
+  const [newImage, setNewImage] = useState(false);
 
   const existingDataInUserLS = JSON.parse(localStorage.getItem(localStorageUser)) || {};
 
@@ -60,6 +61,8 @@ export const User = () => {
   
             await updateDoc(userDocRef, { userProfilePicture: imageUrl });
             setUserProfilePicture(imageUrl);
+            setNewImage(true);
+            setTimeout(() => setNewImage(false), 5000);
             setSelectedImage(null);
   
             // Update local storage with the new profile picture URL
@@ -170,19 +173,20 @@ export const User = () => {
           />
         </div>
         <section className="profile-picture__spacer">
-        {userProfilePicture ? (
-            <img
+        {
+          (userProfilePicture || selectedImage) && (
+            <div
               className="user-profile-picture__image"
-              src={userProfilePicture}
-              alt="Profilbild"
-            />
-        ) : selectedImage && (
-          <img
-          className="user-profile-picture__image"
-          src={URL.createObjectURL(selectedImage)}
-          alt="Profilbild"
-        />
-        )}
+              style={{ backgroundImage: `url(${userProfilePicture || selectedImage})` }}
+            >
+              {
+                newImage && (
+                  <span className="material-symbols-outlined">check</span>
+                )
+              }
+            </div>
+          )
+        }
         </section>
         <div className="form-button__group">
           <button

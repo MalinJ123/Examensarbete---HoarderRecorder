@@ -173,7 +173,7 @@ export const Object = () => {
     if (e.target.value !== null) {
       const searchInput = e.target.value.toLowerCase();
       const filteredResults = userObjects.filter((object) =>
-        object.name.toLowerCase().includes(searchInput)
+        object.name.toLowerCase().includes(searchInput) || object.producer.toLowerCase().includes(searchInput)
       );
       setFilteredObjects(filteredResults);
     } else {

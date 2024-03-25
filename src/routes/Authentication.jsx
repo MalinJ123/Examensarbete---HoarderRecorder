@@ -249,7 +249,7 @@ const Login = ({
             className="ghost__button"
             onClick={() => setAuthenticationView("register")}
           >
-            Gå tillbaka till registrering
+            Gå till registrering
           </button>
           <button type="submit" className="primary__button">
             Logga in
