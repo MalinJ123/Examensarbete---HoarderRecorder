@@ -29,6 +29,7 @@
   grid-template-columns: 70vw 30vw;
   grid-template-rows: repeat(2, 50%);
   gap: 3px;
+  row-gap: 1.5px;
   height: 240px;
 }
 
@@ -37,7 +38,6 @@
   width: 70vw;
   height: 240px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   align-items: center;
   border-radius: var(--border-radius-corner);
@@ -54,7 +54,7 @@
 .small-img {
   width: calc(30vw - var(--spacing-smallest));
   border-radius: var(--border-radius-corner);
-  height: 117px;
+  height: 118.5px;
   grid-area: small__image;
   object-fit: cover;
 }
