@@ -12,7 +12,7 @@ import { DisallowUserAccess } from "../components/DisallowUserAccess";
 
 export const EditCategory = () => {
 
-  const { setChangeButtonsOnView, userCategories, setUserCategories } = useContext(AppContext);
+  const { setChangeButtonsOnView, userCategories, setUserCategories, username } = useContext(AppContext);
 
   const { id } = useParams();
 
