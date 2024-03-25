@@ -9,7 +9,7 @@ export const Header = () => {
 
   const navigate = useNavigate();
 
-  const { localStorageUser, changeButtonsOnView, setIsUserLoggedIn, setAuthenticationView, setUsername, setUserPassword, userProfilePicture } = useContext(AppContext);
+  const { localStorageUser, changeButtonsOnView, setIsUserLoggedIn, setAuthenticationView, setUsername, setUserPassword, userProfilePicture, currentCategory } = useContext(AppContext);
 
   // If the is logging out, redirect to the start page
   const userIsLoggingOut = () => {
@@ -28,12 +28,14 @@ export const Header = () => {
   return (
     <header className="header">
 
-      {changeButtonsOnView === "add-category" || changeButtonsOnView === "edit-category" || changeButtonsOnView === "add-object" || changeButtonsOnView === "show-object" ||  changeButtonsOnView === "edit-object" ? (
+      {changeButtonsOnView === "add-category" || changeButtonsOnView === "edit-category" || changeButtonsOnView === "add-object" ||   changeButtonsOnView === "edit-object" ? (
         <span className="material-symbols-outlined header__icon" onClick={() => goBackToPastPage()}>reply</span>
       ) : changeButtonsOnView === "deletion" ? (
           <NavLink to="/user">
             <span className="material-symbols-outlined header__icon">reply</span>
           </NavLink>
+      ) : changeButtonsOnView === "show-object" ? (
+        <span className="material-symbols-outlined header__icon" onClick={() => navigate(`object/${currentCategory}`)}>reply</span>
       ) : changeButtonsOnView === "user" || changeButtonsOnView === "object" ? (
           <NavLink to="/start">
             <span className="material-symbols-outlined header__icon">reply</span>

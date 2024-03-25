@@ -22,6 +22,7 @@ export const Start = () => {
   const [categoriesNames, setCategoriesNames] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Dialog
   const deleteCategoryDialogRef = useRef();
@@ -62,6 +63,7 @@ export const Start = () => {
                 categoriesArray.push(categoryData);
             });
 
+            setLoading(false);
             setUserCategories(categoriesArray);
 
         } catch (error) {
@@ -185,6 +187,10 @@ export const Start = () => {
         setFilteredCategories(userCategories);
       }
   };
+
+  if (loading) {
+    return <p>Laddar och hämtar data . . .</p>
+  }
 
 
   return (

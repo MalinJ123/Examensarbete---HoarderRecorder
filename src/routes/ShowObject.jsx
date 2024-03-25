@@ -11,6 +11,7 @@ export const ShowObject = () => {
   const { objectId } = useParams(); // Hämta objektets ID från URL:en
   const [objectData, setObjectData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Tillbaka knapp i headern
   const { setChangeButtonsOnView } = useContext(AppContext);
@@ -32,6 +33,7 @@ export const ShowObject = () => {
       }
     };
 
+    setLoading(false);
     fetchObjectData(); // Kör funktionen för att hämta objektets data
   }, [objectId, setChangeButtonsOnView]);
 
@@ -60,6 +62,10 @@ export const ShowObject = () => {
   let smallImageIndex2 = currentIndex + 1;
   if (smallImageIndex2 === images.length) {
     smallImageIndex2 = 0;
+  }
+
+  if (loading) {
+    return <p>Hämtar och laddar data . . .</p>;
   }
   
   return (

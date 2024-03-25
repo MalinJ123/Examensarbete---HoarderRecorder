@@ -10,6 +10,8 @@ import {
 import { ref, deleteObject } from "firebase/storage";
 
 import { db, imageDb } from "../firebaseConfig";
+import { v4 } from "uuid";
+
 import { AppContext } from "../ContextRoot";
 import { DisallowUserAccess } from "../components/DisallowUserAccess";
 import "../styles/object.css";
@@ -221,7 +223,7 @@ export const Object = () => {
             </div>
           ) : (
             filteredObjects.map((object) => (
-              <div className="object__container" key={object.id}>
+              <div className="object__container" key={object.id || v4()}>
                 <div
                   className="object__box"
                   onClick={() => navigate(`show-object/${object.id}`)}
@@ -239,7 +241,7 @@ export const Object = () => {
                   >
                     <p className="object-info__title">{object.name}</p>
                     <p className="object-info__details">{object.producer}</p>
-                    <p className="object-info__details">{object.value}</p>
+                    <p className="object-info__details">{object.value} kr</p>
                   </div>
                   <div className="category__kebab-icon">
                     <button
