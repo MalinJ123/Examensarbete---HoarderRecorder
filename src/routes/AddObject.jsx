@@ -175,7 +175,7 @@ export const AddObject = () => {
               type="text"
               id="object-name__input"
               className="form__input-text"
-              placeholder="Heir of Fire"
+              placeholder="titel"
               value={objectName}
               onChange={(e) => setObjectName(e.target.value)}
             />
@@ -194,7 +194,7 @@ export const AddObject = () => {
               type="text"
               id="object-producer__input"
               className="form__input-text"
-              placeholder="Sara J Maas"
+              placeholder="skapare"
               value={objectProducer}
               onChange={(e) => setObjectProducer(e.target.value)}
             />
@@ -214,7 +214,7 @@ export const AddObject = () => {
             type="text"
             id="object-value__input"
             className="form__input-text"
-            placeholder="249"
+            placeholder="pris"
             value={objectValue}
             onChange={(e) => setObjectValue(e.target.value)}
           />
@@ -228,7 +228,7 @@ export const AddObject = () => {
           <textarea
             id="object-note__input"
             className="form__input-textarea"
-            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            placeholder=". . . . "
             value={objectNote}
             rows={4}
             onChange={(e) => setObjectNote(e.target.value)}

@@ -106,7 +106,7 @@ export const AddCategory = () => {
             type="text"
             id="category-name__input"
             className="form__input-text"
-            placeholder="Pokémonkort"
+            placeholder="exempel dvd:er"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />

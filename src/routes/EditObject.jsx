@@ -242,7 +242,7 @@ export const EditObject = () => {
             <input
           type="text"
           className="form__input-text"
-          placeholder="Heir of Fire"
+          placeholder="titel"
           onChange={(e) => handleObjectNameChange(e)}
           value={objectName}
         />
@@ -260,7 +260,7 @@ export const EditObject = () => {
               type="text"
               id="object-producer__input"
               className="form__input-text"
-              placeholder="Sara J Maas"
+              placeholder="skapare"
               onChange={(e) => handleObjectProducerChange(e)}
               value={objectProducer}
             />
@@ -280,7 +280,7 @@ export const EditObject = () => {
             type="text"
             id="object-value__input"
             className="form__input-text"
-            placeholder="249"
+            placeholder="pris"
             onChange={(e) => handleObjectValueChange(e)}
             value={objectValue}
           />
@@ -294,7 +294,7 @@ export const EditObject = () => {
           <textarea
             id="object-note__input"
             className="form__input-textarea"
-            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            placeholder=". . . ."
             value={objectNote}
             onChange={(e) => handleObjectNoteChange(e)}
             rows={4}
@@ -366,7 +366,6 @@ export const EditObject = () => {
               htmlFor="category-image-upload__input-two"
             >
             </label>
-            <span className="material-symbols-outlined trash">delete</span>
           </div>
 
           {/* Hide the default file input and made a custom one */}
